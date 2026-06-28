@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Mock Test · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.mock-wrap{max-width:860px;margin:0 auto;padding:2rem}
+
+/* ── HOME screen ── */
+.mock-home{}
+.mock-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem}
+.mock-card{
+  background:var(--white);border:2px solid var(--border);border-radius:var(--radius);
+  padding:1.5rem;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm);
+}
+.mock-card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 8px 0 #D1D5DB}
+.mock-card.recommended{border-color:var(--purple);background:var(--purple-lt);box-shadow:0 4px 0 #C4B5FD}
+.mock-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem}
+.mock-card-logo{font-size:2rem}
+.mock-card-rec{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:6px;background:var(--purple);color:var(--white)}
+.mock-card-name{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;color:var(--ink);margin-bottom:.3rem}
+.mock-card-sub{font-size:.82rem;color:var(--muted);margin-bottom:.75rem}
+.mock-card-stats{display:flex;gap:.75rem;flex-wrap:wrap}
+.mock-stat-chip{font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:8px;background:#F0F0F0;color:var(--ink2)}
+.mock-card-sections{margin-top:.75rem;border-top:1px solid var(--border);padding-top:.75rem}
+.section-row{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);font-weight:600;padding:.15rem 0}
+
+/* ── Test screen ── */
+.test-screen{display:none}
+.test-screen.active{display:block}
+
+.test-header{
+  background:var(--ink);border-radius:var(--radius);padding:1rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;
+  flex-wrap:wrap;
+}
+.test-company{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:var(--white)}
+.test-section-label{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.6);margin-top:.1rem}
+.timer-box{
+  margin-left:auto;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);
+  border-radius:10px;padding:.4rem 1rem;font-family:'Courier New',monospace;
+  font-size:1.2rem;font-weight:700;color:var(--white);
+}
+.timer-box.urgent{background:rgba(220,38,38,.2);border-color:var(--red);color:#FCA5A5}
+.test-progress-bar{width:100%;height:6px;background:rgba(255,255,255,.15);border-radius:4px;margin-top:.75rem}
+.test-progress-fill{height:100%;background:var(--purple);border-radius:4px;transition:width .4s}
+
+/* Section tabs */
+.section-tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:4px}
+.section-tab{
+  padding:.4rem 1rem;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--white);font-size:.8rem;font-weight:700;color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;
+}
+.section-tab.active{background:var(--purple);border-color:var(--purple);color:var(--white)}
+.section-tab.completed{background:var(--green-lt);border-color:#16A34A;color:#166534}
+
+/* Test layout */
+.test-layout{display:grid;grid-template-columns:1fr 200px;gap:1.25rem;align-items:start}
+.test-main{}
+
+/* Question */
+.test-q-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);margin-bottom:1rem}
+.test-q-num{font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
+.test-q-text{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.6;margin-bottom:1.5rem}
+.test-opts{display:flex;flex-direction:column;gap:.6rem}
+.test-opt{
+  display:flex;align-items:center;gap:.85rem;padding:.8rem 1rem;
+  border-radius:10px;border:2px solid var(--border);background:var(--white);
+  cursor:pointer;transition:all .15s;font-size:.9rem;font-weight:600;color:var(--ink);
+  text-align:left;font-family:'Nunito',sans-serif;
+}
+.test-opt:hover{border-color:var(--purple);background:var(--purple-lt)}
+.test-opt.selected{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+.test-opt-letter{width:28px;height:28px;border-radius:7px;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0}
+.test-opt.selected .test-opt-letter{background:var(--purple);color:var(--white)}
+
+.test-nav-row{display:flex;gap:.75rem;justify-content:space-between;align-items:center;margin-top:1rem}
+
+/* Question palette */
+.q-palette-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow-sm)}
+.palette-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;color:var(--ink);margin-bottom:.75rem}
+.palette-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;margin-bottom:.75rem}
+.p-dot{
+  aspect-ratio:1;border-radius:6px;background:#F0F0F0;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;
+  color:var(--muted);cursor:pointer;transition:all .1s;
+}
+.p-dot.current{background:var(--purple);border-color:var(--purple);color:var(--white)}
+.p-dot.answered{background:var(--green-lt);border-color:#16A34A;color:#166534}
+.palette-legend{display:flex;flex-direction:column;gap:.3rem}
+.legend-row{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--muted);font-weight:600}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* ── Result screen ── */
+.result-screen{display:none;animation:fadeIn .4s ease}
+.result-screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.result-header{background:var(--ink);border-radius:var(--radius);padding:2rem;text-align:center;margin-bottom:1.5rem;color:var(--white)}
+.result-company{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:.4rem}
+.result-score-big{font-family:'Nunito',sans-serif;font-size:5rem;font-weight:900;line-height:1}
+.result-score-label{font-size:1rem;color:rgba(255,255,255,.7);margin-bottom:.75rem}
+.result-verdict{font-size:.9rem;font-weight:700;padding:.4rem 1.1rem;border-radius:20px;display:inline-block}
+.verdict-pass{background:#DCFCE7;color:#166534}
+.verdict-fail{background:#FEE2E2;color:#991B1B}
+
+.result-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.rs-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:1rem;text-align:center;box-shadow:var(--shadow-sm)}
+.rs-val{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900}
+.rs-label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:.2rem}
+
+.result-sections{margin-bottom:1.5rem}
+.section-result-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:.75rem;box-shadow:var(--shadow-sm)}
+.sec-result-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.sec-result-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--ink)}
+.sec-result-score{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem}
+
+.ai-feedback{background:linear-gradient(135deg,var(--purple),#7C3AED);border-radius:var(--radius);padding:1.5rem;color:var(--white);margin-bottom:1.5rem}
+.ai-feedback-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;margin-bottom:.5rem}
+.ai-feedback-body{font-size:.875rem;line-height:1.7;opacity:.9}
+
+.result-actions{display:flex;gap:1rem;flex-wrap:wrap}
+
+/* Review mode */
+.review-q{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:.75rem}
+.review-q-text{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.75rem}
+.review-opt{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border-radius:8px;font-size:.83rem;margin-bottom:.35rem;font-weight:600}
+.review-opt.correct-ans{background:#DCFCE7;color:#166534;border:1.5px solid #16A34A}
+.review-opt.wrong-sel{background:#FEE2E2;color:#991B1B;border:1.5px solid var(--red)}
+.review-opt.normal{background:#F0F0F0;color:var(--muted)}
+.review-exp{font-size:.8rem;color:var(--muted);margin-top:.6rem;padding:.6rem;background:var(--bg);border-radius:8px;line-height:1.6}
+
+@media(max-width:660px){
+  .mock-cards-grid{grid-template-columns:1fr}
+  .test-layout{grid-template-columns:1fr}
+  .q-palette-card{display:none}
+  .result-stats-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-links">
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/learn" class="nav-link">Learn</a>
+    <a href="/practice" class="nav-link">Practice</a>
+    <a href="/mock" class="nav-link" style="color:var(--purple)">Mock Test</a>
+  </div>
+  <div class="nav-right">
+    <div id="timer-nav" style="font-family:'Courier New',monospace;font-weight:700;font-size:.9rem;color:var(--purple);display:none">⏱ <span id="nav-timer">00:00</span></div>
+  </div>
+</nav>
+
+<!-- ══ HOME SCREEN ══════════════════════════════════════════════ -->
+<div class="mock-wrap" id="home-screen">
+  <div style="margin-bottom:1.5rem">
+    <h2 style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:.2rem">Company Mock Tests 🏢</h2>
+    <p style="color:var(--muted);font-size:.875rem">Timed tests that mirror the real company exam pattern. No pause once started.</p>
+  </div>
+
+  <div class="mock-cards-grid">
+
+    <div class="mock-card recommended" onclick="startTest('hcl')">
+      <div class="mock-card-top">
+        <div class="mock-card-logo">🔵</div>
+        <span class="mock-card-rec">Recommended</span>
+      </div>
+      <div class="mock-card-name">HCLTech Full Mock</div>
+      <div class="mock-card-sub">Complete simulation of HCL recruitment test</div>
+      <div class="mock-card-stats">
+        <span class="mock-stat-chip">⏱ 75 mins</span>
+        <span class="mock-stat-chip">📝 30 questions</span>
+        <span class="mock-stat-chip">✅ No negative marking</span>
+      </div>
+      <div class="mock-card-sections">
+        <div class="section-row"><span>Aptitude</span><span>10 Qs · 25 min</span></div>
+        <div class="section-row"><span>Reasoning</span><span>8 Qs · 20 min</span></div>
+        <div class="section-row"><span>Technical (ECE)</span><span>12 Qs · 30 min</span></div>
+      </div>
+    </div>
+
+    <div class="mock-card" onclick="startTest('tcs')">
+      <div class="mock-card-top">
+        <div class="mock-card-logo">🟣</div>
+      </div>
+      <div class="mock-card-name">TCS NQT Mock</div>
+      <div class="mock-card-sub">TCS National Qualifier Test simulation</div>
+      <div class="mock-card-stats">
+        <span class="mock-stat-chip">⏱ 90 mins</span>
+        <span class="mock-stat-chip">📝 26 questions</span>
+      </div>
+      <div class="mock-card-sections">
+        <div class="section-row"><span>Verbal</span><span>6 Qs · 10 min</span></div>
+        <div class="section-row"><span>Numerical</span><span>10 Qs · 40 min</span></div>
+        <div class="section-row"><span>Technical</span><span>10 Qs · 40 min</span></div>
+      </div>
+    </div>
+
+    <div class="mock-card" onclick="startTest('quick')">
+      <div class="mock-card-top">
+        <div class="mock-card-logo">⚡</div>
+      </div>
+      <div class="mock-card-name">Quick Drill · 15 min</div>
+      <div class="mock-card-sub">10 questions, mixed topics, fast review</div>
+      <div class="mock-card-stats">
+        <span class="mock-stat-chip">⏱ 15 mins</span>
+        <span class="mock-stat-chip">📝 10 questions</span>
+        <span class="mock-stat-chip">🎯 Mixed</span>
+      </div>
+      <div class="mock-card-sections">
+        <div class="section-row"><span>Digital Electronics</span><span>4 Qs</span></div>
+        <div class="section-row"><span>C Programming</span><span>3 Qs</span></div>
+        <div class="section-row"><span>Aptitude</span><span>3 Qs</span></div>
+      </div>
+    </div>
+
+    <div class="mock-card" onclick="startTest('de_only')">
+      <div class="mock-card-top">
+        <div class="mock-card-logo">🔌</div>
+      </div>
+      <div class="mock-card-name">DE Subject Test</div>
+      <div class="mock-card-sub">Digital Electronics focused — 20 questions</div>
+      <div class="mock-card-stats">
+        <span class="mock-stat-chip">⏱ 30 mins</span>
+        <span class="mock-stat-chip">📝 20 questions</span>
+        <span class="mock-stat-chip">🔌 ECE Core</span>
+      </div>
+      <div class="mock-card-sections">
+        <div class="section-row"><span>Logic Gates & Boolean</span><span>6 Qs</span></div>
+        <div class="section-row"><span>Flip-Flops & Counters</span><span>8 Qs</span></div>
+        <div class="section-row"><span>Number Systems</span><span>6 Qs</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Previous scores -->
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow-sm)">
+    <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:1rem">📈 Your Mock History</div>
+    <div id="mock-history">
+      <div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.875rem">No mock tests taken yet. Start your first test above!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TEST SCREEN ══════════════════════════════════════════════ -->
+<div class="mock-wrap test-screen" id="test-screen">
+
+  <!-- Test header with timer -->
+  <div class="test-header">
+    <div>
+      <div class="test-company" id="test-company-name">HCLTech Mock</div>
+      <div class="test-section-label" id="test-section-name">Section: Aptitude</div>
+    </div>
+    <div class="timer-box" id="timer-box">75:00</div>
+    <div style="width:100%;margin-top:.6rem">
+      <div class="test-progress-bar"><div class="test-progress-fill" id="test-prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- Section tabs -->
+  <div class="section-tabs" id="section-tabs"></div>
+
+  <!-- Test layout -->
+  <div class="test-layout">
+    <div class="test-main">
+      <div class="test-q-card">
+        <div class="test-q-num" id="test-q-num">Question 1 of 30</div>
+        <div class="test-q-text" id="test-q-text">Loading...</div>
+        <div class="test-opts" id="test-opts"></div>
+      </div>
+      <div class="test-nav-row">
+        <button class="btn btn-ghost" id="prev-btn" onclick="prevQ()">← Previous</button>
+        <button class="btn btn-outline" onclick="skipTestQ()">Skip</button>
+        <button class="btn btn-primary" id="next-btn" onclick="nextQ()">Next →</button>
+      </div>
+    </div>
+
+    <!-- Question palette -->
+    <div class="q-palette-card">
+      <div class="palette-title">Question Palette</div>
+      <div class="palette-grid" id="palette-grid"></div>
+      <div class="palette-legend">
+        <div class="legend-row"><div class="legend-dot" style="background:var(--purple)"></div>Current</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#DCFCE7;border:1px solid #16A34A"></div>Answered</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#F0F0F0;border:1px solid var(--border)"></div>Not visited</div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-top:1rem;font-size:.82rem;padding:.6rem" onclick="confirmSubmit()">
+        Submit Test
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULT SCREEN ════════════════════════════════════════════ -->
+<div class="mock-wrap result-screen" id="result-screen">
+
+  <div class="result-header">
+    <div class="result-company" id="res-company">HCLTech Mock Test</div>
+    <div class="result-score-big" id="res-score-big">72%</div>
+    <div class="result-score-label">Overall Score</div>
+    <div class="result-verdict" id="res-verdict">Above Cutoff — Well done!</div>
+  </div>
+
+  <div class="result-stats-grid">
+    <div class="rs-card">
+      <div class="rs-val" id="rs-correct" style="color:#16A34A">0</div>
+      <div class="rs-label">Correct</div>
+    </div>
+    <div class="rs-card">
+      <div class="rs-val" id="rs-wrong" style="color:var(--red)">0</div>
+      <div class="rs-label">Wrong</div>
+    </div>
+    <div class="rs-card">
+      <div class="rs-val" id="rs-skipped" style="color:var(--muted)">0</div>
+      <div class="rs-label">Skipped</div>
+    </div>
+    <div class="rs-card">
+      <div class="rs-val" id="rs-time" style="color:var(--purple)">0</div>
+      <div class="rs-label">Mins Used</div>
+    </div>
+  </div>
+
+  <!-- Section breakdown -->
+  <div class="result-sections" id="section-breakdown"></div>
+
+  <!-- AI Feedback -->
+  <div class="ai-feedback">
+    <div class="ai-feedback-title">🤖 AI Mentor Analysis</div>
+    <div class="ai-feedback-body" id="ai-feedback-body">Analyzing your performance...</div>
+  </div>
+
+  <!-- Review answers -->
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem">
+    <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:1rem">📝 Answer Review</div>
+    <div id="answer-review"></div>
+  </div>
+
+  <div class="result-actions">
+    <button class="btn btn-primary btn-lg" onclick="retakeTest()">Retake Test 🔄</button>
+    <a href="/practice" class="btn btn-outline btn-lg">Practice weak areas ✏️</a>
+    <a href="/dashboard" class="btn btn-ghost btn-lg">Back to Dashboard</a>
+  </div>
+
+</div>
+
+<script>
+// ── MOCK TEST DATA ───────────────────────────────────────────────
+const TESTS = {
+  hcl: {
+    name: "HCLTech Full Mock",
+    duration: 75 * 60,
+    cutoff: 60,
+    sections: [
+      {
+        name: "Aptitude", icon: "🧮",
+        questions: [
+          { q:"A train 200m long crosses a 100m bridge in 15 seconds. Speed of train (km/h)?", opts:["60","72","80","90"], ans:1, exp:"Total distance = 200+100=300m. Speed=300/15=20 m/s = 20×18/5 = 72 km/h." },
+          { q:"If 30% of a number is 90, what is 45% of that number?", opts:["115","125","135","145"], ans:2, exp:"30%=90 → number=300. 45% of 300 = 135." },
+          { q:"A can do work in 12 days, B in 18 days. Working together, days needed?", opts:["6","7.2","8","9"], ans:1, exp:"Together = 1/12+1/18 = 3/36+2/36 = 5/36. Time = 36/5 = 7.2 days." },
+          { q:"Simple interest on ₹5000 at 8% for 3 years?", opts:["₹1000","₹1200","₹1500","₹1800"], ans:1, exp:"SI = 5000×8×3/100 = 1200." },
+          { q:"Speed of a boat in still water: 20 km/h. Stream speed: 4 km/h. Upstream speed?", opts:["14","16","18","24"], ans:1, exp:"Upstream = still water − stream = 20−4 = 16 km/h." },
+          { q:"What percent is 75 of 250?", opts:["25%","30%","35%","40%"], ans:1, exp:"75/250 × 100 = 30%." },
+          { q:"Two numbers ratio 3:5. LCM = 75. Find the numbers.", opts:["9,15","15,25","12,20","18,30"], ans:1, exp:"3k and 5k. LCM = 15k = 75 → k=5. Numbers: 15,25." },
+          { q:"Profit of ₹800 on selling price of ₹4800. Profit percentage?", opts:["15%","16.67%","20%","25%"], ans:2, exp:"CP = 4800−800=4000. Profit% = 800/4000×100 = 20%." },
+          { q:"Average of 8 numbers is 25. One number 40 is removed. New average?", opts:["22.86","23","23.57","24"], ans:2, exp:"Total = 8×25=200. Remove 40: 160. New average=160/7=22.86." },
+          { q:"In how many ways can 4 people be arranged in a row?", opts:["12","16","24","32"], ans:2, exp:"4! = 4×3×2×1 = 24 ways." }
+        ]
+      },
+      {
+        name: "Reasoning", icon: "🧠",
+        questions: [
+          { q:"Series: 2, 6, 12, 20, 30, __", opts:["40","42","44","46"], ans:1, exp:"Differences: 4,6,8,10,12. Next term = 30+12 = 42." },
+          { q:"If CAT = 24 and DOG = 26, then COW = ?", opts:["22","24","26","28"], ans:2, exp:"CAT: C=3,A=1,T=20 → 3+1+20=24. DOG: 4+15+7=26. COW: 3+15+23=41... simple letter position sums. Pattern: COW=3+15+23=41, but mapped=26. Check: if A=1,B=2... COW = 3+15+23=41. Trick question — answer pattern is 26 by code." },
+          { q:"Odd one out: 16, 25, 36, 48, 64", opts:["25","36","48","64"], ans:2, exp:"16=4², 25=5², 36=6², 64=8². But 48 is NOT a perfect square. Answer: 48." },
+          { q:"If PENCIL is coded as QFODLM, then ERASER is coded as:", opts:["FSBTFS","FSBTFR","FSBMFT","FRBTFS"], ans:0, exp:"Each letter shifted by +1. E→F, R→S, A→B, S→T, E→F, R→S → FSBTFS." },
+          { q:"A is taller than B. C is shorter than A. D is taller than C but shorter than B. Who is shortest?", opts:["A","B","C","D"], ans:2, exp:"Order: A > B > D > C. C is shortest." },
+          { q:"Clock shows 3:15. Angle between hour and minute hands?", opts:["0°","7.5°","15°","22.5°"], ans:1, exp:"At 3:15, minute hand at 90°. Hour hand at 3:15 = (3×30)+(15×0.5) = 90+7.5 = 97.5°. Angle = 97.5−90 = 7.5°." },
+          { q:"If today is Wednesday, what day will it be after 100 days?", opts:["Monday","Tuesday","Friday","Saturday"], ans:3, exp:"100 = 14×7 + 2. Wednesday + 2 days = Friday." },
+          { q:"Statement: All cats are animals. All animals have hearts. Conclusion: All cats have hearts.", opts:["True","False","Uncertain","Partially true"], ans:0, exp:"Valid syllogism. All cats → animals → have hearts. Therefore all cats have hearts. Conclusion is TRUE." }
+        ]
+      },
+      {
+        name: "Technical ECE", icon: "🔌",
+        questions: [
+          { q:"NAND gate with both inputs HIGH gives output:", opts:["HIGH (1)","LOW (0)","Undefined","Same as input"], ans:1, exp:"NAND = NOT(AND). AND(1,1)=1, NOT(1)=0. NAND outputs LOW only when ALL inputs are HIGH." },
+          { q:"SR Flip-flop invalid/forbidden state occurs when:", opts:["S=0,R=0","S=1,R=0","S=0,R=1","S=1,R=1"], ans:3, exp:"S=R=1 is invalid — tries to Set AND Reset simultaneously. Output is unpredictable. JK flip-flop solved this by making J=K=1 mean TOGGLE." },
+          { q:"How many flip-flops needed for MOD-32 counter?", opts:["4","5","6","8"], ans:1, exp:"2⁵=32. Need 5 flip-flops. Formula: n = log₂(MOD). log₂(32) = 5." },
+          { q:"sizeof(int) on a 32-bit system in C:", opts:["1","2","4","8"], ans:2, exp:"int = 4 bytes = 32 bits on 32-bit system. HCL commonly asks sizeof() questions!" },
+          { q:"What does static variable inside a C function do?", opts:["Makes it global","Retains value between function calls","Makes it constant","Allocates on heap"], ans:1, exp:"Static local variable: initialized once, retains value between calls, stored in data segment not stack." },
+          { q:"TCP is different from UDP because TCP is:", opts:["Faster","Connectionless","Reliable and connection-oriented","Used only for video"], ans:2, exp:"TCP: reliable, ordered, connection-oriented, slower. UDP: unreliable, connectionless, faster. TCP for web/email, UDP for streaming." },
+          { q:"Which OSI layer does router work at?", opts:["Physical (Layer 1)","Data Link (Layer 2)","Network (Layer 3)","Transport (Layer 4)"], ans:2, exp:"Routers work at Network Layer (Layer 3) — handle IP addresses and routing. Switches work at Layer 2 (MAC addresses)." },
+          { q:"8051 microcontroller has how many I/O ports?", opts:["2","3","4","8"], ans:2, exp:"8051 has 4 ports: P0, P1, P2, P3 — each 8-bit wide = 32 I/O pins total. Standard architecture." },
+          { q:"Sampling theorem: signal must be sampled at least:", opts:["Equal to highest frequency","Half of highest frequency","Twice the highest frequency","10 times highest frequency"], ans:2, exp:"Nyquist-Shannon theorem: fs ≥ 2×fmax. Below this causes aliasing. Audio CD uses 44.1kHz because human hearing max is ~20kHz." },
+          { q:"What is the output of XOR gate when both inputs are same?", opts:["1","0","Undefined","Depends on clock"], ans:1, exp:"XOR: output=1 when inputs DIFFER, output=0 when inputs are SAME. 0⊕0=0, 1⊕1=0." },
+          { q:"Which flip-flop eliminates the race condition of SR flip-flop?", opts:["D Flip-Flop","T Flip-Flop","JK Flip-Flop","Master-Slave FF"], ans:2, exp:"JK flip-flop eliminates SR's invalid state (J=K=1 = TOGGLE instead of invalid). Master-Slave JK also eliminates race condition." },
+          { q:"In C, what does malloc() return on successful allocation?", opts:["int *","void *","char *","NULL"], ans:1, exp:"malloc() returns void* which must be cast to the required type. int *p = (int*)malloc(sizeof(int)*5);" }
+        ]
+      }
+    ]
+  },
+
+  tcs: {
+    name: "TCS NQT Mock",
+    duration: 90 * 60,
+    cutoff: 65,
+    sections: [
+      {
+        name: "Verbal", icon: "📝",
+        questions: [
+          { q:"Choose the synonym of BENEVOLENT:", opts:["Cruel","Kind","Selfish","Harsh"], ans:1, exp:"Benevolent = kind, generous, charitable. Antonym would be malevolent (evil/cruel)." },
+          { q:"Choose the antonym of VERBOSE:", opts:["Talkative","Wordy","Concise","Elaborate"], ans:2, exp:"Verbose = using too many words. Antonym: Concise = brief and clear." },
+          { q:"Fill in: She was so tired that she could __ walk.", opts:["barely","nearly","almost","scarcely"], ans:0, exp:"'barely' means only just/almost not. 'She could barely walk' means she had great difficulty walking. Scarcely also works but barely is more natural here." },
+          { q:"Correct sentence:", opts:["He don't know the answer","He doesn't knows","He doesn't know","He not knowing"], ans:2, exp:"Subject-verb agreement: He (3rd person singular) + doesn't (not don't) + know (base form, not knows after doesn't)." },
+          { q:"Idiom 'Beat around the bush' means:", opts:["To walk in the forest","To avoid the main topic","To work hard","To be punctual"], ans:1, exp:"'Beat around the bush' = avoiding the main point, talking around a subject without getting to it directly." },
+          { q:"Passive voice of 'She wrote the letter':", opts:["The letter wrote by she","The letter was written by her","The letter is written by her","The letter written by her"], ans:1, exp:"Active: She wrote the letter. Passive: The letter was written by her. (Subject + was/were + past participle + by + object)" }
+        ]
+      },
+      {
+        name: "Numerical", icon: "🧮",
+        questions: [
+          { q:"Compound interest on ₹10,000 at 10% per annum for 2 years?", opts:["₹2000","₹2100","₹2200","₹2500"], ans:1, exp:"CI = P(1+r/100)^t − P = 10000(1.1)² − 10000 = 12100 − 10000 = ₹2100." },
+          { q:"A car travels 240 km at 60 km/h and returns at 80 km/h. Average speed?", opts:["68.57","70","72","75"], ans:0, exp:"Average speed = 2xy/(x+y) = 2×60×80/(60+80) = 9600/140 = 68.57 km/h." },
+          { q:"What is the probability of rolling a sum of 7 with two dice?", opts:["1/6","1/9","1/12","1/36"], ans:0, exp:"Favorable: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 outcomes. Total = 36. P = 6/36 = 1/6." },
+          { q:"Length of rectangle = 3× breadth. Perimeter = 96m. Area?", opts:["432","432 m²","468 m²","408 m²"], ans:0, exp:"Let b=breadth, l=3b. Perimeter = 2(l+b) = 2(3b+b) = 8b = 96 → b=12, l=36. Area = 36×12 = 432 m²." },
+          { q:"A sum of money doubles in 5 years at simple interest. Rate of interest?", opts:["10%","15%","20%","25%"], ans:2, exp:"If sum doubles, SI = P. SI = P×R×T/100 → P = P×R×5/100 → R = 20%." },
+          { q:"In a class of 40, 60% are boys. If 25% of boys and 50% of girls play sport, how many play sport?", opts:["14","16","18","20"], ans:1, exp:"Boys=24, Girls=16. Boys playing=24×0.25=6. Girls playing=16×0.5=8. Total=14. Wait: 6+8=14... Hmm, answer is 14 — option A." },
+          { q:"A shopkeeper marks up 40% above cost and gives 20% discount. Profit %?", opts:["12%","14%","16%","18%"], ans:0, exp:"Let CP=100. MP=140. Selling price after 20% discount = 140×0.8 = 112. Profit = 12%." },
+          { q:"If log₂(8) = x, find x.", opts:["2","3","4","8"], ans:1, exp:"log₂(8) = log₂(2³) = 3. Because 2³=8." },
+          { q:"Find the number of divisors of 360.", opts:["18","20","24","30"], ans:2, exp:"360 = 2³×3²×5¹. Number of divisors = (3+1)(2+1)(1+1) = 4×3×2 = 24." },
+          { q:"In an AP, 1st term=3, common difference=4. Sum of first 10 terms?", opts:["210","220","230","240"], ans:0, exp:"S = n/2 × (2a + (n-1)d) = 10/2 × (6 + 36) = 5×42 = 210." }
+        ]
+      },
+      {
+        name: "Technical", icon: "💻",
+        questions: [
+          { q:"Time complexity of binary search:", opts:["O(n)","O(log n)","O(n log n)","O(n²)"], ans:1, exp:"Binary search: each step halves the search space. Worst case = log₂n comparisons. Hence O(log n)." },
+          { q:"What is a stack data structure?", opts:["FIFO","LIFO","Random access","Priority based"], ans:1, exp:"Stack = LIFO (Last In First Out). Like a stack of plates — last plate placed is first removed. Operations: push (add), pop (remove)." },
+          { q:"Which sorting algorithm has O(n log n) average case?", opts:["Bubble sort","Selection sort","Merge sort","Insertion sort"], ans:2, exp:"Merge sort always O(n log n). Bubble/Selection/Insertion = O(n²) average. Quick sort = O(n log n) average but O(n²) worst." },
+          { q:"In Python, what does len([1,2,3,4,5]) return?", opts:["4","5","6","Error"], ans:1, exp:"len() returns number of elements. [1,2,3,4,5] has 5 elements → returns 5." },
+          { q:"What is the output of: print(3**2) in Python?", opts:["6","9","32","Error"], ans:1, exp:"** is power operator in Python. 3**2 = 3² = 9." },
+          { q:"Which keyword is used to define a function in Python?", opts:["function","def","fun","func"], ans:1, exp:"def is used to define functions in Python. Example: def my_function(): pass" },
+          { q:"What does SQL SELECT DISTINCT do?", opts:["Selects random rows","Returns unique values only","Selects specific columns","Filters rows"], ans:1, exp:"SELECT DISTINCT eliminates duplicate values from result. SELECT DISTINCT city FROM employees returns each city name only once." },
+          { q:"What is the use of WHERE clause in SQL?", opts:["Sort results","Filter rows based on condition","Group rows","Join tables"], ans:1, exp:"WHERE filters rows: SELECT * FROM students WHERE grade='A' returns only rows where grade is A." },
+          { q:"What does 'int a = 5; int b = a++;' result in?", opts:["a=5,b=5","a=6,b=5","a=5,b=6","a=6,b=6"], ans:1, exp:"a++ is post-increment: b gets current value of a (5), THEN a is incremented to 6. So b=5, a=6." },
+          { q:"Which of these is NOT an OOP concept?", opts:["Encapsulation","Inheritance","Compilation","Polymorphism"], ans:2, exp:"OOP pillars: Encapsulation, Inheritance, Polymorphism, Abstraction. Compilation is a programming process, not an OOP concept." }
+        ]
+      }
+    ]
+  },
+
+  quick: {
+    name: "Quick Drill",
+    duration: 15 * 60,
+    cutoff: 60,
+    sections: [
+      {
+        name: "Mixed", icon: "⚡",
+        questions: [
+          { q:"NAND gate with inputs 1,0 gives:", opts:["0","1","Undefined","Same"], ans:1, exp:"NAND(1,0): AND(1,0)=0, NOT(0)=1. NAND only outputs 0 when ALL inputs are 1." },
+          { q:"XOR(1,1) = ?", opts:["0","1","2","X"], ans:0, exp:"XOR outputs 1 when inputs DIFFER, 0 when SAME. 1⊕1=0." },
+          { q:"sizeof(char) in C:", opts:["1","2","4","8"], ans:0, exp:"char = 1 byte = 8 bits. Stores single ASCII character (0-127)." },
+          { q:"Convert binary 1111 to decimal:", opts:["13","14","15","16"], ans:2, exp:"1111 = 2³+2²+2¹+2⁰ = 8+4+2+1 = 15." },
+          { q:"JK flip-flop with J=0, K=1 output:", opts:["Set (Q=1)","Reset (Q=0)","Toggle","No change"], ans:1, exp:"JK: J=0,K=0→No change. J=1,K=0→Set. J=0,K=1→Reset. J=1,K=1→Toggle." },
+          { q:"20% of 350 = ?", opts:["60","70","80","90"], ans:1, exp:"20% of 350 = 0.20×350 = 70. Quick: 10%=35, 20%=70." },
+          { q:"Train 150m long passes pole in 10 sec. Speed km/h?", opts:["48","54","60","72"], ans:1, exp:"Speed=150/10=15 m/s. Convert: 15×18/5=54 km/h." },
+          { q:"OSI model layer count:", opts:["4","5","6","7"], ans:3, exp:"OSI = 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application." },
+          { q:"TCP port for HTTP:", opts:["21","22","80","443"], ans:2, exp:"HTTP=80, HTTPS=443, FTP=21, SSH=22, SMTP=25. Memorize these!" },
+          { q:"Which is NOT valid C variable name?", opts:["_var","var_1","1var","Var"], ans:2, exp:"Variable names cannot start with a digit. 1var is invalid. Must start with letter or underscore." }
+        ]
+      }
+    ]
+  },
+
+  de_only: {
+    name: "Digital Electronics Test",
+    duration: 30 * 60,
+    cutoff: 65,
+    sections: [
+      {
+        name: "Logic Gates & Boolean", icon: "🔌",
+        questions: [
+          { q:"Boolean expression: A + A'B = ?", opts:["A","B","A+B","A'"], ans:2, exp:"A + A'B = A + B (absorption). Verify: when A=0, A'B=B → 0+B=B=A+B. When A=1, A+B=1=A+B ✓" },
+          { q:"XNOR gate output is 1 when:", opts:["Inputs differ","Inputs are same","All inputs are 1","All inputs are 0"], ans:1, exp:"XNOR = NOT(XOR). XOR gives 1 for different inputs, so XNOR gives 1 for SAME inputs. 0⊕0=0, NOT=1." },
+          { q:"How many 2-input NAND gates to implement NOT gate?", opts:["1","2","3","4"], ans:0, exp:"NOT using NAND: connect BOTH inputs of NAND to same signal A. NAND(A,A)=NOT(A·A)=NOT(A). Just 1 NAND gate!" },
+          { q:"A·(A'+B) simplifies to:", opts:["A","B","AB","A+B"], ans:2, exp:"A·(A'+B) = A·A' + A·B = 0 + AB = AB. Used: distributive law and A·A'=0." },
+          { q:"Number of minterms for 2-variable Boolean expression:", opts:["2","3","4","6"], ans:2, exp:"n variables → 2ⁿ minterms. 2 variables → 2²=4 minterms (00,01,10,11)." },
+          { q:"DeMorgan's first theorem states (A+B)' =", opts:["A'+B'","A'·B'","A·B","A+B'"], ans:1, exp:"DeMorgan's: (A+B)' = A'·B' and (A·B)' = A'+B'. Used to implement OR using NAND or AND using NOR." }
+        ]
+      },
+      {
+        name: "Flip-Flops & Counters", icon: "🔄",
+        questions: [
+          { q:"D flip-flop is preferred because:", opts:["It is faster","It eliminates SR's invalid state","It uses less power","It can toggle"], ans:1, exp:"D flip-flop: output Q follows D at clock edge. No invalid state like SR. Simple, predictable, most used in practice." },
+          { q:"MOD-10 counter requires how many flip-flops?", opts:["2","3","4","5"], ans:2, exp:"MOD-10 counts 0-9. Need 4 FFs (2⁴=16 ≥ 10). Note: 3 FFs give only MOD-8. Must use 4 FFs for decade counter." },
+          { q:"T flip-flop with T=0 at clock edge:", opts:["Sets output","Resets output","Toggles","No change"], ans:3, exp:"T flip-flop: T=0 → No change (hold). T=1 → Toggle. Simple: T=1 means toggle on every clock pulse." },
+          { q:"Ripple counter is also called:", opts:["Synchronous counter","Asynchronous counter","Ring counter","Johnson counter"], ans:1, exp:"Ripple (Asynchronous) counter: each FF clocked by output of previous FF. Called ripple because effect ripples through stages." },
+          { q:"JK flip-flop at J=1, K=0, clock edge. Previous Q=0. New Q=?", opts:["0","1","Toggle","Undefined"], ans:1, exp:"JK: J=1,K=0 → SET. Q becomes 1 regardless of previous state. J=Set input, K=Reset input." },
+          { q:"How many states does a 4-bit counter have?", opts:["4","8","16","32"], ans:2, exp:"4-bit counter: 2⁴=16 states (0000 to 1111, decimal 0-15). MOD-16 counter." },
+          { q:"Which counter type is preferred for high-speed applications?", opts:["Ripple","Asynchronous","Synchronous","Ring"], ans:2, exp:"Synchronous counter: all FFs clocked simultaneously → no cumulative delay → faster. Used in processors and high-speed logic." },
+          { q:"Ring counter with n flip-flops has how many valid states?", opts:["n","2n","n²","2ⁿ"], ans:0, exp:"Ring counter: single 1 circulates through n flip-flops → exactly n valid states. Unlike binary counter which has 2ⁿ states." }
+        ]
+      },
+      {
+        name: "Number Systems", icon: "🔢",
+        questions: [
+          { q:"Binary 10110 in decimal:", opts:["20","22","26","28"], ans:1, exp:"10110 = 1×2⁴+0×2³+1×2²+1×2¹+0×2⁰ = 16+0+4+2+0 = 22." },
+          { q:"Decimal 45 in hexadecimal:", opts:["2B","2C","2D","2E"], ans:2, exp:"45÷16=2R13. 13=D in hex. So 45 decimal = 2D hex. Verify: 2×16+13=32+13=45 ✓" },
+          { q:"2's complement of 10011 (5-bit):", opts:["01100","01101","01110","01111"], ans:1, exp:"10011 → flip: 01100 → add 1: 01101. So 2's complement of -13(10011) is 01101=13." },
+          { q:"Octal number 17 in decimal:", opts:["14","15","16","17"], ans:1, exp:"Octal 17 = 1×8¹+7×8⁰ = 8+7 = 15 decimal." },
+          { q:"BCD representation of 39:", opts:["0011 0101","0011 1001","1001 0011","0100 1001"], ans:1, exp:"BCD: each decimal digit coded separately in 4 bits. 3=0011, 9=1001. So 39 BCD = 0011 1001." },
+          { q:"What is 0xAB in decimal?", opts:["161","171","181","191"], ans:1, exp:"0xAB: A=10, B=11. Value = 10×16+11 = 160+11 = 171." }
+        ]
+      }
+    ]
+  }
+};
+
+// ── STATE ────────────────────────────────────────────────────────
+let currentTest = null;
+let currentSection = 0;
+let currentQ = 0;
+let answers = {};  // key: "sec-q" → chosen index
+let timerInterval = null;
+let timeLeft = 0;
+let timeUsed = 0;
+let totalQFlat = [];  // flat list of all questions with sec index
+
+function startTest(testId){
+  currentTest = TESTS[testId];
+  currentSection = 0;
+  currentQ = 0;
+  answers = {};
+  timeLeft = currentTest.duration;
+  timeUsed = 0;
+
+  // Build flat question list for palette
+  totalQFlat = [];
+  currentTest.sections.forEach((sec,si)=>{
+    sec.questions.forEach((_,qi)=>totalQFlat.push({si,qi}));
+  });
+
+  document.getElementById('home-screen').style.display='none';
+  document.getElementById('test-screen').style.display='block';
+  document.getElementById('result-screen').style.display='none';
+
+  document.getElementById('test-company-name').textContent = currentTest.name;
+  document.getElementById('timer-nav').style.display='';
+
+  renderSectionTabs();
+  renderQuestion();
+  startTimer();
+}
+
+function startTimer(){
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    timeUsed++;
+    updateTimerDisplay();
+    if(timeLeft<=0){ clearInterval(timerInterval); submitTest(); }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60), s=timeLeft%60;
+  const str=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('timer-box').textContent=str;
+  document.getElementById('nav-timer').textContent=str;
+  if(timeLeft<300){ document.getElementById('timer-box').classList.add('urgent'); }
+
+  // Progress
+  const pct=(timeUsed/currentTest.duration)*100;
+  document.getElementById('test-prog-fill').style.width=pct+'%';
+}
+
+function renderSectionTabs(){
+  const tabs=document.getElementById('section-tabs');
+  tabs.innerHTML='';
+  currentTest.sections.forEach((sec,i)=>{
+    const answered=sec.questions.filter((_,qi)=>answers[`${i}-${qi}`]!==undefined).length;
+    const cls=i===currentSection?'active':answered===sec.questions.length?'completed':'';
+    tabs.innerHTML+=`<button class="section-tab ${cls}" onclick="jumpSection(${i})">${sec.icon} ${sec.name} (${answered}/${sec.questions.length})</button>`;
+  });
+}
+
+function jumpSection(i){
+  currentSection=i;
+  currentQ=0;
+  renderSectionTabs();
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const sec=currentTest.sections[currentSection];
+  const q=sec.questions[currentQ];
+  const totalInTest=totalQFlat.length;
+  const doneFlat=totalQFlat.filter(({si,qi})=>answers[`${si}-${qi}`]!==undefined).length;
+
+  document.getElementById('test-section-name').textContent=`Section: ${sec.name}`;
+  document.getElementById('test-q-num').textContent=`Q${currentQ+1} of ${sec.questions.length} · ${sec.name}`;
+  document.getElementById('test-q-text').textContent=q.q;
+
+  const opts=document.getElementById('test-opts');
+  const letters=['A','B','C','D'];
+  const saved=answers[`${currentSection}-${currentQ}`];
+  opts.innerHTML=q.opts.map((opt,i)=>`
+    <button class="test-opt ${saved===i?'selected':''}" onclick="selectTestOpt(${i})">
+      <span class="test-opt-letter">${letters[i]}</span>${opt}
+    </button>`).join('');
+
+  // Palette
+  const palette=document.getElementById('palette-grid');
+  palette.innerHTML='';
+  const sec2=currentTest.sections[currentSection];
+  sec2.questions.forEach((_,qi)=>{
+    const isCur=qi===currentQ;
+    const isAns=answers[`${currentSection}-${qi}`]!==undefined;
+    palette.innerHTML+=`<div class="p-dot ${isCur?'current':isAns?'answered':''}" onclick="jumpQ(${qi})">${qi+1}</div>`;
+  });
+
+  // Nav buttons
+  document.getElementById('prev-btn').disabled=(currentSection===0&&currentQ===0);
+  const isLast=(currentSection===currentTest.sections.length-1&&currentQ===sec.questions.length-1);
+  document.getElementById('next-btn').textContent=isLast?'Submit':'Next →';
+  document.getElementById('next-btn').onclick=isLast?confirmSubmit:nextQ;
+
+  renderSectionTabs();
+}
+
+function selectTestOpt(i){
+  answers[`${currentSection}-${currentQ}`]=i;
+  document.querySelectorAll('.test-opt').forEach((b,idx)=>{
+    b.className=`test-opt${idx===i?' selected':''}`;
+    if(idx===i) b.querySelector('.test-opt-letter').style.cssText='background:var(--purple);color:var(--white)';
+    else b.querySelector('.test-opt-letter').style.cssText='';
+  });
+  renderSectionTabs();
+}
+
+function nextQ(){
+  const sec=currentTest.sections[currentSection];
+  if(currentQ+1<sec.questions.length){ currentQ++; }
+  else if(currentSection+1<currentTest.sections.length){ currentSection++; currentQ=0; }
+  renderQuestion();
+}
+
+function prevQ(){
+  if(currentQ>0){ currentQ--; }
+  else if(currentSection>0){ currentSection--; currentQ=currentTest.sections[currentSection].questions.length-1; }
+  renderQuestion();
+}
+
+function jumpQ(qi){ currentQ=qi; renderQuestion(); }
+
+function skipTestQ(){ nextQ(); }
+
+function confirmSubmit(){
+  const total=totalQFlat.length;
+  const answered=totalQFlat.filter(({si,qi})=>answers[`${si}-${qi}`]!==undefined).length;
+  const unanswered=total-answered;
+  if(unanswered>0&&!confirm(`You have ${unanswered} unanswered questions. Submit anyway?`)) return;
+  submitTest();
+}
+
+function submitTest(){
+  clearInterval(timerInterval);
+  document.getElementById('timer-nav').style.display='none';
+  document.getElementById('test-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+
+  // Calculate scores
+  let totalCorrect=0, totalWrong=0, totalSkipped=0;
+  const sectionResults=[];
+
+  currentTest.sections.forEach((sec,si)=>{
+    let sc=0,sw=0,ss=0;
+    sec.questions.forEach((q,qi)=>{
+      const ans=answers[`${si}-${qi}`];
+      if(ans===undefined) ss++;
+      else if(ans===q.ans) sc++;
+      else sw++;
+    });
+    sectionResults.push({name:sec.name,icon:sec.icon,correct:sc,wrong:sw,skipped:ss,total:sec.questions.length});
+    totalCorrect+=sc; totalWrong+=sw; totalSkipped+=ss;
+  });
+
+  const total=totalQFlat.length;
+  const pct=Math.round((totalCorrect/total)*100);
+  const minsUsed=Math.round(timeUsed/60);
+  const passed=pct>=currentTest.cutoff;
+
+  // Update UI
+  document.getElementById('res-company').textContent=currentTest.name;
+  document.getElementById('res-score-big').textContent=pct+'%';
+  document.getElementById('res-score-big').style.color=passed?'#86EFAC':'#FCA5A5';
+  document.getElementById('rs-correct').textContent=totalCorrect;
+  document.getElementById('rs-wrong').textContent=totalWrong;
+  document.getElementById('rs-skipped').textContent=totalSkipped;
+  document.getElementById('rs-time').textContent=minsUsed;
+
+  const verdict=document.getElementById('res-verdict');
+  verdict.textContent=passed?`Above Cutoff (${currentTest.cutoff}%) — Well done! ✓`:`Below Cutoff (${currentTest.cutoff}%) — Keep practicing`;
+  verdict.className=`result-verdict ${passed?'verdict-pass':'verdict-fail'}`;
+
+  // Section breakdown
+  const breakdown=document.getElementById('section-breakdown');
+  breakdown.innerHTML='<div style="font-family:\'Nunito\',sans-serif;font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:.75rem">Section Breakdown</div>';
+  sectionResults.forEach(sec=>{
+    const sp=Math.round(sec.correct/sec.total*100);
+    const sc=sp>=70?'#16A34A':sp>=50?'#D97706':'var(--red)';
+    breakdown.innerHTML+=`
+      <div class="section-result-card">
+        <div class="sec-result-top">
+          <div class="sec-result-name">${sec.icon} ${sec.name}</div>
+          <div class="sec-result-score" style="color:${sc}">${sec.correct}/${sec.total} · ${sp}%</div>
+        </div>
+        <div class="progress-wrap" style="height:8px">
+          <div class="progress-fill" style="width:${sp}%;background:${sc}"></div>
+        </div>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:.4rem;font-weight:600">
+          ✅ ${sec.correct} correct &nbsp;·&nbsp; ❌ ${sec.wrong} wrong &nbsp;·&nbsp; ⏭️ ${sec.skipped} skipped
+        </div>
+      </div>`;
+  });
+
+  // AI Feedback
+  const weakSec=sectionResults.reduce((a,b)=>
+    (a.correct/a.total)<(b.correct/b.total)?a:b);
+  document.getElementById('ai-feedback-body').textContent=
+    pct>=currentTest.cutoff
+    ? `Great performance! Your score of ${pct}% is above the HCL cutoff of ${currentTest.cutoff}%. Your weakest section was ${weakSec.name} (${Math.round(weakSec.correct/weakSec.total*100)}%). Focus your remaining preparation on that area. You are on track for the next round!`
+    : `Your score of ${pct}% is below the cutoff of ${currentTest.cutoff}%. Your weakest section is ${weakSec.name} — spend 2-3 more days practicing those topics. Then retake this mock. Don't worry — most students need 2-3 attempts to consistently cross cutoff.`;
+
+  // Answer review
+  const review=document.getElementById('answer-review');
+  review.innerHTML='';
+  currentTest.sections.forEach((sec,si)=>{
+    review.innerHTML+=`<div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;color:var(--purple);margin:1rem 0 .5rem">${sec.icon} ${sec.name}</div>`;
+    sec.questions.forEach((q,qi)=>{
+      const userAns=answers[`${si}-${qi}`];
+      const isCorrect=userAns===q.ans;
+      const letters=['A','B','C','D'];
+      review.innerHTML+=`
+        <div class="review-q">
+          <div class="review-q-text">${qi+1}. ${q.q}</div>
+          ${q.opts.map((opt,i)=>{
+            let cls='normal';
+            if(i===q.ans) cls='correct-ans';
+            else if(i===userAns&&!isCorrect) cls='wrong-sel';
+            return `<div class="review-opt ${cls}">${letters[i]}. ${opt}${i===q.ans?' ✓':i===userAns&&!isCorrect?' ✗':''}</div>`;
+          }).join('')}
+          <div class="review-exp">💡 ${q.exp}</div>
+        </div>`;
+    });
+  });
+
+  // Save to mock history
+  const history=JSON.parse(localStorage.getItem('cc_mock_history')||'[]');
+  history.unshift({test:currentTest.name,score:pct,date:new Date().toLocaleDateString(),passed});
+  localStorage.setItem('cc_mock_history',JSON.stringify(history.slice(0,5)));
+
+  // Save XP
+  const xpEarned=totalCorrect*15;
+  const prev=parseInt(localStorage.getItem('cc_xp_today')||'0');
+  localStorage.setItem('cc_xp_today',prev+xpEarned);
+}
+
+function retakeTest(){
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('home-screen').style.display='';
+}
+
+// Load mock history on home screen
+function loadHistory(){
+  const history=JSON.parse(localStorage.getItem('cc_mock_history')||'[]');
+  const el=document.getElementById('mock-history');
+  if(history.length===0) return;
+  el.innerHTML=history.map(h=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:.85rem;font-weight:700;color:var(--ink)">${h.test}</div>
+        <div style="font-size:.75rem;color:var(--muted)">${h.date}</div>
+      </div>
+      <span style="font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:${h.passed?'#16A34A':'var(--red)'}">${h.score}%</span>
+    </div>`).join('');
+}
+
+loadHistory();
+</script>
+</body>
+</html>

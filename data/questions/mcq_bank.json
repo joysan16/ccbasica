@@ -1,0 +1,365 @@
+{
+  "de_01": {
+    "topic": "Number Systems",
+    "subject": "Digital Electronics",
+    "questions": [
+      {
+        "id": "de01_q1", "level": "Beginner",
+        "question": "What is the decimal value of binary 1010?",
+        "options": ["8", "10", "12", "14"],
+        "answer": 1,
+        "explanation": "1010 = (1×8)+(0×4)+(1×2)+(0×1) = 8+0+2+0 = 10"
+      },
+      {
+        "id": "de01_q2", "level": "Beginner",
+        "question": "Convert decimal 25 to binary.",
+        "options": ["10011", "11001", "10101", "11000"],
+        "answer": 1,
+        "explanation": "25÷2=12 r1, 12÷2=6 r0, 6÷2=3 r0, 3÷2=1 r1, 1÷2=0 r1 → read bottom-up: 11001"
+      },
+      {
+        "id": "de01_q3", "level": "Beginner",
+        "question": "What is the hexadecimal equivalent of decimal 255?",
+        "options": ["EF", "FE", "FF", "F0"],
+        "answer": 2,
+        "explanation": "255 = 15×16 + 15×1 = FF. Remember F=15 in hex."
+      },
+      {
+        "id": "de01_q4", "level": "Beginner",
+        "question": "How many bits are in one byte?",
+        "options": ["4", "8", "16", "2"],
+        "answer": 1,
+        "explanation": "1 byte = 8 bits. 4 bits = 1 nibble. Know both!"
+      },
+      {
+        "id": "de01_q5", "level": "Beginner",
+        "question": "Binary 11111111 in decimal is?",
+        "options": ["254", "255", "256", "128"],
+        "answer": 1,
+        "explanation": "128+64+32+16+8+4+2+1 = 255. Or: 2^8 - 1 = 255."
+      },
+      {
+        "id": "de01_q6", "level": "Intermediate",
+        "question": "What is binary 1101 + 0011?",
+        "options": ["10000", "10010", "11000", "1111"],
+        "answer": 0,
+        "explanation": "1101+0011: 1+1=10 (write 0 carry 1), 0+1+1=10 (write 0 carry 1), 1+0+1=10 (write 0 carry 1), 1+0+1=10. Result: 10000"
+      },
+      {
+        "id": "de01_q7", "level": "Intermediate",
+        "question": "Octal 17 in decimal is?",
+        "options": ["15", "17", "14", "16"],
+        "answer": 0,
+        "explanation": "Octal 17 = 1×8 + 7×1 = 8+7 = 15 in decimal."
+      },
+      {
+        "id": "de01_q8", "level": "Intermediate",
+        "question": "Convert hex 2F to decimal.",
+        "options": ["45", "47", "46", "48"],
+        "answer": 1,
+        "explanation": "2F = 2×16 + 15×1 = 32+15 = 47. F in hex = 15."
+      }
+    ]
+  },
+  "de_02": {
+    "topic": "Logic Gates",
+    "subject": "Digital Electronics",
+    "questions": [
+      {
+        "id": "de02_q1", "level": "Beginner",
+        "question": "Which gate gives output 1 ONLY when all inputs are 1?",
+        "options": ["OR gate", "AND gate", "NOT gate", "XOR gate"],
+        "answer": 1,
+        "explanation": "AND gate: output is 1 only when ALL inputs are 1. Even one 0 makes output 0."
+      },
+      {
+        "id": "de02_q2", "level": "Beginner",
+        "question": "Which gate is called the 'Universal Gate'?",
+        "options": ["AND", "OR", "NAND", "XOR"],
+        "answer": 2,
+        "explanation": "NAND (and NOR) are universal gates — any logic circuit can be built using only NAND gates."
+      },
+      {
+        "id": "de02_q3", "level": "Beginner",
+        "question": "XOR gate output is 1 when:",
+        "options": ["Both inputs are 0", "Both inputs are 1", "Inputs are different", "Any input is 1"],
+        "answer": 2,
+        "explanation": "XOR = eXclusive OR. Output is 1 ONLY when inputs are different (one 0, one 1)."
+      },
+      {
+        "id": "de02_q4", "level": "Beginner",
+        "question": "What is NAND(1, 1)?",
+        "options": ["0", "1", "Undefined", "2"],
+        "answer": 0,
+        "explanation": "NAND = NOT(AND). AND(1,1)=1, NOT(1)=0. So NAND(1,1)=0."
+      },
+      {
+        "id": "de02_q5", "level": "Beginner",
+        "question": "OR gate output is 0 only when:",
+        "options": ["Any input is 0", "All inputs are 0", "Inputs are same", "All inputs are 1"],
+        "answer": 1,
+        "explanation": "OR gate gives 0 ONLY when ALL inputs are 0. Even one 1 makes output 1."
+      },
+      {
+        "id": "de02_q6", "level": "Intermediate",
+        "question": "How many NAND gates are needed to implement a NOT gate?",
+        "options": ["3", "2", "1", "4"],
+        "answer": 2,
+        "explanation": "Connect both inputs of a NAND gate together: NAND(A,A) = NOT(A·A) = NOT(A). Just 1 NAND gate needed."
+      },
+      {
+        "id": "de02_q7", "level": "Intermediate",
+        "question": "What is the output of NOT(OR(0, 0))?",
+        "options": ["0", "1", "Undefined", "Depends on input"],
+        "answer": 1,
+        "explanation": "OR(0,0)=0, NOT(0)=1. This is exactly a NOR gate with inputs 0,0."
+      },
+      {
+        "id": "de02_q8", "level": "Intermediate",
+        "question": "XNOR gate output is 1 when:",
+        "options": ["Inputs are different", "Both inputs are 0 only", "Both inputs are 1 only", "Inputs are same"],
+        "answer": 3,
+        "explanation": "XNOR = NOT(XOR). XOR gives 1 for different inputs, so XNOR gives 1 for SAME inputs (both 0 or both 1)."
+      }
+    ]
+  },
+  "de_03": {
+    "topic": "Boolean Algebra",
+    "subject": "Digital Electronics",
+    "questions": [
+      {
+        "id": "de03_q1", "level": "Beginner",
+        "question": "What is A + 0 equal to?",
+        "options": ["0", "1", "A", "NOT A"],
+        "answer": 2,
+        "explanation": "Identity law: A OR 0 = A. OR with 0 doesn't change the value."
+      },
+      {
+        "id": "de03_q2", "level": "Beginner",
+        "question": "What is A · 0 equal to?",
+        "options": ["A", "1", "0", "NOT A"],
+        "answer": 2,
+        "explanation": "Null law: A AND 0 = 0. AND with 0 always gives 0, regardless of A."
+      },
+      {
+        "id": "de03_q3", "level": "Beginner",
+        "question": "De Morgan's theorem states NOT(A AND B) equals?",
+        "options": ["NOT A AND NOT B", "NOT A OR NOT B", "A OR B", "NOT A AND B"],
+        "answer": 1,
+        "explanation": "De Morgan's: NOT(A·B) = Ā + B̄. 'Break the bar, change the operation' — AND becomes OR."
+      },
+      {
+        "id": "de03_q4", "level": "Intermediate",
+        "question": "Simplify: A + A·B",
+        "options": ["A·B", "B", "A", "A+B"],
+        "answer": 2,
+        "explanation": "Absorption law: A + A·B = A. Because if A=1, result is 1. If A=0, A·B=0 so result is 0. Same as just A."
+      },
+      {
+        "id": "de03_q5", "level": "Intermediate",
+        "question": "What is A + Ā equal to?",
+        "options": ["0", "A", "1", "NOT A"],
+        "answer": 2,
+        "explanation": "Complement law: A OR NOT(A) = 1. A variable OR its complement is always 1."
+      }
+    ]
+  },
+  "cp_02": {
+    "topic": "Variables, Data Types & Operators",
+    "subject": "C Programming",
+    "questions": [
+      {
+        "id": "cp02_q1", "level": "Beginner",
+        "question": "What is the size of int in C on a 32-bit system?",
+        "options": ["1 byte", "2 bytes", "4 bytes", "8 bytes"],
+        "answer": 2,
+        "explanation": "int = 4 bytes on 32-bit systems. Memorize: char=1, int=4, float=4, double=8 bytes."
+      },
+      {
+        "id": "cp02_q2", "level": "Beginner",
+        "question": "What is the output of: int x=5; printf(\"%d\", x++);",
+        "options": ["4", "5", "6", "Error"],
+        "answer": 1,
+        "explanation": "x++ is post-increment. It USES the value first (prints 5), THEN increments (x becomes 6)."
+      },
+      {
+        "id": "cp02_q3", "level": "Beginner",
+        "question": "What is the output of: int x=5; printf(\"%d\", ++x);",
+        "options": ["4", "5", "6", "Error"],
+        "answer": 2,
+        "explanation": "++x is pre-increment. It INCREMENTS first (x becomes 6), THEN uses the value (prints 6)."
+      },
+      {
+        "id": "cp02_q4", "level": "Beginner",
+        "question": "What is 7 % 3 in C?",
+        "options": ["2", "1", "3", "0"],
+        "answer": 1,
+        "explanation": "% is modulus — gives the remainder. 7 ÷ 3 = 2 remainder 1. So 7%3 = 1."
+      },
+      {
+        "id": "cp02_q5", "level": "Beginner",
+        "question": "What is the output of: printf(\"%d\", 5/2);",
+        "options": ["2.5", "2", "3", "Error"],
+        "answer": 1,
+        "explanation": "5 and 2 are both integers, so integer division occurs. Decimal is dropped. 5/2 = 2 (not 2.5)."
+      },
+      {
+        "id": "cp02_q6", "level": "Intermediate",
+        "question": "int a=10; a+=5; a*=2; What is a?",
+        "options": ["25", "30", "20", "15"],
+        "answer": 1,
+        "explanation": "a+=5 → a=15. a*=2 → a=30. Shorthand operators apply one at a time."
+      },
+      {
+        "id": "cp02_q7", "level": "Intermediate",
+        "question": "Which data type would you use to store 3.14159?",
+        "options": ["int", "char", "float", "void"],
+        "answer": 2,
+        "explanation": "float stores decimal numbers (6-7 digit precision). Use double for higher precision like 3.14159265358979."
+      }
+    ]
+  },
+  "cp_03": {
+    "topic": "Control Flow",
+    "subject": "C Programming",
+    "questions": [
+      {
+        "id": "cp03_q1", "level": "Beginner",
+        "question": "How many times does this loop run? for(i=0; i<5; i++)",
+        "options": ["4", "5", "6", "Infinite"],
+        "answer": 1,
+        "explanation": "i goes: 0,1,2,3,4 → when i=5, condition i<5 is false, loop stops. Total = 5 times."
+      },
+      {
+        "id": "cp03_q2", "level": "Beginner",
+        "question": "What is the output? for(i=1;i<=5;i++) { if(i==3) continue; printf(\"%d \",i); }",
+        "options": ["1 2 3 4 5", "1 2 4 5", "1 2 3", "3 4 5"],
+        "answer": 1,
+        "explanation": "continue skips the current iteration. When i=3, printf is skipped. All other values print normally."
+      },
+      {
+        "id": "cp03_q3", "level": "Beginner",
+        "question": "Which loop always executes at least once?",
+        "options": ["for loop", "while loop", "do-while loop", "All of them"],
+        "answer": 2,
+        "explanation": "do-while checks condition AFTER running. So the body runs at least once even if condition is false."
+      },
+      {
+        "id": "cp03_q4", "level": "Intermediate",
+        "question": "In switch statement, what happens if 'break' is missing after a case?",
+        "options": ["Error", "Loop continues", "Falls through to next case", "Program stops"],
+        "answer": 2,
+        "explanation": "Fall-through: without break, execution continues into the next case. All following cases run until a break or end of switch."
+      },
+      {
+        "id": "cp03_q5", "level": "Intermediate",
+        "question": "In C, what is the value of a false condition?",
+        "options": ["-1", "false", "0", "null"],
+        "answer": 2,
+        "explanation": "In C, false = 0, true = any non-zero value. There is no boolean type in original C (C89/C90)."
+      }
+    ]
+  },
+  "cp_04": {
+    "topic": "Functions",
+    "subject": "C Programming",
+    "questions": [
+      {
+        "id": "cp04_q1", "level": "Beginner",
+        "question": "What is the return type of main() in C?",
+        "options": ["void", "int", "char", "float"],
+        "answer": 1,
+        "explanation": "main() always returns int in standard C. return 0 means program finished successfully."
+      },
+      {
+        "id": "cp04_q2", "level": "Beginner",
+        "question": "In call by value, what gets passed to the function?",
+        "options": ["Address of variable", "Copy of the value", "Original variable", "Pointer to variable"],
+        "answer": 1,
+        "explanation": "Call by value sends a COPY. The original variable is NOT changed inside the function."
+      },
+      {
+        "id": "cp04_q3", "level": "Intermediate",
+        "question": "void add(int a) { a=a+10; } int x=5; add(x); printf(\"%d\",x); — Output?",
+        "options": ["15", "5", "10", "Error"],
+        "answer": 1,
+        "explanation": "Call by value — a copy of x is sent. x inside add is a copy. Original x stays 5."
+      },
+      {
+        "id": "cp04_q4", "level": "Intermediate",
+        "question": "Which header file is needed for printf() and scanf()?",
+        "options": ["stdlib.h", "string.h", "math.h", "stdio.h"],
+        "answer": 3,
+        "explanation": "#include <stdio.h> — stdio = standard input/output. Required for printf, scanf, getchar etc."
+      }
+    ]
+  },
+  "cp_05": {
+    "topic": "Arrays & Strings",
+    "subject": "C Programming",
+    "questions": [
+      {
+        "id": "cp05_q1", "level": "Intermediate",
+        "question": "int arr[5]={10,20,30,40,50}; What does arr[2] give?",
+        "options": ["10", "20", "30", "40"],
+        "answer": 2,
+        "explanation": "Arrays are 0-indexed. arr[0]=10, arr[1]=20, arr[2]=30. Index 2 = third element = 30."
+      },
+      {
+        "id": "cp05_q2", "level": "Intermediate",
+        "question": "char s[]=\"Hello\"; printf(\"%d\", strlen(s)); — Output?",
+        "options": ["6", "5", "4", "Error"],
+        "answer": 1,
+        "explanation": "strlen counts characters EXCLUDING the null terminator \\0. Hello has 5 characters, so strlen=5."
+      },
+      {
+        "id": "cp05_q3", "level": "Intermediate",
+        "question": "How do you correctly compare two strings in C?",
+        "options": ["if(s1 == s2)", "if(s1.equals(s2))", "if(strcmp(s1,s2)==0)", "if(s1 is s2)"],
+        "answer": 2,
+        "explanation": "NEVER use == for strings in C. It compares addresses, not content. Use strcmp() which returns 0 if strings are equal."
+      },
+      {
+        "id": "cp05_q4", "level": "Intermediate",
+        "question": "What is the minimum array size to store the string \"HCL\"?",
+        "options": ["3", "4", "2", "5"],
+        "answer": 1,
+        "explanation": "\"HCL\" needs 4 chars: H, C, L, and \\0 (null terminator). Always +1 for the null character."
+      }
+    ]
+  },
+  "cp_06": {
+    "topic": "Pointers",
+    "subject": "C Programming",
+    "questions": [
+      {
+        "id": "cp06_q1", "level": "Intermediate",
+        "question": "int x=10; int *p=&x; *p=20; printf(\"%d\",x); — Output?",
+        "options": ["10", "20", "Address of x", "Error"],
+        "answer": 1,
+        "explanation": "*p=20 changes the value at the address p points to — which is x. So x becomes 20."
+      },
+      {
+        "id": "cp06_q2", "level": "Intermediate",
+        "question": "What does the & operator do?",
+        "options": ["Dereferences a pointer", "Returns value at address", "Returns address of a variable", "Bitwise AND"],
+        "answer": 2,
+        "explanation": "& is the address-of operator. &x gives the memory address where x is stored."
+      },
+      {
+        "id": "cp06_q3", "level": "Intermediate",
+        "question": "int arr[]={5,10,15}; int *p=arr; p++; printf(\"%d\",*p); — Output?",
+        "options": ["5", "10", "15", "Address"],
+        "answer": 1,
+        "explanation": "p starts at arr[0]. p++ moves to arr[1]. *p gives value at arr[1] = 10."
+      },
+      {
+        "id": "cp06_q4", "level": "Advanced",
+        "question": "What is the output? int x=5; int *p=&x; printf(\"%d %d\", x, *p);",
+        "options": ["5 address", "address 5", "5 5", "Error"],
+        "answer": 2,
+        "explanation": "x prints the value (5). *p dereferences p — goes to x's address and gets value (5). Both print 5."
+      }
+    ]
+  }
+}

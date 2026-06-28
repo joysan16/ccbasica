@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Practice · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.practice-wrap{max-width:820px;margin:0 auto;padding:2rem}
+
+/* Topic selector */
+.topic-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.topic-chip{
+  padding:.4rem 1rem;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);
+  cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;
+}
+.topic-chip:hover{border-color:var(--purple);color:var(--purple)}
+.topic-chip.active{background:var(--purple);border-color:var(--purple);color:var(--white)}
+
+/* Level tabs */
+.level-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem}
+.level-tab{
+  padding:.45rem 1.1rem;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);
+  cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;
+}
+.level-tab:hover{border-color:var(--purple)}
+.level-tab.active{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+
+/* Progress bar on top of quiz */
+.quiz-progress-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.quiz-progress-bar{flex:1;height:10px;background:#F0F0F0;border-radius:6px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:var(--purple);border-radius:6px;transition:width .4s ease}
+.quiz-q-label{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.quiz-hearts{display:flex;gap:.2rem;font-size:1rem}
+
+/* Question card */
+.question-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);
+  margin-bottom:1.25rem;
+}
+.q-eyebrow{font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.q-text{font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:1.75rem}
+
+/* Options */
+.options-grid{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem}
+.option-btn{
+  display:flex;align-items:center;gap:1rem;
+  padding:.9rem 1.1rem;border-radius:12px;
+  border:2.5px solid var(--border);background:var(--white);
+  cursor:pointer;transition:all .15s;text-align:left;
+  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink);
+}
+.option-btn:hover:not(:disabled){border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+.option-btn.selected{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+.option-btn.correct{border-color:#16A34A;background:#DCFCE7;color:#166534}
+.option-btn.wrong{border-color:var(--red);background:#FEE2E2;color:var(--red)}
+.option-btn:disabled{cursor:default}
+.opt-letter{
+  width:32px;height:32px;border-radius:8px;background:#F0F0F0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;flex-shrink:0;transition:all .15s;
+}
+.option-btn.selected .opt-letter{background:var(--purple);color:var(--white)}
+.option-btn.correct .opt-letter{background:#16A34A;color:var(--white)}
+.option-btn.wrong .opt-letter{background:var(--red);color:var(--white)}
+
+/* Explanation box */
+.explanation-box{
+  border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;
+  display:none;animation:slideIn .3s ease;
+}
+.explanation-box.show{display:block}
+.explanation-box.correct-box{background:#DCFCE7;border:1.5px solid #16A34A}
+.explanation-box.wrong-box{background:#FEE2E2;border:1.5px solid var(--red)}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.exp-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;margin-bottom:.4rem}
+.exp-title.correct-text{color:#166534}
+.exp-title.wrong-text{color:var(--red)}
+.exp-body{font-size:.875rem;color:var(--ink2);line-height:1.65}
+
+/* Action row */
+.action-row{display:flex;gap:.75rem;align-items:center;justify-content:space-between}
+.skip-btn{font-size:.85rem;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif}
+.skip-btn:hover{color:var(--ink)}
+
+/* Result screen */
+.result-screen{display:none;text-align:center;padding:3rem 1rem}
+.result-screen.show{display:block}
+.result-emoji{font-size:5rem;margin-bottom:1rem}
+.result-h1{font-family:'Nunito',sans-serif;font-size:2.2rem;font-weight:900;color:var(--ink);margin-bottom:.5rem}
+.result-sub{color:var(--muted);margin-bottom:2rem}
+.result-stats{display:flex;justify-content:center;gap:2rem;margin-bottom:2.5rem}
+.rs-stat{text-align:center}
+.rs-val{font-family:'Nunito',sans-serif;font-size:2.5rem;font-weight:900}
+.rs-label{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.result-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* Right sidebar */
+.practice-layout{display:grid;grid-template-columns:1fr 280px;gap:1.5rem;align-items:start}
+.sidebar-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow-sm);margin-bottom:1rem}
+.sidebar-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:.75rem}
+.q-tracker{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.qt-dot{
+  aspect-ratio:1;border-radius:7px;background:#F0F0F0;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--muted);
+  cursor:pointer;transition:all .15s;
+}
+.qt-dot.current{background:var(--purple);border-color:var(--purple);color:var(--white)}
+.qt-dot.done-correct{background:#DCFCE7;border-color:#16A34A;color:#166534}
+.qt-dot.done-wrong{background:#FEE2E2;border-color:var(--red);color:var(--red)}
+.xp-earned-pill{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--yellow-lt);border:1.5px solid var(--yellow);
+  border-radius:20px;padding:.3rem .9rem;font-size:.82rem;font-weight:700;color:#92400E;
+  font-family:'Nunito',sans-serif;
+}
+
+@media(max-width:700px){
+  .practice-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-links">
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/learn" class="nav-link">Learn</a>
+    <a href="/practice" class="nav-link" style="color:var(--purple)">Practice</a>
+    <a href="/mock" class="nav-link">Mock Test</a>
+  </div>
+  <div class="nav-right">
+    <div class="xp-earned-pill" id="xp-pill">⚡ 0 XP today</div>
+  </div>
+</nav>
+
+<div class="practice-wrap">
+
+  <!-- Topic + Level selectors -->
+  <div style="margin-bottom:1rem">
+    <h2 style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:.25rem">Practice MCQs ✏️</h2>
+    <p style="color:var(--muted);font-size:.875rem">Pick a topic and level. Answer 10 questions. Earn XP.</p>
+  </div>
+
+  <div class="topic-bar" id="topic-bar">
+    <button class="topic-chip active" onclick="switchTopic(this,'digital_electronics')">🔌 Digital Electronics</button>
+    <button class="topic-chip" onclick="switchTopic(this,'c_programming')">💻 C Programming</button>
+    <button class="topic-chip" onclick="switchTopic(this,'aptitude')">🧮 Aptitude</button>
+    <button class="topic-chip" onclick="switchTopic(this,'networking')">🌐 Networking</button>
+  </div>
+
+  <div class="level-tabs" id="level-tabs">
+    <button class="level-tab active" onclick="switchLevel(this,'basic')">🌱 Basics</button>
+    <button class="level-tab" onclick="switchLevel(this,'intermediate')">📘 Intermediate</button>
+    <button class="level-tab" onclick="switchLevel(this,'expert')">🏆 Expert</button>
+  </div>
+
+  <!-- Quiz layout -->
+  <div class="practice-layout" id="quiz-area">
+
+    <!-- Main quiz -->
+    <div>
+      <!-- Progress -->
+      <div class="quiz-progress-row">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="q-progress" style="width:0%"></div></div>
+        <div class="quiz-q-label" id="q-label">Question 1 of 10</div>
+        <div class="quiz-hearts" id="q-hearts">❤️❤️❤️❤️❤️</div>
+      </div>
+
+      <!-- Question card -->
+      <div class="question-card" id="question-card">
+        <div class="q-eyebrow">
+          <span id="q-subject-tag">Digital Electronics</span>
+          <span>·</span>
+          <span id="q-level-tag">Basics</span>
+        </div>
+        <div class="q-text" id="q-text">Loading question...</div>
+        <div class="options-grid" id="options-grid"></div>
+        <div class="explanation-box" id="exp-box">
+          <div class="exp-title" id="exp-title"></div>
+          <div class="exp-body" id="exp-body"></div>
+        </div>
+        <div class="action-row">
+          <button class="skip-btn" id="skip-btn" onclick="skipQuestion()">Skip →</button>
+          <button class="btn btn-primary" id="check-btn" disabled onclick="checkAnswer()" style="opacity:.5">
+            Check answer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-title">Question tracker</div>
+        <div class="q-tracker" id="q-tracker"></div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">Session stats</div>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:.82rem;color:var(--muted);font-weight:600">Correct</span>
+            <span style="font-family:'Nunito',sans-serif;font-weight:900;color:#16A34A;font-size:1.1rem" id="stat-correct">0</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:.82rem;color:var(--muted);font-weight:600">Wrong</span>
+            <span style="font-family:'Nunito',sans-serif;font-weight:900;color:var(--red);font-size:1.1rem" id="stat-wrong">0</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:.82rem;color:var(--muted);font-weight:600">XP earned</span>
+            <span style="font-family:'Nunito',sans-serif;font-weight:900;color:var(--yellow);font-size:1.1rem" id="stat-xp">0</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:.82rem;color:var(--muted);font-weight:600">Accuracy</span>
+            <span style="font-family:'Nunito',sans-serif;font-weight:900;color:var(--purple);font-size:1.1rem" id="stat-acc">—</span>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-card" style="background:var(--purple-lt);border-color:var(--purple)">
+        <div class="sidebar-title" style="color:var(--purple)">💡 HCL Tip</div>
+        <div style="font-size:.8rem;color:var(--ink2);line-height:1.6" id="sidebar-tip">
+          HCL Technical round is 10-30 minutes. Interviewers ask 5-8 questions from your resume topics. Be confident and honest!
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Result screen -->
+  <div class="result-screen" id="result-screen">
+    <div class="result-emoji" id="result-emoji">🏆</div>
+    <h2 class="result-h1" id="result-h1">Excellent!</h2>
+    <p class="result-sub" id="result-sub">You completed the practice session</p>
+    <div class="result-stats">
+      <div class="rs-stat">
+        <div class="rs-val" id="res-correct" style="color:#16A34A">0</div>
+        <div class="rs-label">Correct</div>
+      </div>
+      <div class="rs-stat">
+        <div class="rs-val" id="res-wrong" style="color:var(--red)">0</div>
+        <div class="rs-label">Wrong</div>
+      </div>
+      <div class="rs-stat">
+        <div class="rs-val" id="res-xp" style="color:var(--yellow)">0</div>
+        <div class="rs-label">XP Earned</div>
+      </div>
+      <div class="rs-stat">
+        <div class="rs-val" id="res-acc" style="color:var(--purple)">0%</div>
+        <div class="rs-label">Accuracy</div>
+      </div>
+    </div>
+    <div class="result-btns">
+      <button class="btn btn-primary btn-lg" onclick="restartQuiz()">Practice again 🔄</button>
+      <a href="/learn" class="btn btn-outline btn-lg">Study more concepts 📖</a>
+      <a href="/mock" class="btn btn-ghost btn-lg">Try mock test 🏢</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── QUESTION BANK ────────────────────────────────────────────────
+const QUESTIONS = {
+  digital_electronics: {
+    basic: [
+      { q:"Which gate gives output 1 only when ALL inputs are 1?", opts:["OR Gate","AND Gate","XOR Gate","NAND Gate"], ans:1, exp:"AND gate: output = 1 only when ALL inputs are 1. Truth table: 0·0=0, 0·1=0, 1·0=0, 1·1=1. Think series switch circuit." },
+      { q:"NAND gate is called a Universal Gate because:", opts:["It is the fastest gate","Any logic function can be built using only NAND gates","It consumes least power","It has maximum fan-out"], ans:1, exp:"NAND is universal — you can implement AND, OR, NOT and XOR using only NAND gates. This simplifies chip manufacturing." },
+      { q:"XOR gate output is 1 when:", opts:["Both inputs are 1","Both inputs are 0","Inputs are DIFFERENT","At least one input is 1"], ans:2, exp:"XOR (Exclusive OR): output = 1 only when inputs DIFFER. 0⊕1=1, 1⊕0=1, 0⊕0=0, 1⊕1=0. Used in adders and error detection." },
+      { q:"What is the output of NOR gate when both inputs are 0?", opts:["0","1","Undefined","High impedance"], ans:1, exp:"NOR = NOT(OR). OR(0,0)=0, then NOT(0)=1. NOR gate only outputs 1 when ALL inputs are 0." },
+      { q:"Which flip-flop has an invalid state when both inputs are 1?", opts:["D Flip-Flop","JK Flip-Flop","SR Flip-Flop","T Flip-Flop"], ans:2, exp:"SR flip-flop: S=R=1 is forbidden/invalid state — tries to set AND reset simultaneously causing unpredictable output. JK improved this by making J=K=1 mean TOGGLE." },
+      { q:"How many flip-flops are needed to build a MOD-16 counter?", opts:["2","3","4","5"], ans:2, exp:"MOD-16 counts 0-15 = 16 states. Need 2⁴=16 → 4 flip-flops. Formula: n flip-flops give 2ⁿ states. log₂(16)=4." },
+      { q:"D flip-flop at positive clock edge with D=0, output Q becomes:", opts:["1","0","Toggles","Unchanged"], ans:1, exp:"D flip-flop: Q captures D at clock edge. D=0 → Q=0. Simple and predictable — most used FF in digital design." },
+      { q:"JK flip-flop with J=1 K=1 will:", opts:["Set Q to 1","Reset Q to 0","Toggle Q","Hold previous state"], ans:2, exp:"J=K=1 causes TOGGLE in JK flip-flop. This is why JK improved over SR — J=K=1 is no longer invalid, it means toggle!" },
+      { q:"What is 13 in binary?", opts:["1011","1101","1110","1001"], ans:1, exp:"13 = 8+4+1 = 2³+2²+2⁰ = 1101. Method: 13÷2=6R1, 6÷2=3R0, 3÷2=1R1, 1÷2=0R1. Read remainders bottom-up: 1101." },
+      { q:"Gray code differs from binary in that it:", opts:["Uses base 8","Only one bit changes between consecutive values","Is same as BCD","Uses negative numbers"], ans:1, exp:"Gray code: only ONE bit changes between adjacent values. Eliminates glitches in mechanical encoders. Used in rotary encoders, karnaugh maps." },
+    ],
+    intermediate: [
+      { q:"In a ripple counter, main disadvantage compared to synchronous counter is:", opts:["More flip-flops needed","Cumulative propagation delay","Cannot count down","Higher power"], ans:1, exp:"Ripple counter: each FF triggers next — delays ADD UP. 4-bit ripple = 4 × gate delay. Synchronous counters have fixed delay regardless of size." },
+      { q:"Boolean expression A·(A+B) simplifies to:", opts:["A+B","A·B","A","B"], ans:2, exp:"A·(A+B) = A·A + A·B = A + A·B = A(1+B) = A·1 = A. Used absorption law: A+AB=A." },
+      { q:"How many minterms does a 3-variable Boolean function have?", opts:["4","6","8","16"], ans:2, exp:"n variables → 2ⁿ minterms. 3 variables (A,B,C) → 2³=8 minterms (m0 to m7). Each minterm is one row in the truth table." },
+      { q:"2's complement of 01101 (5-bit) is:", opts:["10010","10011","11010","10001"], ans:1, exp:"01101 → flip bits: 10010 → add 1: 10011. So 2's complement of 13 (01101) is 10011 = -13 in signed representation." },
+      { q:"A full adder has how many inputs?", opts:["2","3","4","5"], ans:1, exp:"Full adder has 3 inputs: A, B (bits to add), Cin (carry in). Outputs: Sum and Cout. Half adder has only 2 inputs (no carry in)." },
+    ],
+    expert: [
+      { q:"A multiplexer with 4 select lines can have how many inputs?", opts:["4","8","16","32"], ans:2, exp:"MUX with n select lines → 2ⁿ inputs. 4 select lines → 2⁴=16 inputs. It selects 1 of 16 inputs based on 4-bit select code." },
+      { q:"PLA differs from PAL in that PLA has:", opts:["Fixed OR array","Fixed AND array","Both AND and OR arrays programmable","Only NAND gates"], ans:2, exp:"PLA = Programmable Logic Array: BOTH AND and OR arrays programmable. PAL = Programmable Array Logic: AND programmable, OR fixed. PLA is more flexible." },
+      { q:"In CMOS, static power dissipation is:", opts:["High","Medium","Very low (near zero)","Same as TTL"], ans:2, exp:"CMOS static power ≈ 0 because complementary p-type and n-type MOSFETs — one is always OFF. Power only dissipated during switching. This is why CMOS dominates digital design." },
+    ]
+  },
+  c_programming: {
+    basic: [
+      { q:"Who developed the C programming language?", opts:["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Guido van Rossum"], ans:1, exp:"Dennis Ritchie developed C in 1972 at Bell Labs. James Gosling→Java, Bjarne Stroustrup→C++, Guido van Rossum→Python." },
+      { q:"What is the size of int on a 32-bit system?", opts:["1 byte","2 bytes","4 bytes","8 bytes"], ans:2, exp:"int = 4 bytes = 32 bits on 32-bit system. Range: -2,147,483,648 to 2,147,483,647. HCL often asks sizeof() questions!" },
+      { q:"Which header file is needed for printf() and scanf()?", opts:["stdlib.h","string.h","stdio.h","math.h"], ans:2, exp:"stdio.h = Standard Input Output. Contains printf, scanf, getchar, putchar, fopen, fclose etc." },
+      { q:"What does the modulo operator % return?", opts:["Quotient","Percentage","Remainder","Power"], ans:2, exp:"% returns remainder after division. 10%3=1, 15%5=0, 7%2=1. Classic use: if(n%2==0) → n is even." },
+      { q:"What is the correct way to declare a pointer to int?", opts:["int &p","int p*","int *p","*int p"], ans:2, exp:"int *p declares p as pointer to integer. *p is the value at address p. &a gives address of variable a." },
+      { q:"What does static variable inside a function do?", opts:["Makes it global","Retains value between function calls","Makes it constant","Deletes after function ends"], ans:1, exp:"Static local variable retains value between calls. Initialized ONCE. Stored in data segment, not stack. Counter example: static int count=0; count++;" },
+      { q:"Output of: printf(\"%d\", 5/2);", opts:["2.5","2","3","Error"], ans:1, exp:"Integer division: 5/2=2 (not 2.5). Both operands are int → result is int (truncated). Use 5.0/2 or (float)5/2 to get 2.5." },
+      { q:"What is difference between = and == in C?", opts:["No difference","= compares, == assigns","= assigns value, == compares equality","Both assign values"], ans:2, exp:"= is assignment: a=5 puts 5 in a. == is comparison: if(a==5) checks if a equals 5. Common bug: if(a=5) is ALWAYS true!" },
+      { q:"Which of these is NOT a valid variable name in C?", opts:["_count","count1","2count","Count"], ans:2, exp:"Variable names cannot START with a digit. 2count is invalid. Must start with letter or underscore. C is case-sensitive: Count ≠ count." },
+      { q:"What does malloc() return if allocation fails?", opts:["0","-1","NULL","Garbage value"], ans:2, exp:"malloc() returns NULL on failure. Always check: if(p==NULL){ handle error }. Using NULL pointer without check causes segfault." },
+    ],
+    intermediate: [
+      { q:"What is a dangling pointer?", opts:["Uninitialized pointer","Pointer to freed/deleted memory","NULL pointer","Void pointer"], ans:1, exp:"Dangling pointer points to memory already freed. int *p=malloc(4); free(p); now p is dangling. Fix: p=NULL after free(p)." },
+      { q:"Correct declaration of function pointer that takes 2 ints returns int:", opts:["int *p(int,int)","int (*p)(int,int)","int *(p)(int,int)","*int(p)(int,int)"], ans:1, exp:"int (*p)(int,int) — parentheses around *p are ESSENTIAL. Without them int *p(int,int) declares function returning int*. HCL directly asked this!" },
+      { q:"char *p = \"Hello\"; p[0]='h'; — what happens?", opts:["Changes H to h","Segmentation fault","Compilation error","Works fine"], ans:1, exp:"String literals stored in READ-ONLY memory. Modifying via pointer causes segfault at runtime. Use char p[]=\"Hello\" for modifiable string." },
+      { q:"What is void pointer (void *)?", opts:["Pointer to void function","Generic pointer — holds address of any type","NULL pointer","Pointer that can't be dereferenced"], ans:1, exp:"void* is generic pointer — can point to any data type. malloc returns void*. Must cast before dereferencing: *(int*)p. Used in memcpy, qsort." },
+      { q:"Output: int a=2; printf(\"%d\", a<<2);", opts:["4","6","8","16"], ans:2, exp:"Left shift << by n = multiply by 2^n. a<<2 = 2×2² = 2×4 = 8. Right shift >> by n = divide by 2^n. Bitwise operations are fast!" },
+    ],
+    expert: [
+      { q:"In C, parameters are passed by default as:", opts:["Reference","Value","Pointer","Address"], ans:1, exp:"C passes by VALUE — a copy is made. Changes inside function don't affect original. Pass pointer (&var) to simulate pass-by-reference." },
+      { q:"sizeof('A') in C (not C++) returns:", opts:["1","2","4","8"], ans:2, exp:"In C, character constants like 'A' are type int → sizeof=4. In C++, 'A' is char → sizeof=1. HCL may ask C vs C++ differences!" },
+      { q:"What is the output? int a[]={1,2,3}; int *p=a; printf(\"%d\",*(p+2));", opts:["1","2","3","Error"], ans:2, exp:"p=a points to a[0]=1. p+2 moves 2 ints ahead = &a[2]. *(p+2)=a[2]=3. Pointer arithmetic moves in units of pointed-to type size." },
+    ]
+  },
+  aptitude: {
+    basic: [
+      { q:"A train 125m long passes a pole in 5 seconds. Speed in km/h?", opts:["72","90","108","54"], ans:1, exp:"Speed=125/5=25 m/s. Convert: 25×(18/5)=90 km/h. Formula: m/s × 18/5 = km/h. Always used in HCL aptitude!" },
+      { q:"If 20% of a number is 80, find 35% of the same number.", opts:["120","140","160","180"], ans:1, exp:"20%=80 → number=400. 35% of 400 = 140. Quick method: 35% = 20%×1.75 = 80×1.75 = 140." },
+      { q:"What is 15% of 240?", opts:["32","34","36","38"], ans:2, exp:"15% of 240 = (15/100)×240 = 36. Quick: 10%=24, 5%=12, 15%=24+12=36." },
+      { q:"Simple interest on ₹2000 at 5% per annum for 3 years:", opts:["₹250","₹300","₹350","₹400"], ans:1, exp:"SI = P×R×T/100 = 2000×5×3/100 = 300. Formula must be memorized! Compound interest = P(1+r/100)^t." },
+      { q:"A can do a work in 10 days, B in 15 days. Together they complete in:", opts:["5 days","6 days","7 days","8 days"], ans:1, exp:"A's rate=1/10, B's rate=1/15. Together: 1/10+1/15=3/30+2/30=5/30=1/6. Time=6 days." },
+      { q:"If price increases by 25%, by what % should consumption decrease to keep expenditure same?", opts:["20%","25%","15%","10%"], ans:0, exp:"Formula: reduction% = (increase%/(100+increase%))×100 = (25/125)×100 = 20%." },
+      { q:"Average of 5 numbers is 20. If one number 30 is removed, new average is:", opts:["17.5","18","16.5","17"], ans:0, exp:"Sum = 5×20=100. Remove 30: new sum=70. New average=70/4=17.5." },
+      { q:"Two pipes fill a tank in 12 and 15 hours. Both open, time to fill:", opts:["6 hours","6.67 hours","7 hours","8 hours"], ans:1, exp:"1/12+1/15=5/60+4/60=9/60=3/20. Time=20/3=6.67 hours." },
+      { q:"Speed of boat in still water 15 km/h, stream 3 km/h. Upstream speed:", opts:["18","12","9","6"], ans:1, exp:"Upstream = Still water − Stream = 15−3=12 km/h. Downstream = Still water + Stream = 15+3=18 km/h." },
+      { q:"In how many ways can letters of 'CAT' be arranged?", opts:["3","6","9","12"], ans:1, exp:"3 distinct letters: 3!=3×2×1=6 arrangements. CAT,CTA,ACT,ATC,TCA,TAC. Formula: n! for n distinct items." },
+    ],
+    intermediate: [
+      { q:"A sum triples in 5 years at SI. Rate of interest per annum:", opts:["30%","40%","50%","60%"], ans:1, exp:"Sum triples means SI = 2P (P becomes 3P). SI=P×R×T/100 → 2P=P×R×5/100 → R=40%." },
+      { q:"Ratio of ages of A:B = 3:4. After 5 years ratio = 4:5. A's present age:", opts:["10","15","20","25"], ans:1, exp:"3x+5/4x+5=4/5 → 15x+25=16x+20 → x=5. A's age=3×5=15." },
+      { q:"X is 40% more than Y. Y is what % less than X?", opts:["28.57%","30%","25%","33.33%"], ans:0, exp:"If Y=100, X=140. Y is less than X by 40. %less = 40/140×100 = 28.57%. Formula: more%/(100+more%)×100." },
+    ],
+    expert: [
+      { q:"Probability of getting 2 heads in 3 fair coin tosses:", opts:["1/4","3/8","1/2","5/8"], ans:1, exp:"P(exactly 2 heads) = C(3,2)×(1/2)²×(1/2)¹ = 3×1/4×1/2 = 3/8. Binomial probability formula." },
+      { q:"In how many ways can 5 people sit in a row where 2 specific people always sit together?", opts:["24","48","72","96"], ans:1, exp:"Treat 2 as 1 unit: 4 entities in a row = 4!=24. The 2 can swap within pair: ×2=48." },
+    ]
+  },
+  networking: {
+    basic: [
+      { q:"OSI model has how many layers?", opts:["4","5","6","7"], ans:3, exp:"OSI has 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application. Mnemonic: Please Do Not Throw Sausage Pizza Away." },
+      { q:"Which layer of OSI is responsible for routing?", opts:["Physical","Data Link","Network","Transport"], ans:2, exp:"Network layer (Layer 3) handles routing, logical addressing (IP). Routers work at this layer. TCP/IP equivalent: Internet layer." },
+      { q:"What does TCP stand for?", opts:["Transfer Control Protocol","Transmission Control Protocol","Transport Connection Protocol","Transfer Connection Protocol"], ans:1, exp:"TCP = Transmission Control Protocol. Provides reliable, ordered, error-checked delivery. Connection-oriented. Contrast with UDP which is connectionless." },
+      { q:"Which protocol uses port 80?", opts:["FTP","HTTPS","HTTP","SMTP"], ans:2, exp:"HTTP uses port 80, HTTPS uses port 443, FTP uses 21, SMTP uses 25, SSH uses 22. Port numbers frequently asked in HCL!" },
+      { q:"Difference between TCP and UDP:", opts:["No difference","TCP is reliable, UDP is faster but unreliable","UDP is reliable, TCP is fast","TCP is for video, UDP for web"], ans:1, exp:"TCP: reliable, ordered, connection-oriented, slower. UDP: unreliable, no ordering, connectionless, faster. Use TCP for web/email, UDP for video streaming/gaming." },
+    ],
+    intermediate: [
+      { q:"IP address 192.168.1.1 belongs to which class?", opts:["Class A","Class B","Class C","Class D"], ans:2, exp:"Class C: 192.0.0.0 to 223.255.255.255. First octet 192 → Class C. Supports 254 hosts per network. Common in home routers." },
+      { q:"What is a MAC address?", opts:["Software assigned address","IP address of device","Hardware address burned into NIC","Logical network address"], ans:2, exp:"MAC = Media Access Control. 48-bit hardware address burned into NIC at manufacture. Format: XX:XX:XX:XX:XX:XX. Works at Data Link layer (Layer 2)." },
+    ]
+  }
+};
+
+const TIPS = {
+  digital_electronics: "Logic Gates, Flip-Flops and Counters are the TOP 3 topics HCL asks from Digital Electronics. Know truth tables by heart!",
+  c_programming: "HCL technical round asks: pointers, function pointers, static variables, malloc/free. Know difference between C and C++.",
+  aptitude: "HCL aptitude: Time & Work, Time-Speed-Distance, Percentages are most repeated. Practice 20 questions daily.",
+  networking: "Know OSI 7 layers, TCP vs UDP difference, and common port numbers. HCL asks these in technical round."
+};
+
+// ── STATE ────────────────────────────────────────────────────────
+let currentTopic = 'digital_electronics';
+let currentLevel = 'basic';
+let currentIndex = 0;
+let shuffledQuestions = [];
+let selectedAnswer = null;
+let answered = false;
+let correct = 0;
+let wrong = 0;
+let xpToday = parseInt(localStorage.getItem('cc_xp_today')||'0');
+let results = [];
+const TOTAL = 10;
+
+function shuffle(arr){ return arr.sort(()=>Math.random()-.5) }
+
+function loadQuestions(){
+  const bank = QUESTIONS[currentTopic]?.[currentLevel] || [];
+  shuffledQuestions = shuffle([...bank]).slice(0, TOTAL);
+  currentIndex = 0;
+  correct = 0;
+  wrong = 0;
+  results = [];
+  selectedAnswer = null;
+  answered = false;
+
+  document.getElementById('quiz-area').style.display = '';
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('sidebar-tip').textContent = TIPS[currentTopic] || '';
+  renderQuestion();
+  renderTracker();
+}
+
+function renderQuestion(){
+  if(currentIndex >= shuffledQuestions.length){
+    showResult(); return;
+  }
+  const q = shuffledQuestions[currentIndex];
+  const subjectNames = {digital_electronics:'Digital Electronics',c_programming:'C Programming',aptitude:'Aptitude',networking:'Networking'};
+  const levelNames = {basic:'Basics',intermediate:'Intermediate',expert:'Expert'};
+
+  document.getElementById('q-subject-tag').textContent = subjectNames[currentTopic];
+  document.getElementById('q-level-tag').textContent = levelNames[currentLevel];
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-label').textContent = `Question ${currentIndex+1} of ${Math.min(TOTAL,shuffledQuestions.length)}`;
+  document.getElementById('q-progress').style.width = `${(currentIndex/Math.min(TOTAL,shuffledQuestions.length))*100}%`;
+
+  // Reset state
+  selectedAnswer = null;
+  answered = false;
+  document.getElementById('exp-box').className = 'explanation-box';
+  document.getElementById('check-btn').disabled = true;
+  document.getElementById('check-btn').style.opacity = '.5';
+  document.getElementById('check-btn').textContent = 'Check answer';
+  document.getElementById('skip-btn').style.display = '';
+
+  // Render options
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const letters = ['A','B','C','D'];
+    grid.innerHTML += `
+      <button class="option-btn" onclick="selectOption(${i})" id="opt-${i}">
+        <span class="opt-letter">${letters[i]}</span>
+        ${opt}
+      </button>`;
+  });
+}
+
+function selectOption(i){
+  if(answered) return;
+  document.querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById(`opt-${i}`).classList.add('selected');
+  selectedAnswer = i;
+  document.getElementById('check-btn').disabled = false;
+  document.getElementById('check-btn').style.opacity = '1';
+}
+
+function checkAnswer(){
+  if(selectedAnswer===null||answered) return;
+  answered = true;
+  const q = shuffledQuestions[currentIndex];
+  const isCorrect = selectedAnswer === q.ans;
+
+  // Style options
+  document.querySelectorAll('.option-btn').forEach((b,i)=>{
+    b.disabled = true;
+    if(i===q.ans) b.classList.add('correct');
+    else if(i===selectedAnswer && !isCorrect) b.classList.add('wrong');
+  });
+
+  // Show explanation
+  const expBox = document.getElementById('exp-box');
+  expBox.className = `explanation-box show ${isCorrect?'correct-box':'wrong-box'}`;
+  document.getElementById('exp-title').className = `exp-title ${isCorrect?'correct-text':'wrong-text'}`;
+  document.getElementById('exp-title').textContent = isCorrect ? '✅ Correct!' : '❌ Wrong!';
+  document.getElementById('exp-body').textContent = q.exp;
+
+  if(isCorrect){ correct++; xpToday+=10; }
+  else wrong++;
+
+  results[currentIndex] = isCorrect;
+  updateStats();
+  renderTracker();
+
+  // Change button
+  document.getElementById('check-btn').textContent = 'Next question →';
+  document.getElementById('check-btn').disabled = false;
+  document.getElementById('check-btn').onclick = nextQuestion;
+  document.getElementById('skip-btn').style.display = 'none';
+}
+
+function nextQuestion(){
+  currentIndex++;
+  document.getElementById('check-btn').onclick = checkAnswer;
+  renderQuestion();
+  renderTracker();
+}
+
+function skipQuestion(){
+  results[currentIndex] = false;
+  currentIndex++;
+  renderQuestion();
+  renderTracker();
+}
+
+function updateStats(){
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-xp').textContent = correct*10;
+  const total = correct+wrong;
+  document.getElementById('stat-acc').textContent = total>0 ? Math.round(correct/total*100)+'%' : '—';
+  document.getElementById('xp-pill').textContent = `⚡ ${xpToday} XP today`;
+  localStorage.setItem('cc_xp_today', xpToday);
+}
+
+function renderTracker(){
+  const tracker = document.getElementById('q-tracker');
+  tracker.innerHTML = '';
+  for(let i=0;i<Math.min(TOTAL,shuffledQuestions.length);i++){
+    let cls = i===currentIndex?'current':results[i]===true?'done-correct':results[i]===false&&i<currentIndex?'done-wrong':'';
+    tracker.innerHTML += `<div class="qt-dot ${cls}">${i+1}</div>`;
+  }
+}
+
+function showResult(){
+  document.getElementById('quiz-area').style.display='none';
+  document.getElementById('result-screen').classList.add('show');
+  const total = Math.min(TOTAL,shuffledQuestions.length);
+  const acc = total>0?Math.round(correct/total*100):0;
+  const xp = correct*10;
+
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-xp').textContent = xp;
+  document.getElementById('res-acc').textContent = acc+'%';
+
+  const emoji = acc>=80?'🏆':acc>=60?'⭐':'📚';
+  const title = acc>=80?'Excellent!':acc>=60?'Good job!':'Keep practicing!';
+  const sub = acc>=80?`You're on track for HCL! ${xp} XP earned.`:acc>=60?`Good progress! Review the wrong answers.`:`Study the concepts again and retry!`;
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-h1').textContent = title;
+  document.getElementById('result-sub').textContent = sub;
+
+  // Save progress to backend
+  const userId = localStorage.getItem('cc_user_id');
+  if(userId){
+    fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_id:parseInt(userId),topic_id:currentTopic+'_'+currentLevel,subject:currentTopic,status:'completed',score:acc,xp:xp})});
+  }
+}
+
+function restartQuiz(){ loadQuestions() }
+
+function switchTopic(el, topic){
+  document.querySelectorAll('.topic-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  currentTopic = topic;
+  loadQuestions();
+}
+
+function switchLevel(el, level){
+  document.querySelectorAll('.level-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentLevel = level;
+  loadQuestions();
+}
+
+// Init
+loadQuestions();
+</script>
+</body>
+</html>

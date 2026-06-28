@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Rate Subjects · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.page-inner{max-width:760px;margin:0 auto;padding:2.5rem 2rem 7rem}
+.page-h1{font-family:'Nunito',sans-serif;font-size:1.9rem;font-weight:900;color:var(--ink);margin-bottom:.35rem}
+.page-sub{color:var(--muted);font-size:.9rem;margin-bottom:2rem}
+
+.subjects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem}
+
+/* Subject card */
+.subj-card{
+  border:2.5px solid var(--border);border-radius:var(--radius);
+  padding:1.25rem;cursor:pointer;background:var(--white);
+  box-shadow:var(--shadow-sm);transition:all .2s;
+}
+.subj-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+.subj-card-top{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.subj-emoji{font-size:1.75rem}
+.subj-card-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--ink)}
+.subj-card-req{font-size:.72rem;font-weight:700;margin-top:.15rem}
+
+/* Level buttons inside each card */
+.level-btns{display:flex;flex-direction:column;gap:.4rem}
+.level-btn{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.55rem .75rem;border-radius:10px;border:2px solid var(--border);
+  background:var(--white);cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;
+  font-weight:700;font-size:.82rem;color:var(--ink2);
+}
+.level-btn:hover{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+.level-btn.selected-beginner{border-color:#16A34A;background:#DCFCE7;color:#166534}
+.level-btn.selected-intermediate{border-color:#D97706;background:#FEF3C7;color:#92400E}
+.level-btn.selected-expert{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+.level-btn-icon{font-size:1rem;flex-shrink:0}
+.level-btn-text{}
+.level-btn-sub{font-size:.7rem;font-weight:600;opacity:.7;display:block;margin-top:.05rem}
+
+.subj-card.rated-beginner{border-color:#16A34A;background:#F0FDF4}
+.subj-card.rated-intermediate{border-color:#D97706;background:#FFFBEB}
+.subj-card.rated-expert{border-color:var(--purple);background:var(--purple-lt)}
+
+.progress-summary{
+  background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;
+}
+.ps-text{font-size:.875rem;color:var(--muted);font-weight:600}
+.ps-count{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:var(--purple)}
+
+.bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;background:var(--white);
+  border-top:1.5px solid var(--border);padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;z-index:50;
+}
+.bottom-bar-inner{max-width:760px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
+
+@media(max-width:560px){.subjects-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="steps-bar" style="margin:0">
+    <div class="step-item"><div class="step-circle done">✓</div><span class="step-label">Profile</span></div>
+    <div class="step-connector done"></div>
+    <div class="step-item"><div class="step-circle done">✓</div><span class="step-label">Company</span></div>
+    <div class="step-connector done"></div>
+    <div class="step-item"><div class="step-circle active">3</div><span class="step-label active">Subjects</span></div>
+    <div class="step-connector"></div>
+    <div class="step-item"><div class="step-circle">4</div><span class="step-label">Schedule</span></div>
+  </div>
+</nav>
+
+<div class="page-inner">
+
+  <h1 class="page-h1" id="page-title">How well do you know these subjects? 📚</h1>
+  <p class="page-sub">Be honest! Your plan is built around your actual level — not where you wish you were.</p>
+
+  <!-- Progress summary -->
+  <div class="progress-summary">
+    <div class="ps-count" id="rated-count">0</div>
+    <div class="ps-text" id="rated-text">of 0 subjects rated · click each card to set your level</div>
+  </div>
+
+  <!-- Subject cards grid -->
+  <div class="subjects-grid" id="subjects-grid">
+    <!-- Filled by JS based on chosen company -->
+  </div>
+
+</div>
+
+<!-- Bottom bar -->
+<div class="bottom-bar">
+  <div class="bottom-bar-inner">
+    <a href="/company" class="btn btn-ghost">← Back</a>
+    <button class="btn btn-primary btn-lg" id="next-btn" disabled onclick="goNext()" style="opacity:.5">
+      Continue → Set schedule
+    </button>
+  </div>
+</div>
+
+<script>
+const SUBJECT_META = {
+  'Digital Electronics': { emoji:'🔌', freq:'Very High', color:'purple' },
+  'C Programming':       { emoji:'💻', freq:'Very High', color:'blue' },
+  'Aptitude':            { emoji:'🧮', freq:'High',      color:'amber' },
+  'English':             { emoji:'📝', freq:'Medium',    color:'green' },
+  'Data Interpretation': { emoji:'📊', freq:'Medium',    color:'blue' },
+  'Verbal':              { emoji:'💬', freq:'Medium',    color:'green' },
+  'Puzzles':             { emoji:'🧩', freq:'Medium',    color:'amber' },
+  'Data Structures':     { emoji:'🗂️', freq:'High',      color:'purple' },
+  'Signals & Systems':   { emoji:'📡', freq:'High',      color:'purple' },
+  'VLSI':                { emoji:'🔬', freq:'Very High', color:'red' },
+  'Embedded Systems':    { emoji:'⚙️', freq:'Very High', color:'amber' },
+  'Microcontrollers':    { emoji:'🖥️', freq:'High',      color:'blue' },
+  'Microprocessors':     { emoji:'🖥️', freq:'High',      color:'blue' },
+  'Network Theory':      { emoji:'⚡', freq:'High',      color:'amber' },
+  'Electronics Devices': { emoji:'💡', freq:'High',      color:'green' },
+  'Electromagnetics':    { emoji:'🌐', freq:'Medium',    color:'purple' },
+};
+
+const FREQ_COLOR = { 'Very High':'var(--red)', 'High':'var(--purple)', 'Medium':'var(--muted)' };
+
+const company   = localStorage.getItem('cc_company') || 'HCLTech';
+const subjects  = JSON.parse(localStorage.getItem('cc_subjects') || '[]');
+
+document.getElementById('page-title').textContent = `How well do you know ${company}'s subjects? 📚`;
+document.getElementById('rated-text').textContent = `of ${subjects.length} subjects rated · click each card to set your level`;
+document.getElementById('rated-count').textContent = '0';
+
+const ratings = {};  // subject → level
+
+const grid = document.getElementById('subjects-grid');
+subjects.forEach(sub => {
+  const m = SUBJECT_META[sub] || { emoji:'📚', freq:'Medium', color:'purple' };
+  const id = sub.replace(/[^a-z0-9]/gi,'_');
+  grid.innerHTML += `
+    <div class="subj-card" id="card-${id}">
+      <div class="subj-card-top">
+        <div class="subj-emoji">${m.emoji}</div>
+        <div>
+          <div class="subj-card-name">${sub}</div>
+          <div class="subj-card-req" style="color:${FREQ_COLOR[m.freq]}">${m.freq} in ${company}</div>
+        </div>
+      </div>
+      <div class="level-btns">
+        <button class="level-btn" onclick="setLevel('${sub}','${id}','Beginner',this)">
+          <span class="level-btn-icon">🌱</span>
+          <div class="level-btn-text">
+            Beginner
+            <span class="level-btn-sub">Haven't studied this / very rusty</span>
+          </div>
+        </button>
+        <button class="level-btn" onclick="setLevel('${sub}','${id}','Intermediate',this)">
+          <span class="level-btn-icon">📘</span>
+          <div class="level-btn-text">
+            Intermediate
+            <span class="level-btn-sub">Studied it, know basics but not confident</span>
+          </div>
+        </button>
+        <button class="level-btn" onclick="setLevel('${sub}','${id}','Expert',this)">
+          <span class="level-btn-icon">🏆</span>
+          <div class="level-btn-text">
+            Expert
+            <span class="level-btn-sub">Confident — just need interview practice</span>
+          </div>
+        </button>
+      </div>
+    </div>`;
+});
+
+function setLevel(subject, id, level, btn) {
+  // Update button styles inside this card
+  const card = document.getElementById(`card-${id}`);
+  card.querySelectorAll('.level-btn').forEach(b => {
+    b.classList.remove('selected-beginner','selected-intermediate','selected-expert');
+  });
+  btn.classList.add(`selected-${level.toLowerCase()}`);
+
+  // Update card border
+  card.classList.remove('rated-beginner','rated-intermediate','rated-expert');
+  card.classList.add(`rated-${level.toLowerCase()}`);
+
+  // Save
+  ratings[subject] = level;
+
+  // Update count
+  const count = Object.keys(ratings).length;
+  document.getElementById('rated-count').textContent = count;
+
+  // Enable next when all rated
+  const nextBtn = document.getElementById('next-btn');
+  if (count >= subjects.length) {
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = '1';
+  }
+}
+
+function goNext() {
+  localStorage.setItem('cc_ratings', JSON.stringify(ratings));
+  window.location.href = '/days';
+}
+</script>
+</body>
+</html>

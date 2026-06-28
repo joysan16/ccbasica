@@ -1,0 +1,56 @@
+{
+  "company": "HCLTech",
+  "full_name": "HCL Technologies",
+  "test_format": {
+    "total_questions": 55,
+    "duration_minutes": 75,
+    "sections": [
+      { "name": "Aptitude & Reasoning", "questions": 15, "duration_minutes": 20 },
+      { "name": "English & Communication", "questions": 15, "duration_minutes": 15 },
+      { "name": "Digital Electronics", "questions": 10, "duration_minutes": 15 },
+      { "name": "C Programming", "questions": 10, "duration_minutes": 15 },
+      { "name": "Coding (1 problem)", "questions": 1, "duration_minutes": 10 }
+    ]
+  },
+  "subjects": [
+    {
+      "id": "digital_electronics",
+      "name": "Digital Electronics",
+      "hcl_weightage": "High",
+      "topics": [
+        { "id": "de_01", "name": "Number Systems", "level_required": "Beginner", "hcl_frequency": "Very High" },
+        { "id": "de_02", "name": "Logic Gates", "level_required": "Beginner", "hcl_frequency": "Very High" },
+        { "id": "de_03", "name": "Boolean Algebra", "level_required": "Beginner", "hcl_frequency": "High" },
+        { "id": "de_04", "name": "Combinational Circuits", "level_required": "Intermediate", "hcl_frequency": "High" },
+        { "id": "de_05", "name": "Flip Flops", "level_required": "Intermediate", "hcl_frequency": "Medium" },
+        { "id": "de_06", "name": "Counters & Registers", "level_required": "Intermediate", "hcl_frequency": "Medium" },
+        { "id": "de_07", "name": "ADC & DAC", "level_required": "Advanced", "hcl_frequency": "Low" }
+      ]
+    },
+    {
+      "id": "c_programming",
+      "name": "C Programming",
+      "hcl_weightage": "High",
+      "topics": [
+        { "id": "cp_01", "name": "What is a Program & How C Works", "level_required": "Beginner", "hcl_frequency": "Medium" },
+        { "id": "cp_02", "name": "Variables, Data Types & Operators", "level_required": "Beginner", "hcl_frequency": "Very High" },
+        { "id": "cp_03", "name": "Control Flow (if, loops)", "level_required": "Beginner", "hcl_frequency": "Very High" },
+        { "id": "cp_04", "name": "Functions", "level_required": "Beginner", "hcl_frequency": "High" },
+        { "id": "cp_05", "name": "Arrays & Strings", "level_required": "Intermediate", "hcl_frequency": "Very High" },
+        { "id": "cp_06", "name": "Pointers", "level_required": "Intermediate", "hcl_frequency": "High" },
+        { "id": "cp_07", "name": "Structures & Unions", "level_required": "Intermediate", "hcl_frequency": "Medium" },
+        { "id": "cp_08", "name": "Memory & Storage Classes", "level_required": "Advanced", "hcl_frequency": "Medium" }
+      ]
+    }
+  ],
+  "level_definitions": {
+    "Beginner": "Never studied this subject or remember very little from college",
+    "Intermediate": "Studied in college, know the basics but not confident",
+    "Expert": "Confident, solved problems before, just need interview practice"
+  },
+  "level_topic_map": {
+    "Beginner":     ["de_01","de_02","de_03","cp_01","cp_02","cp_03","cp_04"],
+    "Intermediate": ["de_01","de_02","de_03","de_04","de_05","cp_02","cp_03","cp_04","cp_05","cp_06"],
+    "Expert":       ["de_04","de_05","de_06","de_07","cp_05","cp_06","cp_07","cp_08"]
+  }
+}

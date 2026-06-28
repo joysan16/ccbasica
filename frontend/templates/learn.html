@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Learn · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.learn-wrap{max-width:940px;margin:0 auto;padding:2rem}
+.learn-layout{display:grid;grid-template-columns:260px 1fr;gap:1.5rem;align-items:start}
+
+/* Left sidebar — topics list */
+.topics-sidebar{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.topics-sidebar-header{padding:1rem 1.25rem;border-bottom:1.5px solid var(--border);background:var(--bg)}
+.topics-sidebar-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink)}
+.topics-sidebar-sub{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+.topic-list-item{
+  display:flex;align-items:center;gap:.75rem;padding:.8rem 1.25rem;
+  border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s;
+}
+.topic-list-item:hover{background:var(--purple-lt)}
+.topic-list-item.active{background:var(--purple-lt);border-left:3px solid var(--purple)}
+.topic-list-item.done{background:#F0FDF4}
+.tli-icon{font-size:1.1rem;flex-shrink:0}
+.tli-text{flex:1}
+.tli-name{font-size:.85rem;font-weight:700;color:var(--ink)}
+.tli-sub{font-size:.72rem;color:var(--muted);margin-top:.1rem}
+.tli-status{font-size:.75rem}
+
+/* Right — content area */
+.content-area{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
+
+/* Concept header */
+.concept-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.concept-title-area{}
+.concept-eyebrow{font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.concept-title{font-family:'Nunito',sans-serif;font-size:1.75rem;font-weight:900;color:var(--ink);margin-bottom:.4rem}
+.concept-meta{display:flex;gap:.5rem;flex-wrap:wrap}
+.concept-badge{font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:8px}
+.xp-badge{background:var(--yellow-lt);color:#92400E;border:1.5px solid var(--yellow)}
+.time-badge{background:var(--purple-lt);color:var(--purple);border:1.5px solid var(--purple)}
+.hcl-badge{background:#FEE2E2;color:#991B1B;border:1.5px solid #FCA5A5}
+
+/* Concept body */
+.concept-body{font-size:.95rem;color:var(--ink2);line-height:1.85;margin-bottom:1.5rem}
+.concept-body strong{color:var(--ink);font-weight:700}
+
+.concept-block{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:12px;padding:1.25rem;margin:1.25rem 0;
+}
+.concept-block-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.code-block{
+  background:var(--ink);border-radius:10px;padding:1rem 1.25rem;
+  font-family:'Courier New',monospace;font-size:.82rem;color:#E5E7EB;
+  line-height:1.7;overflow-x:auto;margin:.75rem 0;
+}
+.code-block .kw{color:#C084FC}
+.code-block .str{color:#86EFAC}
+.code-block .cmt{color:#6B7280}
+.code-block .num{color:#FCD34D}
+
+/* Exam tip */
+.exam-tip{
+  background:var(--yellow-lt);border:1.5px solid var(--yellow);
+  border-radius:12px;padding:1.1rem 1.25rem;margin:1.25rem 0;
+}
+.exam-tip-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:#92400E;margin-bottom:.4rem}
+.exam-tip-body{font-size:.85rem;color:#78350F;line-height:1.65}
+
+/* HCL specific box */
+.hcl-box{
+  background:#FEF2F2;border:1.5px solid #FCA5A5;
+  border-radius:12px;padding:1.1rem 1.25rem;margin:1.25rem 0;
+}
+.hcl-box-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:#991B1B;margin-bottom:.6rem}
+.hcl-q-item{font-size:.83rem;color:#7F1D1D;line-height:1.6;padding:.2rem 0;border-bottom:1px solid #FEE2E2;display:flex;gap:.5rem}
+.hcl-q-item:last-child{border-bottom:none}
+
+/* Navigation between concepts */
+.concept-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1.5px solid var(--border)}
+.nav-concept-btn{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:10px;padding:.6rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;
+  font-weight:700;font-size:.85rem;color:var(--ink);transition:all .15s;text-decoration:none;
+}
+.nav-concept-btn:hover{border-color:var(--purple);color:var(--purple)}
+.nav-concept-btn.primary{background:var(--purple);color:var(--white);border-color:var(--purple);box-shadow:0 3px 0 #5B21B6}
+
+/* Done button */
+.mark-done-btn{
+  display:flex;align-items:center;gap:.5rem;
+  background:#DCFCE7;border:1.5px solid #16A34A;
+  border-radius:10px;padding:.65rem 1.25rem;cursor:pointer;font-family:'Nunito',sans-serif;
+  font-weight:800;font-size:.875rem;color:#166534;transition:all .15s;
+}
+.mark-done-btn:hover{background:#BBF7D0}
+.mark-done-btn.done-state{background:#166534;color:var(--white);border-color:#166534}
+
+@media(max-width:700px){
+  .learn-layout{grid-template-columns:1fr}
+  .topics-sidebar{margin-bottom:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-links">
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/learn" class="nav-link" style="color:var(--purple)">Learn</a>
+    <a href="/practice" class="nav-link">Practice</a>
+    <a href="/mock" class="nav-link">Mock Test</a>
+  </div>
+  <div class="nav-right">
+    <span id="xp-pill" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:var(--purple)">⚡ Loading...</span>
+  </div>
+</nav>
+
+<div class="learn-wrap">
+  <div style="margin-bottom:1.25rem">
+    <h2 style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:.2rem">Learn Concepts 📖</h2>
+    <p style="color:var(--muted);font-size:.875rem">Read, understand, then practice. Each concept has an exam tip and HCL-specific questions.</p>
+  </div>
+
+  <div class="learn-layout">
+
+    <!-- Topics sidebar -->
+    <div class="topics-sidebar">
+      <div class="topics-sidebar-header">
+        <div class="topics-sidebar-title" id="sidebar-company-label">HCLTech · ECE Track</div>
+        <div class="topics-sidebar-sub" id="sidebar-progress-label">0 of 8 completed</div>
+      </div>
+
+      <!-- Digital Electronics section -->
+      <div style="padding:.6rem 1.25rem .3rem;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg)">🔌 Digital Electronics</div>
+      <div class="topic-list-item active" onclick="loadConcept('logic_gates',this)">
+        <div class="tli-icon">🔌</div>
+        <div class="tli-text"><div class="tli-name">Logic Gates</div><div class="tli-sub">5 min · Basic</div></div>
+        <div class="tli-status" id="status-logic_gates">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('flipflops',this)">
+        <div class="tli-icon">🔄</div>
+        <div class="tli-text"><div class="tli-name">Flip-Flops</div><div class="tli-sub">7 min · Basic</div></div>
+        <div class="tli-status" id="status-flipflops">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('counters',this)">
+        <div class="tli-icon">🔢</div>
+        <div class="tli-text"><div class="tli-name">Counters</div><div class="tli-sub">6 min · Intermediate</div></div>
+        <div class="tli-status" id="status-counters">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('number_systems',this)">
+        <div class="tli-icon">🔢</div>
+        <div class="tli-text"><div class="tli-name">Number Systems</div><div class="tli-sub">5 min · Basic</div></div>
+        <div class="tli-status" id="status-number_systems">⬜</div>
+      </div>
+
+      <!-- C Programming section -->
+      <div style="padding:.6rem 1.25rem .3rem;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg)">💻 C Programming</div>
+      <div class="topic-list-item" onclick="loadConcept('c_basics',this)">
+        <div class="tli-icon">💻</div>
+        <div class="tli-text"><div class="tli-name">C Basics</div><div class="tli-sub">6 min · Basic</div></div>
+        <div class="tli-status" id="status-c_basics">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('pointers',this)">
+        <div class="tli-icon">👉</div>
+        <div class="tli-text"><div class="tli-name">Pointers</div><div class="tli-sub">8 min · Intermediate</div></div>
+        <div class="tli-status" id="status-pointers">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('arrays_strings',this)">
+        <div class="tli-icon">📦</div>
+        <div class="tli-text"><div class="tli-name">Arrays & Strings</div><div class="tli-sub">7 min · Intermediate</div></div>
+        <div class="tli-status" id="status-arrays_strings">⬜</div>
+      </div>
+
+      <!-- Networking section -->
+      <div style="padding:.6rem 1.25rem .3rem;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg)">🌐 Networking</div>
+      <div class="topic-list-item" onclick="loadConcept('osi_model',this)">
+        <div class="tli-icon">🌐</div>
+        <div class="tli-text"><div class="tli-name">OSI Model</div><div class="tli-sub">6 min · Basic</div></div>
+        <div class="tli-status" id="status-osi_model">⬜</div>
+      </div>
+    </div>
+
+    <!-- Content area -->
+    <div class="content-area" id="content-area">
+      <!-- Filled by JS -->
+    </div>
+
+  </div>
+</div>
+
+<script>
+const CONCEPTS = {
+  logic_gates: {
+    title: "Logic Gates",
+    subject: "Digital Electronics",
+    xp: 20, time: "5 min",
+    hcl_importance: "Very High",
+    body: `A <strong>logic gate</strong> is the fundamental building block of all digital circuits. It takes one or more binary inputs (0 or 1) and produces a single binary output based on a logical operation.
+
+Every computer, phone, and digital device is made of billions of these tiny gates.`,
+    blocks: [
+      { title: "🔑 The 7 Basic Gates", content: `
+<strong>AND Gate:</strong> Output = 1 only when ALL inputs are 1<br>
+&nbsp;&nbsp;Truth: 0·0=0, 0·1=0, 1·0=0, <span style="color:#16A34A">1·1=1</span><br><br>
+<strong>OR Gate:</strong> Output = 1 when AT LEAST ONE input is 1<br>
+&nbsp;&nbsp;Truth: 0+0=0, <span style="color:#16A34A">0+1=1, 1+0=1, 1+1=1</span><br><br>
+<strong>NOT Gate (Inverter):</strong> Output is OPPOSITE of input<br>
+&nbsp;&nbsp;NOT(0)=1, NOT(1)=0<br><br>
+<strong>NAND Gate:</strong> AND followed by NOT. Output = 0 only when all inputs = 1<br>
+<strong>NOR Gate:</strong> OR followed by NOT. Output = 1 only when all inputs = 0<br>
+<strong>XOR Gate:</strong> Output = 1 when inputs are DIFFERENT (0⊕1=1, 1⊕0=1)<br>
+<strong>XNOR Gate:</strong> Output = 1 when inputs are SAME (0⊕0=1, 1⊕1=1)` },
+      { title: "⭐ Universal Gates — Most Important", content: `
+<strong>NAND and NOR are called Universal Gates</strong> because you can implement ANY logic function using ONLY NAND gates or ONLY NOR gates.<br><br>
+This is extremely important in chip manufacturing — you only need one type of gate, simplifying the manufacturing process significantly.<br><br>
+<strong>NOT using NAND:</strong> Connect both inputs of NAND together → A·A = NOT(A)<br>
+<strong>AND using NAND:</strong> NAND output → NOT gate (another NAND)<br>
+<strong>OR using NAND:</strong> NOT both inputs first, then NAND them` }
+    ],
+    exam_tip: "NAND and NOR as Universal Gates is the #1 most asked question from Logic Gates in HCL and all IT company tests. Also remember: XOR output is 1 when inputs DIFFER, XNOR when they're SAME.",
+    hcl_questions: [
+      "Which gate is called universal gate and WHY?",
+      "Truth table of XOR gate — common in aptitude round",
+      "Output of NAND gate when both inputs are 1 (answer: 0)",
+      "Difference between NAND and AND gate"
+    ]
+  },
+
+  flipflops: {
+    title: "Flip-Flops",
+    subject: "Digital Electronics",
+    xp: 25, time: "7 min",
+    hcl_importance: "Very High",
+    body: `A <strong>flip-flop</strong> is a bistable sequential circuit — it can store 1 bit of information and holds its state until triggered to change. It's the basic memory element of digital systems.
+
+Unlike combinational circuits (gates), flip-flops have memory — their output depends on both current input AND previous state.`,
+    blocks: [
+      { title: "🔑 4 Types of Flip-Flops", content: `
+<strong>SR Flip-Flop (Set-Reset):</strong><br>
+S=1 → Q=1 (Set). R=1 → Q=0 (Reset). S=R=1 → INVALID STATE ⚠️<br><br>
+<strong>D Flip-Flop (Data):</strong><br>
+Output Q follows input D at clock edge. Eliminates SR's invalid state. Most used FF in practice.<br><br>
+<strong>JK Flip-Flop:</strong><br>
+Improved SR. J=K=0 → No change. J=1,K=0 → Set. J=0,K=1 → Reset. <span style="color:#7C3AED"><strong>J=K=1 → TOGGLE</strong></span><br>
+No invalid state! Universal flip-flop.<br><br>
+<strong>T Flip-Flop (Toggle):</strong><br>
+T=0 → No change. T=1 → Output TOGGLES every clock. Used in counters.` },
+      { title: "⏰ Edge Triggering", content: `
+Modern flip-flops change state <strong>only at clock edge</strong> (rising ↑ or falling ↓), NOT during entire clock HIGH period.<br><br>
+<strong>Why this matters:</strong> Prevents glitches caused by input transitions. Makes circuit behavior predictable and synchronized. All modern digital systems use edge-triggered flip-flops.` }
+    ],
+    exam_tip: "SR flip-flop invalid state (S=R=1) and JK flip-flop toggle (J=K=1) are the TWO most common flip-flop questions in placement papers. Also: 'D flip-flop solves SR's invalid state problem' — memorize this.",
+    hcl_questions: [
+      "Difference between SR and JK flip-flop",
+      "What is the invalid/forbidden state in SR flip-flop?",
+      "JK with J=1, K=1 — what happens? (Toggle)",
+      "Which flip-flop is used in counters? (T flip-flop)"
+    ]
+  },
+
+  counters: {
+    title: "Counters",
+    subject: "Digital Electronics",
+    xp: 25, time: "6 min",
+    hcl_importance: "High",
+    body: `A <strong>counter</strong> is a sequential circuit that counts clock pulses in binary or other sequences. Counters are built using flip-flops chained together.`,
+    blocks: [
+      { title: "🔑 Types of Counters", content: `
+<strong>Ripple Counter (Asynchronous):</strong><br>
+Each flip-flop triggers the next one. Simple but slow — delay adds up.<br>
+4-bit ripple counter total delay = 4 × FF propagation delay<br><br>
+<strong>Synchronous Counter:</strong><br>
+ALL flip-flops triggered by the SAME clock. Faster — no cumulative delay. Used in modern circuits.<br><br>
+<strong>MOD-N Counter:</strong> Counts 0 to N-1, then resets.<br>
+MOD-8 counts: 0,1,2,3,4,5,6,7,0,1... (3 flip-flops needed)<br><br>
+<strong>Formula:</strong> n flip-flops → 2ⁿ states → MOD-2ⁿ counter` },
+      { title: "🧮 Quick Calculation Table", content: `
+MOD-2 → 1 flip-flop (counts 0,1)<br>
+MOD-4 → 2 flip-flops (counts 0-3)<br>
+MOD-8 → 3 flip-flops (counts 0-7)<br>
+<strong>MOD-10 → 4 flip-flops (counts 0-9) ← Decade counter</strong><br>
+MOD-16 → 4 flip-flops (counts 0-15)<br>
+MOD-32 → 5 flip-flops (counts 0-31)` }
+    ],
+    exam_tip: "Most asked counter question: 'How many flip-flops for MOD-X counter?' Use formula n = ⌈log₂(X)⌉. MOD-10 (decade counter) using 4 flip-flops is the most common specific example.",
+    hcl_questions: [
+      "How many FFs needed for MOD-16 counter? (Answer: 4)",
+      "Difference between synchronous and asynchronous counter",
+      "What is a decade counter? (MOD-10)",
+      "Disadvantage of ripple counter (cumulative delay)"
+    ]
+  },
+
+  number_systems: {
+    title: "Number Systems",
+    subject: "Digital Electronics",
+    xp: 20, time: "5 min",
+    hcl_importance: "High",
+    body: `Digital computers work in <strong>binary (base 2)</strong>. Understanding number system conversions is essential for both aptitude and technical rounds.`,
+    blocks: [
+      { title: "🔑 4 Number Systems", content: `
+<strong>Decimal (Base 10):</strong> Digits 0-9. Our daily system.<br>
+<strong>Binary (Base 2):</strong> Only 0 and 1. Computer's native language.<br>
+<strong>Octal (Base 8):</strong> Digits 0-7. Each octal digit = 3 bits.<br>
+<strong>Hexadecimal (Base 16):</strong> 0-9 and A-F. Each hex digit = 4 bits.` },
+      { title: "🔄 Conversion Methods", content: `
+<strong>Decimal → Binary:</strong> Divide by 2, collect remainders bottom-up<br>
+Example: 13 → 13÷2=6R<strong>1</strong>, 6÷2=3R<strong>0</strong>, 3÷2=1R<strong>1</strong>, 1÷2=0R<strong>1</strong> → Read bottom-up: <strong>1101</strong><br><br>
+<strong>Binary → Decimal:</strong> Multiply each bit by 2^position<br>
+1101 = 1×2³+1×2²+0×2¹+1×2⁰ = 8+4+0+1 = <strong>13</strong><br><br>
+<strong>2's Complement (Negative numbers):</strong><br>
+Step 1: Flip all bits (1's complement)<br>
+Step 2: Add 1<br>
+Example: -5 in 4-bit: 5=0101 → flip=1010 → +1=<strong>1011</strong>` }
+    ],
+    exam_tip: "Conversion questions appear in HCL aptitude round. Practice: decimal↔binary, hex↔binary. Also know: 0xFF=255, 0x0F=15. 2's complement for negative numbers is asked in technical round.",
+    hcl_questions: [
+      "Convert 25 to binary (answer: 11001)",
+      "Convert 1010 binary to decimal (answer: 10)",
+      "What is 0xFF in decimal? (answer: 255)",
+      "Find 2's complement of 0110 (answer: 1010)"
+    ]
+  },
+
+  c_basics: {
+    title: "C Programming Basics",
+    subject: "C Programming",
+    xp: 20, time: "6 min",
+    hcl_importance: "Very High",
+    body: `<strong>C</strong> is a structured, middle-level programming language developed by Dennis Ritchie in 1972 at Bell Labs. It is the most important programming language for ECE students targeting HCL and other IT companies.
+
+HCL technical round ALWAYS has C programming questions. They focus on fundamentals — not complex algorithms.`,
+    blocks: [
+      { title: "📋 Basic Program Structure", content: `
+<div class="code-block"><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>    <span class="cmt">// Standard I/O header</span>
+<span class="kw">int</span> main() {
+    <span class="kw">int</span> a = <span class="num">10</span>;
+    printf(<span class="str">"%d"</span>, a);   <span class="cmt">// Output: 10</span>
+    <span class="kw">return</span> <span class="num">0</span>;
+}</div>` },
+      { title: "📊 Data Types & Sizes (32-bit system)", content: `
+<strong>int</strong> → 4 bytes → range: -2,147,483,648 to 2,147,483,647<br>
+<strong>float</strong> → 4 bytes → 6-7 decimal precision<br>
+<strong>double</strong> → 8 bytes → 15-16 decimal precision<br>
+<strong>char</strong> → 1 byte → stores single character<br>
+<strong>void</strong> → no value (used for functions with no return)<br><br>
+<strong>HCL asks:</strong> sizeof(int)=4, sizeof(char)=1, sizeof(float)=4` },
+      { title: "⚡ Key Operators", content: `
+<strong>Arithmetic:</strong> + − * / %<br>
+<strong>% (Modulo):</strong> Returns remainder. 10%3=1, 7%2=1, 6%2=0<br>
+<strong>Relational:</strong> == != > < >= <=<br>
+<strong>Important:</strong> = is ASSIGNMENT, == is COMPARISON<br>
+<strong>Logical:</strong> && (AND) || (OR) ! (NOT)<br>
+<strong>Bitwise:</strong> & | ^ ~ << >><br>
+<strong>Left shift:</strong> a<<n = a×2ⁿ (e.g., 2<<3 = 16)<br>
+<strong>Right shift:</strong> a>>n = a÷2ⁿ` }
+    ],
+    exam_tip: "HCL most commonly asks: sizeof() of data types, difference between = and ==, what % operator does, static variable behavior, and the output of simple C programs. Know these cold!",
+    hcl_questions: [
+      "What is sizeof(int)? (Answer: 4 bytes on 32-bit)",
+      "Difference between = and == (assignment vs comparison)",
+      "Output of printf(\"%d\", 5/2) — answer: 2 (integer division)",
+      "What is static variable? (retains value between calls)"
+    ]
+  },
+
+  pointers: {
+    title: "Pointers in C",
+    subject: "C Programming",
+    xp: 30, time: "8 min",
+    hcl_importance: "Very High",
+    body: `A <strong>pointer</strong> is a variable that stores the memory ADDRESS of another variable. Pointers are the most important and most tested C topic in HCL interviews.
+
+HCL interviewers have directly asked: "What is a function pointer?" and "Differentiate between pointer to array and array of pointers."`,
+    blocks: [
+      { title: "🔑 Pointer Basics", content: `
+<div class="code-block"><span class="kw">int</span> a = <span class="num">10</span>;
+<span class="kw">int</span> *p = &a;      <span class="cmt">// p stores ADDRESS of a</span>
+printf(<span class="str">"%d"</span>, *p);  <span class="cmt">// *p dereferences → prints 10</span>
+printf(<span class="str">"%p"</span>, p);   <span class="cmt">// p prints address like 0x7fff...</span>
+*p = <span class="num">20</span>;          <span class="cmt">// Changes value of a to 20!</span></div>
+<strong>& operator:</strong> Returns address of variable<br>
+<strong>* operator:</strong> Dereferences — gives value at address` },
+      { title: "⚠️ Types of Problematic Pointers", content: `
+<strong>NULL Pointer:</strong> int *p = NULL; Points to nothing (address 0). Safe default. Dereferencing NULL = SEGFAULT.<br><br>
+<strong>Dangling Pointer:</strong> Points to freed memory.<br>
+<div class="code-block"><span class="kw">int</span> *p = malloc(<span class="num">4</span>);
+free(p);   <span class="cmt">// p is now DANGLING — dangerous!</span>
+p = NULL;  <span class="cmt">// Fix: always set to NULL after free</span></div>
+<strong>Wild Pointer:</strong> Uninitialized pointer. Always initialize!` },
+      { title: "🔴 Function Pointer — HCL Asked This!", content: `
+A function pointer stores the ADDRESS of a function.<br><br>
+<div class="code-block"><span class="kw">int</span> add(<span class="kw">int</span> a, <span class="kw">int</span> b) { <span class="kw">return</span> a+b; }
+
+<span class="kw">int</span> (*fp)(<span class="kw">int</span>, <span class="kw">int</span>);  <span class="cmt">// Declare function pointer</span>
+fp = add;               <span class="cmt">// Assign address of function</span>
+<span class="kw">int</span> result = fp(<span class="num">3</span>,<span class="num">4</span>);  <span class="cmt">// Call: result = 7</span></div>
+<strong>Key:</strong> Parentheses around *fp are ESSENTIAL. int *fp(int,int) means function returning int*.` }
+    ],
+    exam_tip: "HCL directly asked real candidates: What is a function pointer? What is the declaration syntax? What is dangling pointer? int *p[5] vs int (*p)[5] difference. These are HIGH priority topics.",
+    hcl_questions: [
+      "What is a function pointer? Declare one (int (*fp)(int,int))",
+      "What is dangling pointer? How to fix it?",
+      "Difference: int *p[5] vs int (*p)[5]",
+      "What does NULL pointer mean? What happens if you dereference it?"
+    ]
+  },
+
+  arrays_strings: {
+    title: "Arrays & Strings in C",
+    subject: "C Programming",
+    xp: 25, time: "7 min",
+    hcl_importance: "High",
+    body: `<strong>Arrays</strong> store multiple values of the same type in contiguous memory. <strong>Strings</strong> in C are character arrays ending with null terminator '\\0'.
+
+HCL coding round has questions on string manipulation and array operations.`,
+    blocks: [
+      { title: "📦 Arrays", content: `
+<div class="code-block"><span class="kw">int</span> arr[<span class="num">5</span>] = {<span class="num">10</span>,<span class="num">20</span>,<span class="num">30</span>,<span class="num">40</span>,<span class="num">50</span>};
+arr[<span class="num">0</span>] = <span class="num">10</span>;  <span class="cmt">// Index starts at 0!</span>
+arr[<span class="num">4</span>] = <span class="num">50</span>;  <span class="cmt">// Last element</span>
+
+<span class="cmt">// Array name = pointer to first element</span>
+<span class="kw">int</span> *p = arr;   <span class="cmt">// Same as &arr[0]</span>
+*(p+<span class="num">2</span>) == arr[<span class="num">2</span>]  <span class="cmt">// TRUE — pointer arithmetic</span></div>` },
+      { title: "📝 Strings in C", content: `
+<div class="code-block"><span class="kw">char</span> str[] = <span class="str">"Hello"</span>;  <span class="cmt">// Stored as: H e l l o \0</span>
+<span class="kw">char</span> *p = <span class="str">"Hello"</span>;   <span class="cmt">// Pointer to string literal</span>
+<span class="cmt">// p[0]='h' → SEGFAULT! String literal is read-only</span>
+<span class="cmt">// str[0]='h' → OK! char array is modifiable</span></div>
+<strong>String functions (string.h):</strong><br>
+strlen(s) — length of string<br>
+strcpy(dest,src) — copy string<br>
+strcmp(s1,s2) — compare (0 if equal)<br>
+strcat(s1,s2) — concatenate<br>
+strstr(s,sub) — find substring` }
+    ],
+    exam_tip: "HCL coding round asks: reverse a string, check palindrome, find string length without strlen(). Know difference between char *p = \"Hello\" (read-only) and char p[] = \"Hello\" (modifiable).",
+    hcl_questions: [
+      "Write program to check if string is palindrome",
+      "Difference between char *p vs char p[] for strings",
+      "What is strtok() and strstr() function?",
+      "Output: char *p=\"Hello\"; p[0]='h'; (Answer: Segfault)"
+    ]
+  },
+
+  osi_model: {
+    title: "OSI Model",
+    subject: "Networking",
+    xp: 20, time: "6 min",
+    hcl_importance: "High",
+    body: `The <strong>OSI (Open Systems Interconnection) Model</strong> is a conceptual framework with 7 layers that describes how data communication works between two devices on a network.
+
+Understanding OSI is essential for HCL technical interviews — they always ask "how many layers?" and "what does each layer do?"`,
+    blocks: [
+      { title: "🌐 The 7 Layers (Bottom to Top)", content: `
+<strong>Layer 1 — Physical:</strong> Actual cables, signals, bits. Hubs work here.<br>
+<strong>Layer 2 — Data Link:</strong> MAC addresses, frames, error detection. Switches work here.<br>
+<strong>Layer 3 — Network:</strong> IP addresses, routing. <strong>Routers work here.</strong><br>
+<strong>Layer 4 — Transport:</strong> TCP/UDP, ports, segmentation. End-to-end delivery.<br>
+<strong>Layer 5 — Session:</strong> Establishes, manages, terminates sessions.<br>
+<strong>Layer 6 — Presentation:</strong> Encryption, compression, format conversion.<br>
+<strong>Layer 7 — Application:</strong> HTTP, FTP, SMTP, DNS. What users see.<br><br>
+<strong>Mnemonic:</strong> <span style="color:var(--purple)">P</span>lease <span style="color:var(--purple)">D</span>o <span style="color:var(--purple)">N</span>ot <span style="color:var(--purple)">T</span>hrow <span style="color:var(--purple)">S</span>ausage <span style="color:var(--purple)">P</span>izza <span style="color:var(--purple)">A</span>way` },
+      { title: "⚡ TCP vs UDP — Very Common Question", content: `
+<strong>TCP (Transmission Control Protocol):</strong><br>
+Connection-oriented · Reliable · Ordered · Slower<br>
+Used for: Web browsing, email, file transfer<br>
+Port examples: HTTP=80, HTTPS=443, FTP=21<br><br>
+<strong>UDP (User Datagram Protocol):</strong><br>
+Connectionless · Unreliable · No ordering · Faster<br>
+Used for: Video streaming, gaming, DNS, VoIP<br>
+Port examples: DNS=53, DHCP=67` }
+    ],
+    exam_tip: "OSI model layer count (7) and TCP vs UDP difference are the TOP networking questions in HCL. Also memorize port numbers: HTTP=80, HTTPS=443, FTP=21, SSH=22, SMTP=25, DNS=53.",
+    hcl_questions: [
+      "How many layers does OSI model have? (7)",
+      "At which layer do routers work? (Network Layer 3)",
+      "Difference between TCP and UDP",
+      "Port number for HTTP, HTTPS, FTP (80, 443, 21)"
+    ]
+  }
+};
+
+const ORDER = ['logic_gates','flipflops','counters','number_systems','c_basics','pointers','arrays_strings','osi_model'];
+let currentConcept = 'logic_gates';
+let doneConcepts = JSON.parse(localStorage.getItem('cc_done_concepts')||'[]');
+
+function loadConcept(id, el){
+  currentConcept = id;
+  document.querySelectorAll('.topic-list-item').forEach(i=>i.classList.remove('active'));
+  if(el) el.classList.add('active');
+
+  const c = CONCEPTS[id];
+  if(!c){ document.getElementById('content-area').innerHTML='<p>Coming soon!</p>'; return; }
+
+  const isDone = doneConcepts.includes(id);
+  const idx = ORDER.indexOf(id);
+  const prevId = idx>0?ORDER[idx-1]:null;
+  const nextId = idx<ORDER.length-1?ORDER[idx+1]:null;
+
+  const blocksHTML = c.blocks.map(b=>`
+    <div class="concept-block">
+      <div class="concept-block-title">${b.title}</div>
+      <div style="font-size:.875rem;color:var(--ink2);line-height:1.8">${b.content}</div>
+    </div>`).join('');
+
+  const hclQsHTML = c.hcl_questions.map(q=>`
+    <div class="hcl-q-item"><span>🔴</span><span>${q}</span></div>`).join('');
+
+  document.getElementById('content-area').innerHTML = `
+    <div class="concept-header">
+      <div class="concept-title-area">
+        <div class="concept-eyebrow">${c.subject}</div>
+        <h1 class="concept-title">${c.title}</h1>
+        <div class="concept-meta">
+          <span class="concept-badge xp-badge">⚡ +${c.xp} XP</span>
+          <span class="concept-badge time-badge">⏱ ${c.time}</span>
+          <span class="concept-badge hcl-badge">🏢 HCL: ${c.hcl_importance}</span>
+        </div>
+      </div>
+      <button class="mark-done-btn ${isDone?'done-state':''}" id="done-btn" onclick="markDone('${id}')">
+        ${isDone?'✅ Completed':'Mark as done ✓'}
+      </button>
+    </div>
+
+    <div class="concept-body">${c.body}</div>
+
+    ${blocksHTML}
+
+    <div class="exam-tip">
+      <div class="exam-tip-title">⚡ Exam Tip</div>
+      <div class="exam-tip-body">${c.exam_tip}</div>
+    </div>
+
+    <div class="hcl-box">
+      <div class="hcl-box-title">🏢 HCL Actually Asks These</div>
+      ${hclQsHTML}
+    </div>
+
+    <div class="concept-nav">
+      ${prevId?`<button class="nav-concept-btn" onclick="loadConcept('${prevId}',null)">← ${CONCEPTS[prevId].title}</button>`:'<div></div>'}
+      <a href="/practice" class="nav-concept-btn">Practice MCQs ✏️</a>
+      ${nextId?`<button class="nav-concept-btn primary" onclick="loadConcept('${nextId}',null)">Next: ${CONCEPTS[nextId].title} →</button>`:'<a href="/practice" class="nav-concept-btn primary">Practice All ✏️ →</a>'}
+    </div>`;
+
+  updateSidebarProgress();
+}
+
+function markDone(id){
+  if(!doneConcepts.includes(id)) doneConcepts.push(id);
+  localStorage.setItem('cc_done_concepts', JSON.stringify(doneConcepts));
+  document.getElementById('done-btn').className='mark-done-btn done-state';
+  document.getElementById('done-btn').textContent='✅ Completed';
+  document.getElementById(`status-${id}`).textContent='✅';
+  updateSidebarProgress();
+
+  // Save to backend
+  const uid=localStorage.getItem('cc_user_id');
+  if(uid){
+    fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_id:parseInt(uid),topic_id:id,subject:'learn',status:'completed',score:100,xp:CONCEPTS[id]?.xp||20})});
+  }
+}
+
+function updateSidebarProgress(){
+  const done = ORDER.filter(id=>doneConcepts.includes(id)).length;
+  document.getElementById('sidebar-progress-label').textContent=`${done} of ${ORDER.length} completed`;
+  ORDER.forEach(id=>{
+    const el=document.getElementById(`status-${id}`);
+    if(el) el.textContent=doneConcepts.includes(id)?'✅':'⬜';
+  });
+}
+
+// Init
+const company=localStorage.getItem('cc_company')||'HCLTech';
+document.getElementById('sidebar-company-label').textContent=`${company} · ECE Track`;
+const xp=localStorage.getItem('cc_xp_today')||'0';
+document.getElementById('xp-pill').textContent=`⚡ ${xp} XP today`;
+updateSidebarProgress();
+loadConcept('logic_gates', document.querySelector('.topic-list-item'));
+</script>
+</body>
+</html>

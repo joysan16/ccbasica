@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Pick Company · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.page-inner{max-width:720px;margin:0 auto;padding:3rem 2rem}
+.page-h1{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;color:var(--ink);margin-bottom:.35rem}
+.page-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+
+.companies-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem}
+.company-card{
+  border:2.5px solid var(--border);border-radius:var(--radius);
+  padding:1.25rem 1.5rem;cursor:pointer;background:var(--white);
+  transition:all .15s;box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:1rem;
+}
+.company-card:hover{border-color:var(--purple);transform:translateY(-3px);box-shadow:0 6px 0 #D1D5DB}
+.company-card.selected{border-color:var(--purple);background:var(--purple-lt);box-shadow:0 4px 0 #5B21B6}
+.company-card.selected .company-check{opacity:1;transform:scale(1)}
+.company-logo{width:48px;height:48px;border-radius:12px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;background:var(--white)}
+.company-info{flex:1}
+.company-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:var(--ink)}
+.company-desc{font-size:.78rem;color:var(--muted);margin-top:.15rem}
+.company-tags{display:flex;gap:.35rem;margin-top:.4rem;flex-wrap:wrap}
+.company-tag{font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:6px;background:#F0F0F0;color:var(--ink2)}
+.company-check{
+  width:24px;height:24px;border-radius:50%;background:var(--purple);
+  color:var(--white);display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;flex-shrink:0;opacity:0;transform:scale(.6);
+  transition:all .2s;font-weight:800;
+}
+
+.selected-info{
+  background:var(--purple-lt);border:2px solid var(--purple);
+  border-radius:var(--radius);padding:1.1rem 1.25rem;
+  margin-bottom:1.5rem;display:none;
+}
+.selected-info.show{display:block}
+.selected-info-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--purple);margin-bottom:.6rem}
+.subjects-list{display:flex;flex-wrap:wrap;gap:.4rem}
+.subj-chip{font-size:.78rem;font-weight:700;padding:.3rem .7rem;border-radius:8px;background:var(--white);border:1.5px solid var(--purple);color:var(--purple)}
+
+.bottom-bar{
+  position:sticky;bottom:0;background:var(--white);
+  border-top:1.5px solid var(--border);padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:720px;margin:0 auto;
+}
+
+@media(max-width:560px){.companies-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-right" style="gap:.5rem">
+    <!-- step indicator -->
+    <div class="steps-bar" style="margin:0">
+      <div class="step-item"><div class="step-circle done">✓</div><span class="step-label">Profile</span></div>
+      <div class="step-connector done"></div>
+      <div class="step-item"><div class="step-circle active">2</div><span class="step-label active">Company</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle">3</div><span class="step-label">Subjects</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item"><div class="step-circle">4</div><span class="step-label">Schedule</span></div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-inner">
+
+  <h1 class="page-h1">Which company are you targeting? 🏢</h1>
+  <p class="page-sub">We'll build your roadmap around exactly what this company tests ECE students on.</p>
+
+  <!-- Selected company info -->
+  <div class="selected-info" id="selected-info">
+    <div class="selected-info-title" id="selected-title">HCLTech needs these subjects:</div>
+    <div class="subjects-list" id="subjects-list"></div>
+  </div>
+
+  <!-- Company cards -->
+  <div class="companies-grid">
+
+    <div class="company-card" onclick="pickCompany(this,'HCLTech',['Digital Electronics','C Programming','Aptitude','English'])">
+      <div class="company-logo">🔵</div>
+      <div class="company-info">
+        <div class="company-name">HCLTech</div>
+        <div class="company-desc">IT Services · Mass Recruiter</div>
+        <div class="company-tags"><span class="company-tag">ECE Friendly</span><span class="company-tag">55 Qs</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'TCS',['Digital Electronics','C Programming','Aptitude','Verbal','Data Interpretation'])">
+      <div class="company-logo">🟣</div>
+      <div class="company-info">
+        <div class="company-name">TCS</div>
+        <div class="company-desc">Largest IT recruiter in India</div>
+        <div class="company-tags"><span class="company-tag">High Volume</span><span class="company-tag">NQT Format</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'Infosys',['C Programming','Data Structures','Aptitude','English','Puzzles'])">
+      <div class="company-logo">🟡</div>
+      <div class="company-info">
+        <div class="company-name">Infosys</div>
+        <div class="company-desc">IT Services · Infosys Power</div>
+        <div class="company-tags"><span class="company-tag">Reasoning Heavy</span><span class="company-tag">90 min</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'Wipro',['C Programming','Digital Electronics','Aptitude','English'])">
+      <div class="company-logo">🟢</div>
+      <div class="company-info">
+        <div class="company-name">Wipro</div>
+        <div class="company-desc">IT Services · WILP & NLTH</div>
+        <div class="company-tags"><span class="company-tag">Coding Round</span><span class="company-tag">3 sections</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'Qualcomm',['VLSI','Digital Electronics','Signals & Systems','C Programming','Embedded Systems'])">
+      <div class="company-logo">🔴</div>
+      <div class="company-info">
+        <div class="company-name">Qualcomm</div>
+        <div class="company-desc">Semiconductor · Core ECE</div>
+        <div class="company-tags"><span class="company-tag">Core Company</span><span class="company-tag">VLSI Heavy</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'Bosch',['Embedded Systems','C Programming','Microcontrollers','Digital Electronics','Signals & Systems'])">
+      <div class="company-logo">⚙️</div>
+      <div class="company-info">
+        <div class="company-name">Bosch</div>
+        <div class="company-desc">Automotive · Embedded Systems</div>
+        <div class="company-tags"><span class="company-tag">Core ECE</span><span class="company-tag">Embedded</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'L&T',['Network Theory','Electronics Devices','Digital Electronics','Aptitude','C Programming'])">
+      <div class="company-logo">🏗️</div>
+      <div class="company-info">
+        <div class="company-name">L&T Technology</div>
+        <div class="company-desc">Engineering Services</div>
+        <div class="company-tags"><span class="company-tag">Core+IT Mix</span><span class="company-tag">GATE Level</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+    <div class="company-card" onclick="pickCompany(this,'ISRO',['Signals & Systems','Digital Electronics','Microprocessors','Network Theory','Electromagnetics'])">
+      <div class="company-logo">🚀</div>
+      <div class="company-info">
+        <div class="company-name">ISRO</div>
+        <div class="company-desc">Space Research · Govt</div>
+        <div class="company-tags"><span class="company-tag">GATE Based</span><span class="company-tag">Deep ECE</span></div>
+      </div>
+      <div class="company-check">✓</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Bottom action bar -->
+<div class="bottom-bar">
+  <a href="/signup" class="btn btn-ghost">← Back</a>
+  <button class="btn btn-primary btn-lg" id="next-btn" disabled onclick="goNext()" style="opacity:.5">
+    Continue → Rate your subjects
+  </button>
+</div>
+
+<script>
+let selectedCompany = null;
+let selectedSubjects = [];
+
+const name = localStorage.getItem('cc_name') || 'there';
+document.querySelector('.page-h1').textContent = `Which company are you targeting, ${name}? 🏢`;
+
+function pickCompany(el, company, subjects) {
+  document.querySelectorAll('.company-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCompany = company;
+  selectedSubjects = subjects;
+
+  // Show subjects needed
+  const info = document.getElementById('selected-info');
+  info.classList.add('show');
+  document.getElementById('selected-title').textContent = `${company} tests these subjects:`;
+  document.getElementById('subjects-list').innerHTML =
+    subjects.map(s => `<span class="subj-chip">${s}</span>`).join('');
+
+  // Enable next
+  const btn = document.getElementById('next-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+}
+
+function goNext() {
+  if (!selectedCompany) return;
+  localStorage.setItem('cc_company', selectedCompany);
+  localStorage.setItem('cc_subjects', JSON.stringify(selectedSubjects));
+  window.location.href = '/subjects';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+[
+  {
+    "id": "cp_01",
+    "topic": "What is a Program & How C Works",
+    "subject": "C Programming",
+    "level": "Beginner",
+    "duration_minutes": 5,
+    "cards": [
+      {
+        "card_num": 1,
+        "title": "What is a program?",
+        "body": "A program is a set of instructions you give to a computer.\n\nThink of it like a recipe:\n- Recipe = program\n- Chef = computer\n- Ingredients = data\n- Dish = output\n\nThe computer follows your instructions exactly — one line at a time, top to bottom. If you make a mistake in the recipe, the dish goes wrong. Same with code.",
+        "example": "A program to make tea:\n1. Boil water\n2. Add tea leaves\n3. Add milk\n4. Add sugar\n5. Filter and serve\n\nIn C, each step becomes one line of code.",
+        "exam_tip": null
+      },
+      {
+        "card_num": 2,
+        "title": "Why C language specifically?",
+        "body": "C was created in 1972. It's one of the oldest languages still used today.\n\nWhy HCL and other companies test C:\n- It's the foundation. If you know C, you can learn any language fast.\n- Operating systems (Windows, Linux) are written in C.\n- Embedded systems (the chips inside your washing machine, TV remote) run C.\n- As an ECE student, the hardware you work with is programmed in C.\n\nC is called a 'middle-level language' because:\n- It's close enough to hardware (you control memory yourself)\n- But readable enough for humans (unlike assembly language)",
+        "example": "Linux kernel — the core of Linux OS — is almost entirely written in C.\nArduino programs? Based on C.\nYour college microprocessor lab? C.",
+        "exam_tip": null
+      },
+      {
+        "card_num": 3,
+        "title": "How does a C program run? (Compile → Execute)",
+        "body": "You write C code in a file → computer converts it → it runs.\nThis happens in 4 steps:\n\nStep 1: WRITE — You type code in a .c file\nStep 2: PREPROCESS — Lines starting with # are handled (like #include)\nStep 3: COMPILE — Compiler converts your code to machine language (0s and 1s)\nStep 4: EXECUTE — Computer runs the machine code, you see output\n\nThe compiler is like a translator — it converts English-like C code to binary that the CPU understands.",
+        "example": "You write: printf(\"Hello\");\nCompiler converts it to: 10110000 01000001 ... (machine code)\nCPU runs it and prints: Hello",
+        "exam_tip": "HCL asks: 'Which file does the compiler produce?' Answer: Object file (.obj) first, then executable (.exe) after linking."
+      },
+      {
+        "card_num": 4,
+        "title": "Your first C program — every line explained",
+        "body": "#include <stdio.h>     // Line 1\n\nint main() {           // Line 2\n    printf(\"Hello!\"); // Line 3\n    return 0;          // Line 4\n}                      // Line 5\n\nLine 1: #include <stdio.h>\n  → 'include' means: bring in the stdio library\n  → stdio = standard input output\n  → This gives you printf() and scanf()\n  → Without this, printf won't work\n\nLine 2: int main()\n  → Every C program starts running from main()\n  → 'int' means main will return a number when done\n  → { } are the opening and closing of main\n\nLine 3: printf(\"Hello!\");\n  → printf = print formatted text to screen\n  → Text goes inside double quotes\n  → Semicolon ; ends every statement in C\n\nLine 4: return 0;\n  → Tell the OS: program finished successfully\n  → 0 means no error",
+        "example": "Change printf(\"Hello!\") to printf(\"My name is Joy\"); — that's your first edit!",
+        "exam_tip": "main() always returns int in C. If asked 'what does return 0 mean?' — it means program ended without errors."
+      }
+    ]
+  },
+  {
+    "id": "cp_02",
+    "topic": "Variables, Data Types & Operators",
+    "subject": "C Programming",
+    "level": "Beginner",
+    "duration_minutes": 8,
+    "cards": [
+      {
+        "card_num": 1,
+        "title": "What is a variable?",
+        "body": "A variable is a named box in memory that stores a value.\n\nThink of RAM as a huge shelf with millions of boxes.\nEach box has:\n- An address (like a box number)\n- A name you give it (the variable name)\n- A value stored inside\n\nWhen you write:  int age = 20;\nYou're saying:\n→ Create a box in memory\n→ Call it 'age'\n→ It stores whole numbers (int)\n→ Put 20 inside it right now",
+        "example": "int age = 20;       // stores the number 20\nfloat marks = 87.5; // stores a decimal number\nchar grade = 'A';   // stores a single character",
+        "exam_tip": null
+      },
+      {
+        "card_num": 2,
+        "title": "The 5 main data types in C",
+        "body": "Data type tells C: what kind of value goes in this box, and how much memory to use.\n\nint    → whole numbers      → 4 bytes  → Range: -2,147,483,648 to 2,147,483,647\n       Example: int count = 5;\n\nfloat  → decimal numbers    → 4 bytes  → 6-7 decimal digits precision\n       Example: float pi = 3.14;\n\ndouble → bigger decimals    → 8 bytes  → 15-16 decimal digits precision\n       Example: double precise = 3.14159265;\n\nchar   → single character   → 1 byte   → stores one letter/symbol\n       Example: char letter = 'A';\n\nvoid   → no value / nothing → 0 bytes\n       Used for functions that return nothing",
+        "example": "Which to use?\nStudent marks out of 100 → int\nTemperature like 36.6 → float\nYour name initial → char",
+        "exam_tip": "HCL asks size of data types constantly. Memorize: char=1, int=4, float=4, double=8 bytes. (On 32-bit systems)"
+      },
+      {
+        "card_num": 3,
+        "title": "Operators — doing things with variables",
+        "body": "ARITHMETIC OPERATORS (math):\n  +   addition         5 + 3 = 8\n  -   subtraction      5 - 3 = 2\n  *   multiplication   5 * 3 = 15\n  /   division         5 / 3 = 1  (integer division drops decimal!)\n  %   modulus          5 % 3 = 2  (remainder after division)\n\nRELATIONAL OPERATORS (comparison, returns 0 or 1):\n  ==  equal to         5 == 5 → 1 (true)\n  !=  not equal        5 != 3 → 1 (true)\n  >   greater than     5 > 3  → 1\n  <   less than        5 < 3  → 0 (false)\n  >=  greater or equal\n  <=  less or equal\n\nLOGICAL OPERATORS:\n  &&  AND    (both true → true)\n  ||  OR     (at least one true → true)\n  !   NOT    (flips true/false)",
+        "example": "5 / 2 = 2  (NOT 2.5!) — because both are int, decimal is dropped\n5.0 / 2 = 2.5 — because 5.0 is float, result keeps decimal\n5 % 2 = 1  — remainder when 5 is divided by 2",
+        "exam_tip": "The % operator trick: To check if a number is even, use: if(n % 2 == 0). This is asked very often in HCL coding rounds."
+      },
+      {
+        "card_num": 4,
+        "title": "Increment, Decrement & Assignment operators",
+        "body": "INCREMENT/DECREMENT:\n  ++  adds 1    --  subtracts 1\n\n  Two forms:\n  x++  (post-increment): use x first, THEN add 1\n  ++x  (pre-increment):  add 1 FIRST, then use x\n\n  int x = 5;\n  printf(\"%d\", x++);  // prints 5, then x becomes 6\n  printf(\"%d\", ++x);  // x becomes 7, then prints 7\n\nASSIGNMENT SHORTCUTS:\n  x += 5  means  x = x + 5\n  x -= 3  means  x = x - 3\n  x *= 2  means  x = x * 2\n  x /= 4  means  x = x / 4\n  x %= 3  means  x = x % 3",
+        "example": "int a = 10;\na += 5;  // a is now 15\na *= 2;  // a is now 30\nprintf(\"%d\", a);  // prints 30",
+        "exam_tip": "Pre vs post increment is the #1 most asked C question in HCL. Practice: int x=5; int y = x++; What is y? What is x? y=5, x=6."
+      }
+    ]
+  },
+  {
+    "id": "cp_03",
+    "topic": "Control Flow (if, loops)",
+    "subject": "C Programming",
+    "level": "Beginner",
+    "duration_minutes": 8,
+    "cards": [
+      {
+        "card_num": 1,
+        "title": "if-else — making decisions in code",
+        "body": "if-else lets your program make decisions based on conditions.\n\nSyntax:\nif (condition) {\n    // runs if condition is TRUE (non-zero)\n} else if (another condition) {\n    // runs if first was false but this is true\n} else {\n    // runs if ALL above conditions are false\n}\n\nA condition is anything that evaluates to 0 (false) or non-zero (true).",
+        "example": "int marks = 75;\n\nif (marks >= 90) {\n    printf(\"Grade A\");\n} else if (marks >= 75) {\n    printf(\"Grade B\");  // ← this runs\n} else if (marks >= 60) {\n    printf(\"Grade C\");\n} else {\n    printf(\"Fail\");\n}",
+        "exam_tip": "In C, 0 = false, any non-zero = true. So if(5) runs. if(0) does NOT run. HCL tests this."
+      },
+      {
+        "card_num": 2,
+        "title": "for loop — when you know how many times",
+        "body": "Use for loop when you know exactly how many times to repeat.\n\nSyntax:\nfor (start; condition; update) {\n    // code to repeat\n}\n\n  start     → runs ONCE before loop begins\n  condition → checked BEFORE each iteration (if false, loop stops)\n  update    → runs AFTER each iteration\n\nExample: Print 1 to 5\nfor (int i = 1; i <= 5; i++) {\n    printf(\"%d \", i);\n}\n\nWhat happens:\n  i=1: 1<=5 true → print 1 → i becomes 2\n  i=2: 2<=5 true → print 2 → i becomes 3\n  ... \n  i=6: 6<=5 false → STOP",
+        "example": "Sum of numbers 1 to 10:\nint sum = 0;\nfor (int i = 1; i <= 10; i++) {\n    sum += i;\n}\nprintf(\"%d\", sum); // prints 55",
+        "exam_tip": "HCL asks: how many times does this loop run? Count carefully. for(i=0; i<5; i++) runs 5 times (0,1,2,3,4). for(i=1; i<=5; i++) also runs 5 times (1,2,3,4,5)."
+      },
+      {
+        "card_num": 3,
+        "title": "while and do-while loops",
+        "body": "WHILE LOOP — checks condition BEFORE running:\nwhile (condition) {\n    // repeats as long as condition is true\n}\n\nint i = 1;\nwhile (i <= 5) {\n    printf(\"%d \", i);\n    i++;\n}\n// prints: 1 2 3 4 5\n\nDO-WHILE LOOP — runs ONCE first, then checks:\ndo {\n    // runs at least once\n} while (condition);\n\nint i = 10;\ndo {\n    printf(\"%d\", i); // prints 10 even though condition is false\n} while (i < 5);     // condition false, loop stops after 1 run",
+        "example": "Key difference:\nwhile → may run 0 times (if condition is false from start)\ndo-while → runs at LEAST 1 time no matter what",
+        "exam_tip": "HCL loves asking: 'What is the output of this do-while loop where the condition is initially false?' Answer: it runs once and prints something."
+      },
+      {
+        "card_num": 4,
+        "title": "break, continue and switch",
+        "body": "BREAK — immediately exits the loop:\nfor (int i = 1; i <= 10; i++) {\n    if (i == 5) break;  // stops when i is 5\n    printf(\"%d \", i);\n}\n// Output: 1 2 3 4\n\nCONTINUE — skips current iteration, goes to next:\nfor (int i = 1; i <= 5; i++) {\n    if (i == 3) continue;  // skips when i is 3\n    printf(\"%d \", i);\n}\n// Output: 1 2 4 5  (3 is skipped)\n\nSWITCH — cleaner alternative to many if-else:\nswitch (day) {\n    case 1: printf(\"Monday\"); break;\n    case 2: printf(\"Tuesday\"); break;\n    default: printf(\"Other day\");\n}",
+        "example": "Switch without break = 'fall-through'. All cases after the matched one also run!\nThis is a very common trick question in HCL.",
+        "exam_tip": "Switch fall-through: if you forget 'break' after a case, it runs into the next case too. HCL asks the output of switch without break almost every test."
+      }
+    ]
+  },
+  {
+    "id": "cp_04",
+    "topic": "Functions",
+    "subject": "C Programming",
+    "level": "Beginner",
+    "duration_minutes": 7,
+    "cards": [
+      {
+        "card_num": 1,
+        "title": "What is a function and why use it?",
+        "body": "A function is a named block of code that does one specific job.\nYou define it once, use it many times.\n\nWithout functions, if you need to find the area of a circle 10 times in your program, you write the formula 10 times. That's messy.\n\nWith functions, you write the formula ONCE, give it a name, and call it 10 times.\n\nC already gives you many built-in functions:\n  printf()  → prints to screen\n  scanf()   → reads input\n  sqrt()    → square root\n  strlen()  → length of string\n\nYou can also make your OWN functions.",
+        "example": "Think of a function like a blender:\n- You put ingredients in (inputs/parameters)\n- It does its job (the code inside)\n- It gives you a smoothie back (return value)",
+        "exam_tip": null
+      },
+      {
+        "card_num": 2,
+        "title": "How to write a function in C",
+        "body": "SYNTAX:\nreturn_type function_name(parameters) {\n    // code\n    return value;\n}\n\nExample — function to add two numbers:\nint add(int a, int b) {\n    int result = a + b;\n    return result;\n}\n\nint main() {\n    int answer = add(3, 5);  // calling the function\n    printf(\"%d\", answer);    // prints 8\n    return 0;\n}\n\nBreaking it down:\n  int        → return type (this function gives back a whole number)\n  add        → function name (you choose this)\n  int a, int b → parameters (inputs it receives)\n  return result → sends the answer back to whoever called it",
+        "example": "void printHello() {     // void = returns nothing\n    printf(\"Hello!\");\n}                       // no return statement needed",
+        "exam_tip": "HCL asks: 'What is the return type of main()?' Answer: int. Not void, not nothing — int."
+      },
+      {
+        "card_num": 3,
+        "title": "Call by Value vs Call by Reference",
+        "body": "When you pass a variable to a function, C has 2 ways:\n\nCALL BY VALUE (default in C):\n→ A COPY of the value is sent to the function\n→ Original variable is NOT changed\n\nvoid doubleIt(int x) {\n    x = x * 2;  // changes the copy, not original\n}\nint n = 5;\ndoubleIt(n);\nprintf(\"%d\", n);  // still prints 5!\n\nCALL BY REFERENCE (using pointers):\n→ The ADDRESS of the variable is sent\n→ Function changes the ORIGINAL variable\n\nvoid doubleIt(int *x) {\n    *x = *x * 2;  // changes the original\n}\nint n = 5;\ndoubleIt(&n);     // & sends the address\nprintf(\"%d\", n);  // now prints 10!",
+        "example": "swap() function only works if you use call by reference.\nIf you use call by value, the swap happens in a copy and original stays unchanged.",
+        "exam_tip": "This is asked in EVERY HCL test. 'What is the output after calling this function?' — check if it's call by value or reference first."
+      }
+    ]
+  },
+  {
+    "id": "cp_05",
+    "topic": "Arrays & Strings",
+    "subject": "C Programming",
+    "level": "Intermediate",
+    "duration_minutes": 9,
+    "cards": [
+      {
+        "card_num": 1,
+        "title": "What is an array?",
+        "body": "An array is a collection of variables of the SAME type stored in consecutive memory locations.\n\nWithout array: int m1=80, m2=75, m3=90, m4=65, m5=88;  (messy!)\nWith array:    int marks[5] = {80, 75, 90, 65, 88};    (clean!)\n\nHow to access elements:\n  marks[0] = 80  ← first element, index starts at 0!\n  marks[1] = 75\n  marks[2] = 90\n  marks[3] = 65\n  marks[4] = 88  ← last element, index is size-1\n\nIMPORTANT: Array index starts at 0, not 1.\nAn array of size 5 has indices 0, 1, 2, 3, 4.",
+        "example": "int arr[5] = {10, 20, 30, 40, 50};\nprintf(\"%d\", arr[2]);  // prints 30 (3rd element, index 2)\nprintf(\"%d\", arr[0]);  // prints 10 (1st element)",
+        "exam_tip": "Most common mistake and most asked HCL question: accessing arr[5] in an array of size 5 is OUT OF BOUNDS (valid indices are 0-4). This causes undefined behavior."
+      },
+      {
+        "card_num": 2,
+        "title": "Strings in C — arrays of characters",
+        "body": "In C, a string is just an array of characters ending with '\\0' (null character).\nThe '\\0' tells C: 'string ends here'.\n\nchar name[6] = {'J','o','y',' ','\\0'};\n// OR simpler:\nchar name[] = \"Joy\";  // C auto-adds \\0 at the end\n\nThe array size must be at least 1 more than the string length\nbecause of the \\0 at the end.\n\n\"Joy\" needs 4 bytes: J-o-y-\\0\n\nCommon string functions (need #include <string.h>):\n  strlen(s)        → length of string (not counting \\0)\n  strcpy(dst, src) → copy one string to another\n  strcmp(s1, s2)   → compare two strings (0 if equal)\n  strcat(s1, s2)   → join s2 to end of s1",
+        "example": "char s[] = \"Hello\";\nprintf(\"%d\", strlen(s));  // prints 5 (not 6, \\0 not counted)\n\nchar a[] = \"abc\";\nchar b[] = \"abc\";\nif (strcmp(a, b) == 0) printf(\"Equal\");  // prints Equal",
+        "exam_tip": "Never compare strings with ==. Use strcmp(). This is a trick question in EVERY placement test. == compares addresses, not content."
+      }
+    ]
+  },
+  {
+    "id": "cp_06",
+    "topic": "Pointers",
+    "subject": "C Programming",
+    "level": "Intermediate",
+    "duration_minutes": 10,
+    "cards": [
+      {
+        "card_num": 1,
+        "title": "What is a pointer? (The simplest explanation)",
+        "body": "A pointer is a variable that stores a MEMORY ADDRESS instead of a value.\n\nNormal variable:  int age = 20;    → stores the number 20\nPointer variable: int *p = &age;   → stores the address of 'age'\n\nTwo special symbols:\n  &  (address-of operator)  → gives the address of a variable\n  *  (dereference operator) → goes to that address and gets the value\n\nint age = 20;\nint *p = &age;      // p stores the address of age\n\nprintf(\"%d\", age);  // prints 20  (the value)\nprintf(\"%p\", p);    // prints something like 0x61ff08  (the address)\nprintf(\"%d\", *p);   // prints 20  (value AT that address)",
+        "example": "Think of memory as apartments in a building.\n- Each apartment has a number (address): 101, 102, 103...\n- age lives in apartment 101, value = 20\n- p is a notebook that has written '101' in it\n- *p means: go to apartment 101 and see what's there → 20",
+        "exam_tip": "HCL asks: int x=10; int *p=&x; *p=20; printf(\"%d\",x); — Answer is 20. Because *p changed the original x through its address."
+      },
+      {
+        "card_num": 2,
+        "title": "Pointer arithmetic",
+        "body": "When you add 1 to a pointer, it moves to the NEXT element — not just 1 byte.\nHow far it moves depends on the data type.\n\nint *p;    p+1 moves 4 bytes (size of int)\nchar *p;   p+1 moves 1 byte (size of char)\nfloat *p;  p+1 moves 4 bytes (size of float)\n\nExample with array:\nint arr[] = {10, 20, 30};\nint *p = arr;       // p points to arr[0]\n\nprintf(\"%d\", *p);       // 10\nprintf(\"%d\", *(p+1));   // 20  (moved to next int)\nprintf(\"%d\", *(p+2));   // 30\n\nArray name itself IS a pointer to its first element!\narr == &arr[0]  (both give same address)",
+        "example": "int arr[3] = {5,10,15};\nint *p = arr;\np++;                  // p now points to arr[1]\nprintf(\"%d\", *p);     // prints 10",
+        "exam_tip": "Pointer arithmetic is a favourite HCL topic. Remember: pointer+1 does NOT mean address+1. It means address + sizeof(type)."
+      }
+    ]
+  }
+]

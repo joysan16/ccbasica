@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CareerCompass — Get Placed. Not Lucky.</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.hero-section{max-width:1100px;margin:0 auto;padding:5rem 3rem 3rem;display:grid;grid-template-columns:1.1fr 1fr;gap:4rem;align-items:center}
+.hero-h1{font-family:'Nunito',sans-serif;font-size:clamp(2.4rem,4.5vw,3.8rem);font-weight:900;line-height:1.08;margin-bottom:1.25rem;color:var(--ink)}
+.hero-sub{font-size:1.05rem;color:var(--ink2);line-height:1.75;margin-bottom:2rem;max-width:460px}
+.cta-row{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.arrow-note{position:relative;margin-top:1.5rem;padding-left:3rem}
+.arrow-note-text{font-family:'Caveat',cursive;font-size:1.15rem;color:var(--purple);font-weight:600;line-height:1.4}
+.arrow-note svg{position:absolute;left:-10px;top:-30px;width:60px;height:50px}
+
+.hero-right{position:relative}
+.mock-phone{
+  background:var(--white);border:2.5px solid var(--ink);border-radius:24px;
+  padding:1.5rem;box-shadow:8px 8px 0 var(--ink);
+  max-width:320px;margin:0 auto;
+}
+.mock-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+.mock-company{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:var(--ink)}
+.mock-score-big{font-family:'Nunito',sans-serif;font-size:3.5rem;font-weight:900;color:var(--purple);line-height:1}
+.mock-score-label{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:1rem}
+.mock-bar-wrap{height:14px;background:#F0F0F0;border-radius:8px;overflow:hidden;margin-bottom:1.25rem}
+.mock-bar-fill{height:100%;border-radius:8px;background:var(--purple);width:72%;transition:width 1.5s ease}
+.mock-subjects{display:flex;flex-direction:column;gap:.6rem}
+.mock-subj-row{display:flex;align-items:center;gap:.6rem}
+.mock-subj-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mock-subj-name{font-size:.8rem;font-weight:600;flex:1;color:var(--ink)}
+.mock-subj-bar{flex:2;height:7px;background:#F0F0F0;border-radius:5px;overflow:hidden}
+.mock-subj-fill{height:100%;border-radius:5px}
+.mock-subj-pct{font-size:.75rem;font-weight:700;min-width:30px;text-align:right}
+.mock-today{background:var(--purple-lt);border:1.5px solid var(--purple);border-radius:10px;padding:.75rem;margin-top:1rem}
+.mock-today-label{font-size:.7rem;font-weight:700;color:var(--purple);margin-bottom:.2rem}
+.mock-today-val{font-size:.85rem;font-weight:700;color:var(--ink)}
+
+.float-badge{
+  position:absolute;background:var(--white);border:2px solid var(--ink);
+  border-radius:12px;padding:.5rem .85rem;box-shadow:4px 4px 0 var(--ink);
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;
+  white-space:nowrap;
+}
+.badge-streak{top:-20px;right:-30px}
+.badge-xp{bottom:30px;left:-40px}
+
+.annotation-right{
+  position:absolute;right:-80px;top:40px;
+  font-family:'Caveat',cursive;font-size:1rem;font-weight:600;
+  color:var(--purple);text-align:center;width:100px;
+}
+
+/* ── FEATURES STRIP ── */
+.features-strip{background:var(--bg);border-top:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:2rem 3rem}
+.features-strip-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.feat-item{display:flex;align-items:flex-start;gap:.75rem}
+.feat-icon-wrap{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.feat-item-title{font-weight:700;font-size:.875rem;color:var(--ink)}
+.feat-item-desc{font-size:.8rem;color:var(--muted);margin-top:.15rem;line-height:1.5}
+
+/* ── HOW IT WORKS ── */
+.how-section{max-width:900px;margin:0 auto;padding:5rem 3rem}
+.section-eyebrow{font-size:.78rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.1em;text-align:center;margin-bottom:.6rem}
+.section-title{font-family:'Nunito',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;text-align:center;color:var(--ink);margin-bottom:3rem}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.how-step{text-align:center;padding:1.5rem 1rem;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);transition:all .2s}
+.how-step:hover{transform:translateY(-5px);box-shadow:0 10px 0 #D1D5DB}
+.how-step-num{width:44px;height:44px;border-radius:50%;background:var(--purple);color:var(--white);font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;border:3px solid var(--white);box-shadow:0 0 0 2.5px var(--purple)}
+.how-step-icon{font-size:1.75rem;margin-bottom:.6rem}
+.how-step-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;margin-bottom:.35rem}
+.how-step-desc{font-size:.8rem;color:var(--muted);line-height:1.55}
+
+/* ── COMPANIES ── */
+.companies-section{background:var(--ink);padding:3rem;text-align:center}
+.companies-title{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:800;color:rgba(255,255,255,.6);margin-bottom:1.25rem;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.company-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap}
+.company-chip{padding:.5rem 1.25rem;border-radius:20px;border:1.5px solid rgba(255,255,255,.2);color:var(--white);font-size:.875rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .15s;background:rgba(255,255,255,.05)}
+.company-chip:hover,.company-chip.active{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+
+/* ── CTA BOTTOM ── */
+.cta-section{padding:5rem 3rem;text-align:center;max-width:700px;margin:0 auto}
+.cta-section h2{font-family:'Nunito',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--ink);margin-bottom:.75rem;line-height:1.1}
+.cta-section p{font-size:1rem;color:var(--muted);margin-bottom:2rem}
+
+footer{text-align:center;padding:2rem;border-top:1.5px solid var(--border);font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-links">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#features" class="nav-link">Features</a>
+  </div>
+  <div class="nav-right">
+    <a href="/signin" class="btn btn-ghost">Sign in</a>
+    <a href="/signup" class="btn btn-primary">Get started free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-section">
+  <div class="hero-left">
+    <div class="badge badge-yellow" style="margin-bottom:1.25rem">🎓 Built for ECE students · Tamil Nadu</div>
+    <h1 class="hero-h1">
+      Stop guessing.<br/>
+      Get placed at<br/>
+      <span class="hl-yellow">your dream</span><br/>
+      <span class="hl-underline-blue">company.</span>
+    </h1>
+    <p class="hero-sub">
+      Your personal AI placement coach. Pick your target company, 
+      rate your knowledge, and get a day-by-day study plan — 
+      all the way to your readiness score.
+    </p>
+    <div class="cta-row">
+      <a href="/signup" class="btn btn-primary btn-xl">Build my study plan 🚀</a>
+      <a href="#how" class="btn btn-outline btn-lg">See how it works</a>
+    </div>
+    <div class="arrow-note">
+      <svg viewBox="0 0 60 50" fill="none">
+        <path d="M50 5 Q20 10 10 40" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M10 40 L8 32 M10 40 L17 36" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="arrow-note-text">Free to start · 2 min setup<br/>No credit card needed</div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- Floating badges -->
+    <div class="float-badge badge-streak">🔥 7 day streak!</div>
+    <div class="float-badge badge-xp">⚡ +25 XP earned</div>
+
+    <!-- Mock phone card -->
+    <div class="mock-phone">
+      <div class="mock-top">
+        <span class="mock-company">HCLTech prep</span>
+        <span class="badge badge-green">On track ✓</span>
+      </div>
+      <div class="mock-score-big" id="scoreAnim">0%</div>
+      <div class="mock-score-label">Readiness score</div>
+      <div class="mock-bar-wrap"><div class="mock-bar-fill" id="mainBar" style="width:0%"></div></div>
+      <div class="mock-subjects">
+        <div class="mock-subj-row">
+          <div class="mock-subj-dot" style="background:var(--purple)"></div>
+          <div class="mock-subj-name">Digital Electronics</div>
+          <div class="mock-subj-bar"><div class="mock-subj-fill" id="b1" style="background:var(--purple);width:0%"></div></div>
+          <div class="mock-subj-pct" style="color:var(--purple)" id="p1">0%</div>
+        </div>
+        <div class="mock-subj-row">
+          <div class="mock-subj-dot" style="background:var(--blue)"></div>
+          <div class="mock-subj-name">C Programming</div>
+          <div class="mock-subj-bar"><div class="mock-subj-fill" id="b2" style="background:var(--blue);width:0%"></div></div>
+          <div class="mock-subj-pct" style="color:var(--blue)" id="p2">0%</div>
+        </div>
+        <div class="mock-subj-row">
+          <div class="mock-subj-dot" style="background:var(--yellow)"></div>
+          <div class="mock-subj-name">Aptitude</div>
+          <div class="mock-subj-bar"><div class="mock-subj-fill" id="b3" style="background:var(--yellow);width:0%"></div></div>
+          <div class="mock-subj-pct" style="color:#92400E" id="p3">0%</div>
+        </div>
+      </div>
+      <div class="mock-today">
+        <div class="mock-today-label">📌 Study today</div>
+        <div class="mock-today-val">Logic Gates → 8 min + 5 MCQs</div>
+      </div>
+    </div>
+
+    <!-- Annotation -->
+    <div class="annotation-right">
+      <svg width="80" height="60" viewBox="0 0 80 60" fill="none" style="display:block;margin:0 auto">
+        <path d="M10 50 Q40 30 60 10" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3"/>
+        <path d="M60 10 L55 18 M60 10 L52 12" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span style="font-family:'Caveat',cursive;font-size:1rem;font-weight:600;color:var(--purple)">Updates every<br/>study session!</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<div class="features-strip" id="features">
+  <div class="features-strip-inner">
+    <div class="feat-item">
+      <div class="feat-icon-wrap" style="background:var(--purple-lt)">🗺️</div>
+      <div>
+        <div class="feat-item-title">Personal roadmap</div>
+        <div class="feat-item-desc">Company-specific, level-specific plan just for you</div>
+      </div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon-wrap" style="background:var(--blue-lt)">✏️</div>
+      <div>
+        <div class="feat-item-title">AI-generated MCQs</div>
+        <div class="feat-item-desc">Fresh questions every session. Never the same twice.</div>
+      </div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon-wrap" style="background:var(--yellow-lt)">🔥</div>
+      <div>
+        <div class="feat-item-title">Streaks & XP</div>
+        <div class="feat-item-desc">Daily habit. Level up. Get addicted to studying.</div>
+      </div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon-wrap" style="background:var(--green-lt)">📊</div>
+      <div>
+        <div class="feat-item-title">Readiness score</div>
+        <div class="feat-item-desc">"You are 72% ready for HCL." See your weak areas.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-eyebrow">How it works</div>
+  <h2 class="section-title">
+    From sign up to <span class="hl-yellow">offer letter</span> in 4 steps
+  </h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <div class="how-step-icon">👤</div>
+      <div class="how-step-title">Sign up</div>
+      <div class="how-step-desc">Just your name and year. No email walls, no long forms.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <div class="how-step-icon">🏢</div>
+      <div class="how-step-title">Pick company</div>
+      <div class="how-step-desc">HCL, TCS, Qualcomm — we know exactly what each one tests.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <div class="how-step-icon">📊</div>
+      <div class="how-step-title">Rate yourself</div>
+      <div class="how-step-desc">Beginner to Expert per subject. Your plan starts from where you are.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">4</div>
+      <div class="how-step-icon">🚀</div>
+      <div class="how-step-title">Study & get placed</div>
+      <div class="how-step-desc">Daily tasks, MCQ practice, mock test. Watch your score reach 100%.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANIES -->
+<div class="companies-section">
+  <div class="companies-title">Preparation roadmaps available for</div>
+  <div class="company-row">
+    <button class="company-chip active">HCLTech</button>
+    <button class="company-chip">TCS</button>
+    <button class="company-chip">Infosys</button>
+    <button class="company-chip">Wipro</button>
+    <button class="company-chip">Qualcomm</button>
+    <button class="company-chip">Bosch</button>
+    <button class="company-chip">L&T</button>
+    <button class="company-chip">ISRO</button>
+  </div>
+</div>
+
+<!-- CTA BOTTOM -->
+<div class="cta-section">
+  <h2>Your placement prep starts <span class="hl-yellow">today.</span></h2>
+  <p>Join ECE students who know exactly what to study — and are actually getting placed.</p>
+  <a href="/signup" class="btn btn-primary btn-xl">
+    Get started free — 2 minutes 🚀
+  </a>
+  <div style="margin-top:1rem">
+    <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:var(--purple);font-weight:600">
+      ← No credit card · Free forever for basics
+    </span>
+  </div>
+</div>
+
+<footer>🧭 CareerCompass AI &nbsp;·&nbsp; Built for ECE Students &nbsp;·&nbsp; CIT Chennai</footer>
+
+<script>
+document.querySelectorAll('.company-chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.company-chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('mainBar').style.width='72%';
+    document.getElementById('b1').style.width='85%';
+    document.getElementById('b2').style.width='60%';
+    document.getElementById('b3').style.width='72%';
+    let n=0;
+    const t=setInterval(()=>{
+      n=Math.min(n+2,72);
+      document.getElementById('scoreAnim').textContent=n+'%';
+      if(n>=72)clearInterval(t);
+    },20);
+    setTimeout(()=>{document.getElementById('p1').textContent='85%'},600);
+    setTimeout(()=>{document.getElementById('p2').textContent='60%'},900);
+    setTimeout(()=>{document.getElementById('p3').textContent='72%'},1100);
+  },500);
+});
+</script>
+</body>
+</html>

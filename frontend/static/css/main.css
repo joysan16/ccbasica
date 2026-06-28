@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:    #1C1C2E;
+  --ink2:   #3D3D56;
+  --muted:  #6B7280;
+  --yellow: #FFB703;
+  --yellow-lt: #FFF8E1;
+  --blue:   #0EA5E9;
+  --blue-lt:#E0F2FE;
+  --purple: #7C3AED;
+  --purple-lt:#EDE9FE;
+  --green:  #16A34A;
+  --green-lt:#DCFCE7;
+  --red:    #DC2626;
+  --red-lt: #FEE2E2;
+  --border: #E5E7EB;
+  --bg:     #FAFAFA;
+  --white:  #FFFFFF;
+  --radius: 14px;
+  --shadow: 0 6px 0px #D1D5DB;
+  --shadow-sm: 0 3px 0px #D1D5DB;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--white);
+  color:var(--ink);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ── NAVBAR ── */
+.navbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:68px;background:var(--white);
+  border-bottom:1.5px solid var(--border);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:'Nunito',sans-serif;font-size:1.25rem;font-weight:900;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.4rem;
+}
+.logo-dot{color:var(--purple)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-link{font-size:.875rem;font-weight:600;color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-link:hover{color:var(--ink)}
+.nav-right{display:flex;gap:.75rem;align-items:center}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.6rem 1.4rem;border-radius:10px;font-size:.9rem;
+  font-weight:700;cursor:pointer;border:none;text-decoration:none;
+  font-family:'Nunito',sans-serif;transition:all .15s;
+}
+.btn-primary{
+  background:var(--purple);color:var(--white);
+  box-shadow:0 4px 0 #5B21B6;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 0 #5B21B6}
+.btn-primary:active{transform:translateY(2px);box-shadow:0 1px 0 #5B21B6}
+
+.btn-outline{
+  background:var(--white);color:var(--ink);
+  border:2px solid var(--border);
+  box-shadow:var(--shadow-sm);
+}
+.btn-outline:hover{border-color:var(--purple);color:var(--purple)}
+
+.btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--border)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+
+.btn-lg{padding:.8rem 2rem;font-size:1rem;border-radius:12px}
+.btn-xl{padding:1rem 2.5rem;font-size:1.05rem;border-radius:14px}
+.btn-full{width:100%;justify-content:center}
+
+/* ── HIGHLIGHT ── */
+.hl-yellow{
+  background:var(--yellow);
+  padding:0 6px;border-radius:4px;
+  display:inline;
+}
+.hl-underline-blue{
+  display:inline;position:relative;
+  white-space:nowrap;
+}
+.hl-underline-blue::after{
+  content:'';position:absolute;
+  left:0;right:0;bottom:-3px;
+  height:4px;background:var(--blue);
+  border-radius:2px;
+}
+
+/* ── ANNOTATION ARROW ── */
+.annotation{
+  font-family:'Caveat',cursive;
+  font-size:1rem;font-weight:600;
+  color:var(--purple);
+  position:relative;
+  display:inline-block;
+}
+.annotation svg{
+  position:absolute;
+  pointer-events:none;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:1.5rem;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 9px 0 #D1D5DB;transition:all .2s}
+
+/* ── PILL BADGE ── */
+.badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.25rem .75rem;border-radius:20px;
+  font-size:.78rem;font-weight:700;
+  font-family:'Nunito',sans-serif;
+}
+.badge-purple{background:var(--purple-lt);color:var(--purple)}
+.badge-yellow{background:var(--yellow-lt);color:#92400E}
+.badge-green{background:var(--green-lt);color:var(--green)}
+.badge-blue{background:var(--blue-lt);color:#0369A1}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap{height:12px;background:#F0F0F0;border-radius:8px;overflow:hidden}
+.progress-fill{height:100%;border-radius:8px;background:var(--purple);transition:width 1s ease}
+
+/* ── FORM ELEMENTS ── */
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+.form-input{
+  width:100%;padding:.8rem 1rem;
+  border:2px solid var(--border);border-radius:10px;
+  font-size:.95rem;font-family:'Inter',sans-serif;
+  color:var(--ink);background:var(--white);
+  outline:none;transition:border .15s;
+}
+.form-input:focus{border-color:var(--purple)}
+
+/* ── OPTION PILL (selectable) ── */
+.opt-pill{
+  padding:.55rem 1.1rem;border-radius:10px;
+  border:2px solid var(--border);background:var(--white);
+  font-size:.875rem;font-weight:700;cursor:pointer;
+  color:var(--ink);font-family:'Nunito',sans-serif;
+  transition:all .15s;box-shadow:var(--shadow-sm);
+}
+.opt-pill:hover{border-color:var(--purple);color:var(--purple)}
+.opt-pill.selected{
+  border-color:var(--purple);background:var(--purple-lt);
+  color:var(--purple);box-shadow:0 3px 0 #5B21B6;
+}
+
+/* ── LEVEL CARD ── */
+.level-card{
+  border:2.5px solid var(--border);border-radius:var(--radius);
+  padding:1rem 1.25rem;cursor:pointer;background:var(--white);
+  transition:all .15s;box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:1rem;
+}
+.level-card:hover{border-color:var(--purple);transform:translateX(4px)}
+.level-card.selected{
+  border-color:var(--purple);background:var(--purple-lt);
+  box-shadow:0 4px 0 #5B21B6;
+}
+.level-icon{font-size:1.75rem;flex-shrink:0}
+.level-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem}
+.level-desc{font-size:.8rem;color:var(--muted);margin-top:.15rem}
+
+/* ── SUBJECT CARD ── */
+.subject-card{
+  border:2.5px solid var(--border);border-radius:var(--radius);
+  padding:1.25rem;cursor:pointer;background:var(--white);
+  transition:all .15s;box-shadow:var(--shadow-sm);text-align:center;
+}
+.subject-card:hover{border-color:var(--blue);transform:translateY(-3px)}
+.subject-card.selected{border-color:var(--purple);background:var(--purple-lt);box-shadow:0 4px 0 #5B21B6}
+.subject-card.rated{border-color:var(--green);background:var(--green-lt)}
+.subject-emoji{font-size:2rem;margin-bottom:.5rem}
+.subject-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink)}
+.subject-level{font-size:.75rem;font-weight:700;margin-top:.3rem}
+
+/* ── STEP INDICATOR ── */
+.steps-bar{display:flex;align-items:center;gap:.5rem;margin-bottom:2.5rem}
+.step-item{display:flex;align-items:center;gap:.4rem}
+.step-circle{
+  width:32px;height:32px;border-radius:50%;
+  border:2.5px solid var(--border);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:800;color:var(--muted);
+  font-family:'Nunito',sans-serif;transition:all .2s;
+}
+.step-circle.active{border-color:var(--purple);background:var(--purple);color:var(--white)}
+.step-circle.done{border-color:var(--green);background:var(--green);color:var(--white)}
+.step-label{font-size:.78rem;font-weight:700;color:var(--muted)}
+.step-label.active{color:var(--purple)}
+.step-connector{flex:1;height:2px;background:var(--border);border-radius:2px}
+.step-connector.done{background:var(--green)}
+
+/* ── DAY PLAN CARD ── */
+.day-card{
+  border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:1rem 1.25rem;background:var(--white);
+  box-shadow:var(--shadow-sm);margin-bottom:.75rem;
+}
+.day-card.today{border-color:var(--purple);background:var(--purple-lt);box-shadow:0 4px 0 #5B21B6}
+.day-num{font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;color:var(--muted)}
+.day-topics{font-size:.85rem;font-weight:600;color:var(--ink);margin:.2rem 0}
+.day-meta{font-size:.78rem;color:var(--muted)}
+
+/* ── READINESS RING ── */
+.ring-wrap{position:relative;width:160px;height:160px;margin:0 auto}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-score{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;
+}
+.ring-pct{font-family:'Nunito',sans-serif;font-size:2.2rem;font-weight:900;color:var(--ink)}
+.ring-label{font-size:.7rem;font-weight:700;color:var(--muted)}
+
+/* ── DASHBOARD TASK CARD ── */
+.task-card{
+  border:2px solid var(--purple);background:var(--purple-lt);
+  border-radius:var(--radius);padding:1.25rem;box-shadow:0 4px 0 #5B21B6;
+}
+.task-label{font-size:.75rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.task-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:var(--ink)}
+.task-sub{font-size:.82rem;color:var(--ink2);margin-top:.25rem}
+
+/* ── UTILITY ── */
+.text-center{text-align:center}
+.text-muted{color:var(--muted)}
+.fw-900{font-family:'Nunito',sans-serif;font-weight:900}
+.mt-1{margin-top:.5rem}.mt-2{margin-top:1rem}.mt-3{margin-top:1.5rem}.mt-4{margin-top:2rem}
+.mb-1{margin-bottom:.5rem}.mb-2{margin-bottom:1rem}.mb-3{margin-bottom:1.5rem}
+.gap-sm{gap:.5rem}.gap-md{gap:1rem}.gap-lg{gap:1.5rem}
+.flex{display:flex}.flex-col{flex-direction:column}
+.items-center{align-items:center}.justify-between{justify-content:space-between}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+
+@media(max-width:768px){
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .navbar{padding:0 1.25rem}
+}
+@media(max-width:480px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+/* ── Additions for learn, practice, mock pages ── */
+
+:root {
+  --amber:    #D97706;
+  --amber-lt: #FEF3C7;
+}
+
+.badge-amber {
+  background: var(--amber-lt);
+  color: #92400E;
+}

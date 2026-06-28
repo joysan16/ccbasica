@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Set Schedule · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.page-inner{max-width:620px;margin:0 auto;padding:2.5rem 2rem 8rem}
+.page-h1{font-family:'Nunito',sans-serif;font-size:1.9rem;font-weight:900;color:var(--ink);margin-bottom:.35rem}
+.page-sub{color:var(--muted);font-size:.9rem;margin-bottom:2.5rem}
+
+.section-label{font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:.75rem}
+
+/* Days slider */
+.days-display{
+  text-align:center;margin:1.5rem 0;
+}
+.days-big{font-family:'Nunito',sans-serif;font-size:5rem;font-weight:900;color:var(--purple);line-height:1}
+.days-unit{font-size:1rem;font-weight:700;color:var(--muted)}
+.days-note{font-size:.82rem;color:var(--muted);margin-top:.4rem}
+.days-slider{
+  width:100%;height:8px;border-radius:4px;
+  accent-color:var(--purple);cursor:pointer;
+  margin:1rem 0;
+}
+
+/* Hours grid */
+.hours-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:2rem}
+
+/* Plan preview */
+.plan-preview{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:1.25rem;margin-top:1.5rem;
+}
+.plan-preview-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.preview-day{
+  display:flex;align-items:flex-start;gap:.75rem;
+  padding:.6rem 0;border-bottom:1px solid var(--border);
+}
+.preview-day:last-child{border-bottom:none}
+.preview-day-num{
+  width:28px;height:28px;border-radius:8px;background:var(--purple-lt);
+  color:var(--purple);font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.preview-day-num.today{background:var(--purple);color:var(--white)}
+.preview-day-content{}
+.preview-day-title{font-size:.85rem;font-weight:700;color:var(--ink)}
+.preview-day-sub{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+
+/* annotation */
+.annotation-wrap{
+  display:flex;align-items:flex-start;gap:.75rem;margin-top:1.25rem;
+  padding:1rem;background:var(--yellow-lt);border-radius:12px;border:1.5px solid var(--yellow);
+}
+.annotation-text{font-family:'Caveat',cursive;font-size:1.1rem;font-weight:600;color:#92400E;line-height:1.5}
+
+.bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;background:var(--white);
+  border-top:1.5px solid var(--border);padding:1rem 2rem;z-index:50;
+}
+.bottom-bar-inner{max-width:620px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+
+@media(max-width:400px){.hours-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="steps-bar" style="margin:0">
+    <div class="step-item"><div class="step-circle done">✓</div><span class="step-label">Profile</span></div>
+    <div class="step-connector done"></div>
+    <div class="step-item"><div class="step-circle done">✓</div><span class="step-label">Company</span></div>
+    <div class="step-connector done"></div>
+    <div class="step-item"><div class="step-circle done">✓</div><span class="step-label">Subjects</span></div>
+    <div class="step-connector done"></div>
+    <div class="step-item"><div class="step-circle active">4</div><span class="step-label active">Schedule</span></div>
+  </div>
+</nav>
+
+<div class="page-inner">
+
+  <h1 class="page-h1">Let's plan your schedule ⏰</h1>
+  <p class="page-sub">Tell us how much time you have. We'll fit the entire syllabus into your timeline.</p>
+
+  <!-- Days slider -->
+  <div class="section-label">How many days until your placement test?</div>
+  <div class="days-display">
+    <div class="days-big" id="days-val">14</div>
+    <div class="days-unit">days to prepare</div>
+    <div class="days-note" id="days-note">About 2 weeks — comfortable pace</div>
+  </div>
+  <input type="range" class="days-slider" id="days-slider" min="5" max="60" value="14" oninput="updateDays(this.value)"/>
+  <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);font-weight:600;margin-bottom:2rem">
+    <span>5 days</span><span>30 days</span><span>60 days</span>
+  </div>
+
+  <!-- Hours per day -->
+  <div class="section-label">How many hours can you study per day?</div>
+  <div class="hours-grid" id="hours-grid">
+    <button class="opt-pill" onclick="pickHours(this,1)">1 hour</button>
+    <button class="opt-pill selected" onclick="pickHours(this,2)">2 hours</button>
+    <button class="opt-pill" onclick="pickHours(this,3)">3 hours</button>
+    <button class="opt-pill" onclick="pickHours(this,4)">4+ hours</button>
+  </div>
+
+  <!-- Plan preview -->
+  <div class="plan-preview">
+    <div class="plan-preview-title">📅 Your plan preview</div>
+    <div id="preview-days"></div>
+  </div>
+
+  <!-- Annotation tip -->
+  <div class="annotation-wrap">
+    <span style="font-size:1.5rem">✨</span>
+    <div class="annotation-text">
+      Your plan adjusts automatically based on your subject levels — beginners get more days on basics, experts jump straight to practice!
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom bar -->
+<div class="bottom-bar">
+  <div class="bottom-bar-inner">
+    <a href="/subjects" class="btn btn-ghost">← Back</a>
+    <button class="btn btn-primary btn-lg" onclick="goNext()">
+      Generate my roadmap 🚀
+    </button>
+  </div>
+</div>
+
+<script>
+let days = 14;
+let hours = 2;
+
+const NOTES = {
+  5:  'Very tight — we\'ll focus on highest-priority topics only',
+  7:  'One week — fast-track mode',
+  10: 'Just enough — focused prep',
+  14: 'About 2 weeks — comfortable pace',
+  21: '3 weeks — solid preparation time',
+  30: 'One month — thorough coverage',
+  45: '6 weeks — deep practice possible',
+  60: '2 months — master everything at ease',
+};
+
+function getDayNote(d) {
+  const keys = Object.keys(NOTES).map(Number).sort((a,b)=>a-b);
+  let note = NOTES[60];
+  for (const k of keys) { if (d <= k) { note = NOTES[k]; break; } }
+  return note;
+}
+
+function updateDays(val) {
+  days = parseInt(val);
+  document.getElementById('days-val').textContent = days;
+  document.getElementById('days-note').textContent = getDayNote(days);
+  renderPreview();
+}
+
+function pickHours(el, val) {
+  document.querySelectorAll('#hours-grid .opt-pill').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  hours = val;
+  renderPreview();
+}
+
+function renderPreview() {
+  const company = localStorage.getItem('cc_company') || 'HCLTech';
+  const subjects = JSON.parse(localStorage.getItem('cc_subjects') || '[]');
+  const ratings = JSON.parse(localStorage.getItem('cc_ratings') || '{}');
+
+  // Simple preview — show first 4 days + last day
+  const studyDays = Math.max(1, days - 2);
+  const topics = [];
+  subjects.forEach(sub => {
+    const level = ratings[sub] || 'Beginner';
+    if (level === 'Beginner') topics.push(`${sub} — Basics`, `${sub} — Practice`);
+    else if (level === 'Intermediate') topics.push(`${sub} — Core concepts`, `${sub} — MCQ drill`);
+    else topics.push(`${sub} — Advanced + Mock`);
+  });
+
+  // Distribute topics across days
+  const perDay = Math.ceil(topics.length / studyDays);
+  const preview = document.getElementById('preview-days');
+  preview.innerHTML = '';
+
+  const showDays = Math.min(4, studyDays);
+  for (let i = 0; i < showDays; i++) {
+    const dayTopics = topics.slice(i * perDay, (i + 1) * perDay);
+    const isToday = i === 0;
+    preview.innerHTML += `
+      <div class="preview-day">
+        <div class="preview-day-num ${isToday ? 'today' : ''}">D${i + 1}</div>
+        <div class="preview-day-content">
+          <div class="preview-day-title">${dayTopics.join(' + ') || 'Revision'}</div>
+          <div class="preview-day-sub">~${hours}h · ${(dayTopics.length * 15) || 30} min study + ${dayTopics.length * 5 || 10} MCQs</div>
+        </div>
+      </div>`;
+  }
+
+  if (days > 4) {
+    preview.innerHTML += `<div class="preview-day"><div class="preview-day-num" style="background:var(--green-lt);color:var(--green)">D${days}</div><div class="preview-day-content"><div class="preview-day-title">Full ${company} Mock Test 🏆</div><div class="preview-day-sub">55 questions · 75 minutes · Full score report</div></div></div>`;
+  }
+}
+
+function goNext() {
+  localStorage.setItem('cc_days', days);
+  localStorage.setItem('cc_hours', hours);
+  window.location.href = '/dashboard';
+}
+
+// Init
+renderPreview();
+</script>
+</body>
+</html>
