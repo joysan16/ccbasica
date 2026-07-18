@@ -1,0 +1,1203 @@
+DIGITAL ELECTRONICS — COMPLETE GUIDE
+Based on: Digital Design by Morris Mano & Digital Fundamentals by Floyd
+For: ECE Placement Interviews + Career Reference
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 1: NUMBER SYSTEMS AND CODES
+═══════════════════════════════════════════════════════════════
+
+WHY THIS MATTERS IN REAL LIFE:
+Every computer, phone, microprocessor speaks binary. When you
+write code and it crashes at 255 or 65535, that's because of
+number system limits. Embedded engineers deal with this daily.
+
+--- NUMBER SYSTEMS ---
+
+DECIMAL (Base 10):
+The system you grew up with. Digits 0-9.
+Position value: units, tens, hundreds...
+Example: 425 = 4×100 + 2×10 + 5×1
+
+BINARY (Base 2):
+Only 0 and 1. Why? Because transistors have two states: ON and OFF.
+That's it. The entire digital world runs on switches being on or off.
+Example: 1011 = 1×8 + 0×4 + 1×2 + 1×1 = 11 in decimal
+
+OCTAL (Base 8):
+Digits 0-7. Each octal digit = exactly 3 binary bits.
+Useful shorthand for binary. Used in Unix file permissions (chmod 755).
+Example: 17 octal = 001 111 binary = 15 decimal
+
+HEXADECIMAL (Base 16):
+Digits 0-9 and A(10) B(11) C(12) D(13) E(14) F(15).
+Each hex digit = exactly 4 binary bits (nibble).
+Why engineers love it: 0xFF is easier to write than 11111111.
+Used everywhere: memory addresses, color codes (#FF5733), error codes.
+Example: 2F hex = 0010 1111 binary = 47 decimal
+
+--- CONVERSIONS (Most Asked in Interviews) ---
+
+DECIMAL TO BINARY: Divide by 2, collect remainders bottom-up.
+13 ÷ 2 = 6 remainder 1
+ 6 ÷ 2 = 3 remainder 0
+ 3 ÷ 2 = 1 remainder 1
+ 1 ÷ 2 = 0 remainder 1
+Read bottom-up: 1101. So 13 decimal = 1101 binary.
+
+BINARY TO DECIMAL: Multiply each bit by its power of 2.
+1101 = 1×2³ + 1×2² + 0×2¹ + 1×2⁰ = 8+4+0+1 = 13.
+
+BINARY TO HEX: Group bits in sets of 4 from right.
+10110111 → 1011 0111 → B 7 → 0xB7
+
+HEX TO BINARY: Each hex digit becomes 4 bits.
+0xAF → A=1010, F=1111 → 10101111
+
+DECIMAL TO OCTAL: Divide by 8, collect remainders.
+OR convert decimal→binary→octal (group 3 bits).
+
+--- BINARY ARITHMETIC ---
+
+ADDITION: 0+0=0, 0+1=1, 1+0=1, 1+1=10 (carry 1)
+  1011
++ 0110
+------
+ 10001   (carry propagates left)
+
+SUBTRACTION using 2's complement (how computers actually do it):
+Real life: your CPU does NOT have a subtraction circuit.
+It converts subtraction to addition using 2's complement.
+That's why understanding 2's complement is critical.
+
+2'S COMPLEMENT:
+Step 1: Write the number in binary.
+Step 2: Flip all bits (1's complement).
+Step 3: Add 1.
+
+Example: Find -6 in 8-bit 2's complement.
+6 = 00000110
+Flip: 11111001
+Add 1: 11111010
+So -6 = 11111010 in 8-bit 2's complement.
+
+To subtract A - B = A + (-B) = A + (2's complement of B)
+
+RANGE of n-bit 2's complement:
+Minimum: -2^(n-1)
+Maximum: 2^(n-1) - 1
+For 8-bit: -128 to +127
+For 16-bit: -32768 to +32767
+This is exactly why int in C is -2147483648 to 2147483647 (32-bit).
+
+OVERFLOW: When result exceeds the range.
+Detecting overflow: if two positives give negative, or two negatives give positive.
+
+1'S COMPLEMENT: Just flip all bits. Simpler but has +0 and -0 problem.
+2's complement solved this — that's why all modern computers use it.
+
+SIGN MAGNITUDE: MSB is sign bit (0=positive, 1=negative).
+Also has two zeros problem. Not used in modern hardware.
+
+--- BINARY CODES ---
+
+BCD (Binary Coded Decimal):
+Each decimal digit represented by 4 bits independently.
+9 → 1001
+39 → 0011 1001 (3→0011, 9→1001)
+25 → 0010 0101
+
+Why BCD exists: For decimal display systems (calculators, digital clocks).
+The 7-segment display on your microwave uses BCD.
+BCD invalid codes: 1010 to 1111 (10 to 15) — these don't represent any decimal digit.
+
+EXCESS-3 CODE (XS-3):
+BCD + 3. So digit 5 = 5+3 = 8 = 1000 in XS-3.
+Self-complementing property: complement of XS-3 code = 9's complement of digit.
+Used in some older calculators.
+
+GRAY CODE:
+Only ONE bit changes between consecutive values.
+Decimal 0→1→2→3 in Gray: 000→001→011→010
+Why it matters: Rotary encoders, position sensors use Gray code.
+If two bits changed simultaneously and one was delayed (mechanical noise),
+you'd get a wrong reading. Gray code prevents this — only 1 bit changes so
+no ambiguous states even with slight timing differences.
+
+Converting binary to Gray:
+MSB same. Each subsequent bit = XOR of that binary bit and previous binary bit.
+Binary 1011: Gray = 1, 1XOR0=1, 0XOR1=1, 1XOR1=0 = 1110
+
+ASCII CODE:
+7-bit code for characters. A=65, a=97, 0=48.
+Extended ASCII is 8-bit (256 characters).
+Real use: Every time you type on keyboard, ASCII code is sent.
+
+UNICODE: Modern extension of ASCII. UTF-8, UTF-16.
+Supports all world languages. Java and Python use Unicode internally.
+
+HAMMING CODE:
+Error detection AND correction code.
+Adds parity bits at positions that are powers of 2 (1,2,4,8...).
+A single bit error can be detected AND corrected.
+Double bit error can be detected but not corrected.
+Used in: RAM (ECC memory), satellite communication.
+Real life: Your RAM sticks often have ECC (Error Correcting Code) — uses Hamming.
+
+PARITY BIT:
+Even parity: total 1s in codeword is even.
+Odd parity: total 1s in codeword is odd.
+Can only detect odd number of bit errors. Cannot correct.
+Used in serial communication (UART has parity bit option).
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 2: BOOLEAN ALGEBRA AND LOGIC GATES
+═══════════════════════════════════════════════════════════════
+
+WHY THIS MATTERS:
+Every digital circuit you'll ever design starts here.
+When you optimize code or circuit, you're doing Boolean algebra.
+VLSI engineers spend careers optimizing logic.
+
+--- BOOLEAN ALGEBRA FUNDAMENTALS ---
+
+Boolean algebra has only two values: 0 and 1.
+Invented by George Boole in 1854. Shannon applied it to circuits in 1937.
+
+Basic operations:
+AND: A·B = 1 only when both A=1 AND B=1. Like series switches.
+OR:  A+B = 1 when at least one is 1. Like parallel switches.
+NOT: A' = complement. Flips 0 to 1 and 1 to 0.
+
+BOOLEAN IDENTITIES (Memorize these — interview basics):
+Identity Law:    A+0=A,    A·1=A
+Null Law:        A+1=1,    A·0=0
+Idempotent:      A+A=A,    A·A=A
+Complement:      A+A'=1,   A·A'=0
+Double Negation: (A')' = A
+Absorption:      A+AB=A,   A(A+B)=A
+
+COMMUTATIVE:  A+B = B+A,   A·B = B·A
+ASSOCIATIVE:  A+(B+C) = (A+B)+C
+DISTRIBUTIVE: A·(B+C) = A·B+A·C
+              A+(B·C) = (A+B)·(A+C)  ← this one surprises people
+
+DE MORGAN'S THEOREM (Critical for interviews and VLSI):
+(A+B)' = A'·B'  → NOR equals AND of complements
+(A·B)' = A'+B'  → NAND equals OR of complements
+
+Practical meaning:
+NAND(A,B) is same as OR(NOT A, NOT B)
+NOR(A,B) is same as AND(NOT A, NOT B)
+
+This is why NAND and NOR are universal — using De Morgan you can
+build any gate from just NAND or just NOR gates.
+
+DUALITY PRINCIPLE:
+Dual of a Boolean expression: swap AND↔OR, swap 0↔1.
+If an expression is true, its dual is also true.
+Useful for deriving new identities quickly.
+
+--- LOGIC GATES IN DETAIL ---
+
+AND GATE:
+Output: 1 only when ALL inputs are 1.
+Real life analogy: Your bike starts only when you have key AND fuel AND kickstart.
+All conditions must be met simultaneously.
+Symbol: D shape. Boolean: Y = A·B
+Truth table (2 input):
+A B | Y
+0 0 | 0
+0 1 | 0
+1 0 | 0
+1 1 | 1
+CMOS implementation: series NMOS transistors (pull-down), parallel PMOS (pull-up).
+
+OR GATE:
+Output: 1 when AT LEAST ONE input is 1.
+Real life: Door alarm triggers if front door OR back door is opened.
+Symbol: Curved shape. Boolean: Y = A+B
+Truth table:
+A B | Y
+0 0 | 0
+0 1 | 1
+1 0 | 1
+1 1 | 1
+
+NOT GATE (Inverter):
+Single input, complements it. 0 becomes 1, 1 becomes 0.
+Real life: Light switch — when switch is OFF, light is ON (inverter).
+Simplest gate. CMOS: one PMOS + one NMOS transistor.
+Boolean: Y = A'
+
+NAND GATE:
+AND followed by NOT. Output is 0 ONLY when all inputs are 1.
+Real life: Safety interlock — alarm sounds UNLESS all safety conditions are met.
+Boolean: Y = (A·B)'
+Truth table:
+A B | Y
+0 0 | 1
+0 1 | 1
+1 0 | 1
+1 1 | 0
+NAND is UNIVERSAL GATE — can implement any Boolean function.
+Why? Because you can make NOT, AND, OR from NAND alone.
+NOT from NAND: connect both inputs together → NAND(A,A) = (A·A)' = A'
+AND from NAND: NAND followed by NOT (another NAND with both inputs tied)
+OR from NAND: NOT each input, then NAND → by De Morgan: (A'·B')' = A+B
+
+NOR GATE:
+OR followed by NOT. Output is 1 ONLY when all inputs are 0.
+Boolean: Y = (A+B)'
+Truth table:
+A B | Y
+0 0 | 1
+0 1 | 0
+1 0 | 0
+1 1 | 0
+NOR is also UNIVERSAL GATE.
+NOT from NOR: connect both inputs → NOR(A,A) = (A+A)' = A'
+OR from NOR: NOR followed by NOT
+AND from NOR: NOT each input, then NOR → (A'+B')' = A·B (De Morgan)
+
+WHY NAND IS PREFERRED OVER NOR IN INDUSTRY:
+NMOS transistors are faster than PMOS (electron mobility > hole mobility).
+NAND uses series NMOS in pull-down → faster switching.
+NOR uses series PMOS in pull-up → slower.
+So real chips are mostly implemented using NAND gates.
+
+XOR GATE (Exclusive OR):
+Output 1 when inputs are DIFFERENT.
+Real life: XOR is like a light controlled by two switches —
+flipping either switch toggles the light (staircase lighting).
+Boolean: Y = A⊕B = A'B + AB'
+Truth table:
+A B | Y
+0 0 | 0
+0 1 | 1
+1 0 | 1
+1 1 | 0
+Key property: A⊕A=0, A⊕0=A, A⊕1=A'
+Used in: adders (sum bit), parity checkers, encryption (XOR cipher).
+XOR of a number with itself = 0 (used to clear registers in assembly: XOR AX,AX)
+
+XNOR GATE (Exclusive NOR):
+Output 1 when inputs are SAME. Complement of XOR.
+Boolean: Y = (A⊕B)' = AB + A'B'
+Truth table:
+A B | Y
+0 0 | 1
+0 1 | 0
+1 0 | 0
+1 1 | 1
+Used in: equality comparators, coincidence circuits.
+
+BUFFER:
+Output = Input. No logical operation.
+Used to: increase drive strength (fan-out), add delay, isolate circuits.
+In VLSI, long wires need buffers to maintain signal integrity.
+
+--- GATE SPECIFICATIONS ---
+
+FAN-OUT: Maximum number of gate inputs a gate output can drive.
+Standard TTL: fan-out of 10. Exceeding fan-out → logic levels degrade.
+
+FAN-IN: Number of inputs a gate has.
+
+PROPAGATION DELAY (tpd): Time for output to respond to input change.
+tpHL: High-to-Low transition delay.
+tpLH: Low-to-High transition delay.
+Critical in timing analysis — determines maximum clock frequency.
+
+NOISE MARGIN: How much noise a logic level can tolerate.
+VIH (min): Minimum voltage for logic HIGH input.
+VIL (max): Maximum voltage for logic LOW input.
+VOH (min): Minimum output HIGH voltage.
+VOL (max): Maximum output LOW voltage.
+Noise margin HIGH = VOH - VIH
+Noise margin LOW = VIL - VOL
+
+LOGIC FAMILIES:
+TTL (Transistor-Transistor Logic): 5V supply, fast, high power.
+CMOS: Lower power, rail-to-rail output, scalable. Dominant today.
+ECL (Emitter-Coupled Logic): Fastest, but very high power. Used in RF.
+LVTTL, LVCMOS: Low voltage versions for modern ICs (3.3V, 1.8V, 1.2V).
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 3: BOOLEAN FUNCTION MINIMIZATION
+═══════════════════════════════════════════════════════════════
+
+WHY MINIMIZE? Fewer gates = smaller chip = less power = faster circuit.
+VLSI engineers minimize logic before layout. This is core interview territory.
+
+--- MINTERMS AND MAXTERMS ---
+
+MINTERM: AND combination where each variable appears (complemented or not).
+For 2 variables A,B: m0=A'B', m1=A'B, m2=AB', m3=AB
+SOM (Sum of Minterms): f = Σm(1,3) means f=1 when minterm 1 OR 3 is true.
+
+MAXTERM: OR combination where each variable appears.
+For 2 variables A,B: M0=A+B, M1=A+B', M2=A'+B, M3=A'+B'
+POM (Product of Maxterms): f = ΠM(0,2)
+
+Minterm and Maxterm are complementary: mᵢ' = Mᵢ
+
+--- KARNAUGH MAP (K-MAP) ---
+
+Invented by Maurice Karnaugh in 1953. Graphical minimization method.
+Eliminates the tedious algebraic manipulation.
+
+2-VARIABLE K-MAP (4 cells):
+    A'  A
+B'| 0 | 2 |
+B | 1 | 3 |
+
+3-VARIABLE K-MAP (8 cells):
+        A'B'  A'B  AB  AB'
+C'  |  0  |  2  |  6  |  4  |
+C   |  1  |  3  |  7  |  5  |
+(Note: AB and AB' columns are swapped — Gray code ordering)
+
+4-VARIABLE K-MAP (16 cells):
+Most common in interviews. 4 variables A,B,C,D.
+Rows: C'D', C'D, CD, CD' (Gray code order)
+Columns: A'B', A'B, AB, AB' (Gray code order)
+
+GROUPING RULES (Critical — interviewers check these):
+1. Groups must be powers of 2: 1, 2, 4, 8, 16 cells.
+2. Groups must be rectangular (including wrapping around edges).
+3. Groups CAN overlap.
+4. Groups can WRAP around (top-bottom, left-right, corners).
+5. ALWAYS make groups as LARGE as possible.
+6. Every 1 must be covered by at least one group.
+7. Minimize number of groups.
+
+Each group of size 2^n eliminates n variables from the term.
+Group of 1: all 4 variables remain → 4-variable term (no simplification).
+Group of 2: eliminates 1 variable → 3-variable term.
+Group of 4: eliminates 2 variables → 2-variable term.
+Group of 8: eliminates 3 variables → 1-variable term.
+Group of 16: eliminates all → output is always 1 (constant).
+
+DON'T CARE CONDITIONS (X or d):
+Output is unspecified (either 0 or 1 acceptable).
+Occurs when: certain input combinations never occur in practice.
+Example: BCD decoder — inputs 1010-1111 never occur (invalid BCD).
+In K-map: treat X as 1 when it helps make a larger group.
+But DON'T cover X-only groups (must cover at least one 1).
+
+ESSENTIAL PRIME IMPLICANT:
+A prime implicant that covers a minterm covered by NO other prime implicant.
+Must be included in final expression.
+
+PRIME IMPLICANT:
+Largest possible grouping. Cannot be merged into a larger group.
+Algorithm: Find all prime implicants, then select minimum cover.
+
+QUINE-McCLUSKEY METHOD:
+Tabular method for minimization. Works for any number of variables.
+Better than K-map for > 6 variables (K-map becomes impractical).
+Algorithm: Group minterms by number of 1s, merge groups differing in 1 bit.
+
+--- LOGIC SIMPLIFICATION EXAMPLES ---
+
+Example 1: f(A,B,C) = Σm(1,3,5,7)
+K-map: all odd minterms → C=1 in all cases → f = C
+(Grouping all 8 cells minus 4 zeros = group of 4 → f=C)
+
+Example 2: f(A,B,C,D) = Σm(0,1,2,3,4,5,6,7)
+All 8 minterms have A=0 → f = A'
+Group of 8 → single literal term.
+
+--- TWO-LEVEL LOGIC ---
+
+SOP (Sum of Products): AND gates feeding into OR gate.
+Example: f = AB + CD + A'C
+Two levels: first level is AND, second is OR.
+
+POS (Product of Sums): OR gates feeding into AND gate.
+Example: f = (A+B)(C+D)(A'+C)
+
+SOP vs POS: Use whichever gives fewer gates.
+To find minimal POS: group 0s in K-map instead of 1s.
+
+NOR-NOR implementation: Useful when only NOR gates available.
+NAND-NAND implementation: Useful when only NAND gates available (common!).
+Convert SOP → two-level NAND by applying De Morgan.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 4: COMBINATIONAL CIRCUITS
+═══════════════════════════════════════════════════════════════
+
+COMBINATIONAL vs SEQUENTIAL:
+Combinational: output depends ONLY on current inputs. No memory. No clock.
+Sequential: output depends on current inputs AND past history. Has memory. Has clock.
+
+--- HALF ADDER ---
+
+Adds two single bits. No carry input.
+Sum = A ⊕ B (XOR)
+Carry = A · B (AND)
+Two gates: one XOR + one AND.
+Limitation: cannot cascade for multi-bit addition (no carry-in).
+
+--- FULL ADDER ---
+
+Adds three bits: A, B, and Carry-in (Cin).
+Sum = A ⊕ B ⊕ Cin
+Cout = AB + BCin + ACin = AB + Cin(A⊕B)
+
+Can cascade for n-bit addition.
+Ripple Carry Adder: n full adders in series.
+Disadvantage: carry must ripple through all stages → slow.
+For 32-bit: delay = 32 × full adder delay.
+
+CARRY LOOKAHEAD ADDER (CLA):
+Generates all carries simultaneously.
+Generate: Gᵢ = AᵢBᵢ (carry generated even if Cin=0)
+Propagate: Pᵢ = Aᵢ⊕Bᵢ (carry propagated if Cin=1)
+Cᵢ₊₁ = Gᵢ + PᵢCᵢ
+Faster but more hardware. Used in modern CPUs.
+
+CARRY SAVE ADDER: Used in multipliers. Saves partial carries.
+
+BCD ADDER:
+Adds two BCD digits.
+Uses a full adder plus correction logic.
+If sum > 9 (1001) or carry occurs, add 6 (0110) to correct.
+Why 6? Because BCD skips 6 invalid states (10-15).
+
+SUBTRACTOR:
+Half subtractor: Difference = A⊕B, Borrow = A'B
+Full subtractor: handles borrow-in.
+In practice: use 2's complement and adder (no separate subtractor needed).
+
+--- MULTIPLEXER (MUX) ---
+
+Data selector. Selects one of 2^n inputs based on n select lines.
+Think of it like a railway track switch — selects which track (input) to connect.
+
+4-to-1 MUX:
+4 inputs (I0-I3), 2 select lines (S1,S0), 1 output.
+S1S0=00 → Y=I0
+S1S0=01 → Y=I1
+S1S0=10 → Y=I2
+S1S0=11 → Y=I3
+Y = S1'S0'I0 + S1'S0I1 + S1S0'I2 + S1S0I3
+
+MUX AS UNIVERSAL LOGIC ELEMENT:
+Any Boolean function of n variables can be implemented with 2^(n-1) to 1 MUX.
+For 2-variable function: use 4-to-1 MUX (no additional gates).
+For 3-variable function: use 4-to-1 MUX (one variable applied to inputs).
+
+Example: Implement f(A,B,C) using 4-to-1 MUX.
+Use A,B as select lines. Evaluate f for each AB combination with C.
+AB=00: f=C' (connect C' to I0)
+AB=01: f=C  (connect C to I1)
+AB=10: f=0  (connect 0 to I2)
+AB=11: f=1  (connect 1 to I3)
+
+Cascading MUX: Two 4-to-1 MUX can make one 8-to-1 MUX.
+
+--- DEMULTIPLEXER (DEMUX) ---
+
+Opposite of MUX. Routes single input to one of 2^n outputs.
+Like a postal sorting machine — one input mail, routed to correct mailbox.
+Also works as a decoder with enable.
+
+1-to-4 DEMUX:
+1 input (D), 2 select lines (S1,S0), 4 outputs (Y0-Y3).
+Y0 = D·S1'S0', Y1 = D·S1'S0, Y2 = D·S1S0', Y3 = D·S1S0
+
+--- DECODER ---
+
+Converts binary code to one-of-N outputs.
+n inputs → 2^n outputs (only one output is active at a time).
+
+2-to-4 Decoder:
+A1 A0 | Y3 Y2 Y1 Y0
+ 0  0 |  0  0  0  1
+ 0  1 |  0  0  1  0
+ 1  0 |  0  1  0  0
+ 1  1 |  1  0  0  0
+
+Real life: Memory address decoding — 10 address bits → 1024 memory locations.
+Your microcontroller uses decoder to select which peripheral to activate.
+7-segment decoder: 4-bit BCD → 7 outputs (a-g segments).
+
+ENCODER:
+Opposite of decoder. 2^n inputs → n outputs.
+Priority encoder: if multiple inputs active, gives code of highest priority input.
+Used in interrupt controllers (8259A PIC has priority encoder).
+
+--- COMPARATOR ---
+
+Compares two binary numbers.
+Outputs: A>B, A=B, A<B
+4-bit comparator (like 7485 IC):
+Equality: A3=B3, A2=B2, A1=B1, A0=B0 (XNOR each bit, AND all)
+A>B: Check from MSB; first bit where A≠B determines result.
+Cascadable for larger word lengths.
+
+--- CODE CONVERTERS ---
+
+BCD to Excess-3: Add 3 to each BCD digit.
+Binary to Gray: MSB same. Gᵢ = Bᵢ ⊕ Bᵢ₊₁
+Gray to Binary: MSB same. Bᵢ = Bᵢ₊₁ ⊕ Gᵢ
+
+--- PARITY GENERATOR AND CHECKER ---
+
+Parity generator: generates parity bit for a data word.
+Parity checker: checks if received data has correct parity.
+Both use XOR gates (XOR chain).
+4-bit even parity generator: P = D3 ⊕ D2 ⊕ D1 ⊕ D0
+
+--- HAZARDS IN COMBINATIONAL CIRCUITS ---
+
+STATIC HAZARD: Output momentarily glitches despite no change in final value.
+Static-1 hazard: output should stay 1 but briefly goes to 0.
+Static-0 hazard: output should stay 0 but briefly goes to 1.
+Cause: Different propagation delays for two paths.
+Fix: Add redundant gates (cover adjacent groups in K-map).
+
+DYNAMIC HAZARD: Output changes more than once when it should change once.
+Caused by multiple paths with different delays.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 5: SEQUENTIAL CIRCUITS AND FLIP-FLOPS
+═══════════════════════════════════════════════════════════════
+
+WHY SEQUENTIAL CIRCUITS: Combinational circuits have no memory.
+To build counters, registers, state machines — you need memory.
+Sequential circuits = combinational circuits + memory elements.
+
+--- LATCHES ---
+
+SR LATCH (Set-Reset):
+Basic memory element. Two cross-coupled NOR gates (or NAND gates).
+Built from NOR gates:
+S=1, R=0 → Q=1 (Set)
+S=0, R=1 → Q=0 (Reset)
+S=0, R=0 → Q=previous (Hold) ← This is the memory!
+S=1, R=1 → Q=? (Forbidden/Invalid) ← Race condition
+
+Why forbidden? Both NOR gates try to force output to 0. When S,R both go to 0
+simultaneously from S=R=1 state, output is unpredictable (depends on which
+gate is slightly faster). This is a race condition.
+
+SR LATCH with NAND gates:
+Active-LOW inputs (S', R').
+S'=0, R'=1 → Q=1 (Set with active-low S)
+S'=1, R'=0 → Q=0 (Reset)
+S'=1, R'=1 → Hold
+S'=0, R'=0 → Forbidden
+
+D LATCH (Transparent latch, Data latch):
+Eliminates forbidden state of SR.
+Has Enable (E) input.
+When E=1: Q follows D (transparent)
+When E=0: Q holds last value (memory)
+D=1,E=1 → Q=1; D=0,E=1 → Q=0
+E=0 → Q unchanged regardless of D
+Used in: 8-bit data buses, address latches (like 74LS373).
+Problem: output changes while enable is high → timing issues.
+
+--- FLIP-FLOPS (Edge-Triggered) ---
+
+Difference from latch: FF triggers ONLY at clock edge (rising ↑ or falling ↓).
+Latch is level-sensitive (transparent when enable is high).
+Flip-flop is edge-triggered (samples input at exact clock edge).
+This is critical for synchronous digital design.
+
+SR FLIP-FLOP:
+Same as SR latch but clocked. Changes at clock edge.
+S=1, R=0 at clock edge → Q=1
+S=0, R=1 at clock edge → Q=0
+S=0, R=0 at clock edge → Q=Q (no change)
+S=1, R=1 at clock edge → Forbidden (indeterminate)
+Characteristic equation: Q(next) = S + R'Q, with SR=0 constraint.
+
+D FLIP-FLOP:
+Most commonly used flip-flop in practice.
+Q(next) = D (output follows input at clock edge)
+Eliminates the forbidden state by tying R = D'.
+At positive clock edge: whatever D is, Q becomes that.
+Used in: Registers, RAM cells, pipeline stages, D-type ICs (74LS74).
+Setup time: D must be stable BEFORE clock edge.
+Hold time: D must remain stable AFTER clock edge.
+Violating setup/hold time → metastability.
+
+JK FLIP-FLOP:
+Universal flip-flop. Eliminates forbidden state of SR.
+J=0, K=0 → No change (Q=Q)
+J=1, K=0 → Set (Q=1)
+J=0, K=1 → Reset (Q=0)
+J=1, K=1 → TOGGLE (Q = Q') ← This is the key improvement!
+Characteristic equation: Q(next) = JQ' + K'Q
+Used in: Counters (toggle mode), shift registers.
+Note: JK FF with J=K=1 is used as toggle FF.
+Race-around problem: In level-triggered JK with J=K=1, output toggles
+continuously while clock is high. Solution: edge-triggered JK or master-slave.
+
+MASTER-SLAVE JK FLIP-FLOP:
+Two FFs in series. Master active when CLK=1, Slave active when CLK=0.
+Eliminates race-around condition.
+Output changes at falling edge of clock.
+Disadvantage: 1s catching — if J=1 any time during CLK=1, it gets stored.
+True edge-triggered FF is better.
+
+T FLIP-FLOP (Toggle):
+Special case of JK with J=K connected together.
+T=0 → No change
+T=1 → Toggle
+Q(next) = T⊕Q
+Used in: Binary counters (toggle on each clock).
+Each T FF divides clock frequency by 2.
+
+FLIP-FLOP TIMING PARAMETERS:
+Setup time (tsu): Input must be stable BEFORE clock edge.
+Hold time (th): Input must remain stable AFTER clock edge.
+Propagation delay (tpd or tco): Time from clock edge to output change.
+Clock-to-Q delay: Same as propagation delay.
+Minimum clock period: tpd + tsu + routing delay.
+Maximum frequency = 1 / minimum clock period.
+Violating setup/hold → metastability → FF output is unpredictable.
+
+METASTABILITY:
+When setup/hold times are violated, FF may enter metastable state.
+Output is neither 0 nor 1 — stuck between.
+Eventually resolves to valid state (but when? unpredictable).
+Mean Time Between Failures (MTBF) is used for metastability analysis.
+Solution: Synchronizers (2 FF in series for crossing clock domains).
+
+FLIP-FLOP CONVERSION:
+Can convert one FF type to another using combinational logic.
+D→JK: J=D, K=D' (or K=D with appropriate changes)
+JK→D: J=D, K=D'
+T→D: T = D⊕Q
+SR→D: S=D, R=D'
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 6: REGISTERS AND COUNTERS
+═══════════════════════════════════════════════════════════════
+
+--- REGISTERS ---
+
+A register is a group of flip-flops that stores a binary word.
+n-bit register = n flip-flops sharing a common clock.
+
+STORAGE REGISTER: Stores data. Load signal enables new data.
+With synchronous load: data loaded at clock edge when Load=1.
+8-bit register = 8 D flip-flops = 1 byte of storage.
+Used in: CPU registers (AX, BX, PC, SP in x86), peripheral registers.
+
+SHIFT REGISTER:
+Data shifts left or right on each clock pulse.
+Types: SISO, SIPO, PISO, PIPO.
+
+SISO (Serial-In, Serial-Out): Data enters and leaves one bit at a time.
+4-bit SISO: Input at leftmost FF, output at rightmost. 4 clocks to shift all data.
+Used in: Serial communication, delay lines.
+
+SIPO (Serial-In, Parallel-Out): Data enters serially, read out in parallel.
+Used in: SPI and I2C interfaces on microcontrollers.
+Example: SPI communication shifts data bit by bit, then reads all 8 bits at once.
+
+PISO (Parallel-In, Serial-Out): Load parallel data, shift out serially.
+Used in: Converting parallel bus data to serial (for transmission).
+USB, UART transmitter uses PISO internally.
+
+PIPO (Parallel-In, Parallel-Out): Load and read in parallel.
+Basically a storage register with shift capability.
+
+BIDIRECTIONAL SHIFT REGISTER:
+Can shift left OR right based on control signal.
+Used in: Arithmetic operations (shift left = multiply by 2).
+x86 instruction: SHL AX,1 shifts AX left → multiplies by 2.
+
+UNIVERSAL SHIFT REGISTER (like 74194):
+All four modes: SISO, SIPO, PISO, PIPO.
+Two control lines select mode.
+
+RING COUNTER:
+Shift register with output fed back to input.
+Circulating single 1 through n flip-flops.
+n states: only one FF is 1 at a time.
+State sequence (4-bit): 1000 → 0100 → 0010 → 0001 → 1000...
+Used in: Timing circuits, stepper motor control.
+
+JOHNSON COUNTER (Twisted Ring):
+Output of last FF (complement) fed back to input.
+2n states for n flip-flops (vs n for ring counter).
+4-bit Johnson: 0000→1000→1100→1110→1111→0111→0011→0001→0000
+Used in: Divide-by-n circuits, frequency dividers.
+
+APPLICATIONS OF SHIFT REGISTERS:
+1. Serial to parallel conversion (UART, SPI, I2C)
+2. Time delay (4-bit register = delay by 4 clock cycles)
+3. Pseudo-random number generator (LFSR — Linear Feedback Shift Register)
+4. CRC (Cyclic Redundancy Check) for error detection in networks
+5. Multiplication/division by powers of 2
+
+--- COUNTERS ---
+
+Counter: Sequential circuit that counts clock pulses.
+n-bit counter: counts through 2^n states (0 to 2^n - 1).
+
+RIPPLE COUNTER (Asynchronous Counter):
+Each FF's output clocks the next FF.
+Simple design but has cumulative propagation delay.
+For n-bit ripple counter: total delay = n × tpd
+At high frequencies, this delay causes counting errors.
+Used only for low-speed applications.
+
+4-bit ripple counter:
+T FFs (or JK with J=K=1). MSB changes last.
+CLK → FF0 → FF1 → FF2 → FF3
+Each FF divides clock by 2. FF3 output = clock/16.
+Total delay: 4 × tpd. If tpd=10ns: 40ns delay at output.
+This 40ns is huge at 100MHz (period=10ns). Ripple counter fails!
+
+SYNCHRONOUS COUNTER:
+All FFs clocked simultaneously from same clock.
+No cumulative delay. Works at high frequencies.
+All modern digital systems use synchronous counters.
+Carry logic determines when each FF toggles.
+
+4-bit synchronous binary counter logic:
+FF0 (LSB): always toggles. T0=1.
+FF1: toggles when Q0=1. T1=Q0.
+FF2: toggles when Q1 AND Q0 = 1. T2=Q0·Q1.
+FF3: toggles when Q2 AND Q1 AND Q0 = 1. T3=Q0·Q1·Q2.
+All FFs get same clock → no ripple delay.
+
+UP COUNTER: 0,1,2,3...2^n-1,0,1...
+DOWN COUNTER: reverse. Need complementary carry logic.
+UP-DOWN COUNTER: Control signal selects direction.
+
+MOD-N COUNTER:
+Counts from 0 to N-1, then resets.
+MOD-6 counter: 0,1,2,3,4,5,0,1...
+MOD-10 (Decade counter): 0 to 9. Used in digital clocks.
+
+How to build MOD-N counter:
+Method 1: Use n flip-flops and detect state N using NAND/AND gate.
+Connect output to clear (async reset).
+This causes a brief glitch at state N before reset.
+
+Method 2: Synchronous preset/load.
+Count up to N-1, at N-1 load 0 on next clock.
+No glitch. Better design.
+
+Number of flip-flops for MOD-N:
+n = ceiling(log₂N)
+MOD-5: n=3 (2³=8≥5)
+MOD-10: n=4 (2⁴=16≥10)
+MOD-16: n=4 (2⁴=16, exact)
+MOD-100: n=7 (2⁷=128≥100)
+
+BCD COUNTER (Decade counter, MOD-10):
+Counts 0000 to 1001 (0 to 9), then resets to 0000.
+When count reaches 1010 (10), reset immediately.
+Reset logic: use NAND of Q1 and Q3 (because 1010 has Q1=Q3=1).
+Used in digital clocks, frequency counters.
+Cascade two BCD counters for 0-99 counting.
+
+FREQUENCY DIVIDER:
+Each FF divides frequency by 2.
+10MHz input → FF0=5MHz, FF1=2.5MHz, FF2=1.25MHz...
+Used in clock generation circuits.
+
+CASCADING COUNTERS:
+Connect carry-out of one counter to clock-in of next.
+Two 4-bit counters → 8-bit counter (0-255).
+Enable signal on second counter — only increments when first overflows.
+
+LOCK-OUT in COUNTERS:
+Some counter designs have unused states that, if entered (due to power-on
+or noise), cause the counter to get stuck (never reach normal sequence).
+Self-correcting counter: design so ALL states eventually reach normal sequence.
+Good practice: use synchronous reset to force initial state on power-on.
+
+--- STATE MACHINES ---
+
+MEALY MACHINE: Output depends on current state AND current inputs.
+Output changes when input changes (even without clock).
+Generally has fewer states than Moore.
+Output associated with transitions (arrows).
+
+MOORE MACHINE: Output depends ONLY on current state.
+Output changes only at clock edge (more predictable timing).
+Output associated with states (circles).
+Used more often in practice (predictable timing).
+
+FINITE STATE MACHINE (FSM) DESIGN PROCEDURE:
+1. Define states (draw state diagram)
+2. Assign binary codes to states
+3. Derive next-state equations (from state transition table)
+4. Derive output equations
+5. Implement with flip-flops and combinational logic
+6. Verify timing and simulate
+
+STATE ENCODING:
+Binary encoding: log₂N bits for N states. Compact.
+One-hot encoding: N bits, only 1 bit is 1 at a time. Faster (simple next-state logic).
+Gray code encoding: minimizes transitions. Useful for power-sensitive designs.
+
+VENDING MACHINE EXAMPLE (Common interview question):
+States: IDLE, NICKEL_IN, DIME_IN, QUARTER_REACHED.
+Inputs: nickel, dime, quarter inserted.
+Output: dispense product.
+This is a classic FSM problem — Moore machine.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 7: MEMORY AND PROGRAMMABLE LOGIC
+═══════════════════════════════════════════════════════════════
+
+--- MEMORY TYPES ---
+
+SRAM (Static RAM):
+Uses flip-flop (6 transistors) per bit.
+Fast, no refresh needed.
+Expensive per bit.
+Used for: Cache memory (L1, L2 in your processor), register files.
+SRAM cell: two cross-coupled inverters + 2 access transistors.
+Power: keeps data as long as power is on.
+
+DRAM (Dynamic RAM):
+Uses capacitor + 1 transistor per bit.
+Must be refreshed every few milliseconds (capacitor leaks).
+Dense, cheap, slow (relative to SRAM).
+Your computer's main memory (DDR4, DDR5) is DRAM.
+Refresh controller periodically reads and rewrites each row.
+Modern DDR5: 64-bit wide, 5200 MHz, 41.6 GB/s bandwidth.
+
+ROM (Read-Only Memory):
+Data programmed at manufacture. Cannot be changed.
+Used for: boot code, firmware, lookup tables.
+Non-volatile: retains data without power.
+
+PROM: Programmed once by user (blow fuses).
+EPROM: Erasable with UV light. Old technology.
+EEPROM: Electrically erasable, byte-by-byte. Used for storing settings.
+FLASH: Electrically erasable in blocks. Used in SSDs, USB drives, microcontrollers.
+Your Arduino's program is stored in Flash. EEPROM in Arduino stores config data.
+
+MEMORY ORGANIZATION:
+64K × 8 memory: 64×1024=65536 addresses, each 8 bits wide.
+Address lines needed: log₂(65536) = 16 lines.
+Data lines: 8.
+So address bus = 16 bits, data bus = 8 bits.
+
+--- PROGRAMMABLE LOGIC ---
+
+ROM as Logic: Any combinational function. n address lines → n-variable function.
+2^n × m ROM implements m Boolean functions of n variables.
+
+PLA (Programmable Logic Array):
+Both AND array (programmable) AND OR array (programmable).
+Most flexible, lowest density.
+Product terms shared between outputs.
+Implements SOP expressions.
+
+PAL (Programmable Array Logic):
+Programmable AND array, FIXED OR array.
+Each output has fixed number of product terms.
+Faster than PLA (simpler OR stage).
+One-time programmable (fuses).
+
+GAL (Generic Array Logic):
+Reprogrammable PAL (EEPROM technology).
+Output Logic Macrocell (OLMC) for flexibility.
+Replaced PAL in most applications.
+
+CPLD (Complex PLD):
+Multiple PAL-like blocks connected by programmable interconnect.
+Non-volatile (Flash or EEPROM based). Configuration retained on power-off.
+Used for: Glue logic, simple state machines, address decoding.
+Examples: Altera MAX series, Xilinx CoolRunner.
+
+FPGA (Field-Programmable Gate Array):
+Most powerful programmable logic.
+Contains: CLBs (Configurable Logic Blocks), IOBs, routing resources, block RAM.
+CLB contains LUT (Look-Up Table) + flip-flops.
+LUT: 4-input or 6-input. Can implement ANY function of 4 or 6 variables.
+Volatile: SRAM-based. Must reconfigure on power-up (from external Flash).
+Used for: Prototyping ASICs, signal processing, custom hardware accelerators.
+Examples: Xilinx Artix-7, Intel Cyclone V.
+
+ASIC (Application-Specific IC):
+Custom chip designed for specific function.
+Highest performance, lowest power per function, highest cost.
+Millions of dollars for mask design. Used in high volumes only.
+Examples: iPhone's A17 chip, smart card ICs.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 8: DIGITAL INTEGRATED CIRCUITS AND VLSI BASICS
+═══════════════════════════════════════════════════════════════
+
+--- CMOS TECHNOLOGY ---
+
+CMOS (Complementary Metal-Oxide-Semiconductor):
+Uses both PMOS and NMOS transistors.
+Static power dissipation ≈ 0 (only dynamic power during switching).
+That's why your phone battery lasts hours — CMOS is extremely power efficient.
+
+PMOS transistor: conducts when gate is LOW. P-type channel.
+NMOS transistor: conducts when gate is HIGH. N-type channel.
+
+CMOS NOT gate (Inverter):
+PMOS (pull-up) + NMOS (pull-down).
+Input HIGH: NMOS ON, PMOS OFF → Output = GND (0)
+Input LOW: PMOS ON, NMOS OFF → Output = VDD (1)
+Only ONE transistor conducts at a time → no static current → no static power.
+
+CMOS NAND gate:
+Pull-down: NMOS in series (both must conduct for output to go LOW).
+Pull-up: PMOS in parallel (either OFF for output HIGH).
+A=1, B=1: both NMOS ON → output LOW. Both PMOS OFF.
+Any input LOW: series NMOS chain broken → output HIGH (one PMOS ON).
+
+CMOS NOR gate:
+Pull-down: NMOS in parallel.
+Pull-up: PMOS in series.
+
+Why NAND is preferred over NOR in CMOS:
+Series NMOS has lower resistance than series PMOS.
+NAND (series NMOS pull-down) is faster than NOR (series PMOS pull-down).
+NMOS electron mobility ≈ 2× PMOS hole mobility.
+Industry standard: NAND-based design for speed.
+
+POWER DISSIPATION in CMOS:
+Static: Near zero (only leakage current). Unlike TTL (substantial static power).
+Dynamic: P = α·C·V²·f
+α = switching activity factor
+C = load capacitance
+V = supply voltage
+f = clock frequency
+Reducing V saves V² in power! That's why we go from 5V to 3.3V to 1.2V.
+
+FAN-OUT in CMOS:
+Limited by capacitive loading (not current as in TTL).
+More loads → more capacitance → slower transition.
+Buffer needed for high fan-out (drives clock networks).
+
+--- LOGIC FAMILIES COMPARISON ---
+
+TTL (5V): Fast, moderate power, good noise margin. Older technology.
+CMOS (5V): Slow (older), very low power, high noise margin.
+CMOS (1.8V, modern): Fast AND low power. Dominant in all modern ICs.
+
+INTERFACING TTL to CMOS:
+TTL output VOH(min) = 2.4V, CMOS input VIH(min) = 3.5V (for 5V CMOS).
+Problem: TTL doesn't drive 5V CMOS reliably!
+Solution: Pull-up resistor on TTL output, or use level translator IC.
+
+--- INTERCONNECT AND SIGNAL INTEGRITY ---
+
+As chips get smaller, wires get thinner and closer:
+Resistance: thinner wire → higher resistance → RC delay.
+Capacitance: closer wires → coupling capacitance → crosstalk.
+Inductance: high-speed signals → inductance causes ringing.
+
+Transmission line effects: at high frequencies, wires are transmission lines.
+Signal integrity analysis: eye diagrams, jitter, ringing.
+Termination resistors needed to prevent reflections.
+
+This is why PCB design for high-speed digital circuits is complex.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 9: ANALOG-TO-DIGITAL AND DIGITAL-TO-ANALOG CONVERSION
+═══════════════════════════════════════════════════════════════
+
+Real world is analog. Digital systems need conversion.
+Your microphone → analog signal → ADC → digital → DSP → DAC → speaker.
+
+--- DAC (Digital-to-Analog Converter) ---
+
+Converts binary number to analog voltage.
+n-bit DAC: 2^n output levels.
+Resolution = VREF / (2^n - 1) or VREF / 2^n.
+8-bit DAC: 256 levels. 16-bit DAC: 65536 levels.
+
+R-2R LADDER DAC:
+Uses only two resistor values: R and 2R.
+Each bit switches between 0 and VREF.
+Output = VREF × (D/2^n) where D is decimal value of digital input.
+Simple, accurate, widely used.
+
+WEIGHTED RESISTOR DAC:
+Each bit has resistor: R, 2R, 4R, 8R...
+Problem: Large range of resistors (hard to match accurately for many bits).
+
+--- ADC (Analog-to-Digital Converter) ---
+
+Converts analog voltage to binary number.
+Key specs: resolution (bits), sampling rate (samples/sec), accuracy.
+
+FLASH ADC:
+2^n - 1 comparators for n-bit ADC.
+Fastest type — all conversions simultaneous.
+Expensive (many comparators).
+Used in: Oscilloscopes, video.
+8-bit flash: 255 comparators!
+
+SUCCESSIVE APPROXIMATION ADC (SAR):
+Most common type.
+Binary search approach: tries MSB first.
+n comparisons for n-bit ADC.
+Speed: moderate. Good balance of speed and cost.
+Used in: Microcontrollers (STM32, PIC ADC is SAR type).
+
+SIGMA-DELTA ADC:
+Oversampling + noise shaping.
+Very high resolution (24-bit) but slow.
+Used in: Audio (CD quality = 44.1kHz, 16-bit), precision measurement.
+
+NYQUIST THEOREM:
+Sampling rate ≥ 2 × maximum signal frequency.
+Human hearing: 20Hz - 20kHz. CD uses 44.1kHz (> 2×20kHz).
+Violating Nyquist → aliasing (high frequency appears as low frequency).
+Anti-aliasing filter: low-pass filter before ADC to remove frequencies > Nyquist.
+
+QUANTIZATION ERROR:
+ADC rounds to nearest level → error of ±0.5 LSB.
+More bits → smaller quantization error → better accuracy.
+Signal-to-Noise Ratio: SNR ≈ 6.02n + 1.76 dB for n-bit ADC.
+8-bit ADC: SNR ≈ 50dB. 16-bit: SNR ≈ 98dB.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 10: PRACTICAL INTERVIEW QUESTIONS WITH ANSWERS
+═══════════════════════════════════════════════════════════════
+
+Q: Why can't you have S=R=1 in SR flip-flop?
+A: Because both S and R force their respective outputs.
+When S=R=1, both Q and Q' are forced to same value (both 0 for NOR latch).
+When inputs return to 00, whichever gate wins the race determines final state.
+This is nondeterministic — you can't predict the final state.
+That's why it's forbidden. JK FF solves this by defining J=K=1 as toggle.
+
+Q: What is the difference between latch and flip-flop?
+A: Latch is level-sensitive — transparent when enable is high.
+Flip-flop is edge-triggered — changes ONLY at clock edge.
+Latch can cause timing problems (glitches propagate through).
+FFs give precise timing control.
+
+Q: Why do we need synchronous circuits?
+A: Asynchronous circuits are difficult to design and debug.
+Hazards and race conditions are hard to eliminate.
+Synchronous design: all state changes happen at clock edge.
+Easier to analyze timing, verify correctness, test.
+Modern digital design is almost entirely synchronous.
+
+Q: What is setup time and hold time?
+A: Setup time: input must be stable for this time BEFORE clock edge.
+Hold time: input must remain stable for this time AFTER clock edge.
+Violating either → metastability → unpredictable output.
+These are the most critical timing parameters in digital design.
+
+Q: What is metastability?
+A: When setup or hold time is violated, flip-flop enters metastable state.
+Output is neither 0 nor 1 — stuck at midpoint voltage.
+Eventually resolves but timing is unpredictable.
+Critical problem in CDC (Clock Domain Crossing).
+Solution: Synchronizer circuits (two FFs in series).
+
+Q: What is the difference between combinational and sequential circuit?
+A: Combinational: output depends only on present inputs. No memory. No clock.
+Examples: adders, decoders, MUX, logic gates.
+Sequential: output depends on present inputs AND past state. Has memory. Has clock.
+Examples: flip-flops, counters, registers, state machines.
+
+Q: What is fan-out and why does it matter?
+A: Fan-out = number of gate inputs a single gate output can drive.
+Exceeding fan-out degrades logic levels (output voltage shifts).
+In CMOS: fan-out limited by capacitance → slower not incorrect.
+Critical for clock distribution — clock tree buffers drive many FFs.
+
+Q: Implement XOR using only NAND gates.
+A: XOR from NAND (4 NAND gates):
+G1 = NAND(A,B) = (AB)'
+G2 = NAND(A,G1) = (A·(AB)')' = A'+(AB) = A'+AB = by absorption... actually:
+Easier: A⊕B = A'B + AB'
+Draw: G1=NAND(A,B), G2=NAND(A,G1), G3=NAND(B,G1), G4=NAND(G2,G3)
+This is classic 4-NAND XOR. Very common interview circuit design question.
+
+Q: What is a hazard in combinational circuits?
+A: Temporary incorrect output during input transitions.
+Static-1 hazard: output should stay 1 but glitches to 0 briefly.
+Fix: Cover the hazard by adding a redundant prime implicant in K-map.
+Dynamic hazard: output changes 3 or more times during one expected transition.
+Hazards are eliminated in careful design or tolerated if not causing problems.
+
+Q: What is the advantage of Gray code in shaft encoders?
+A: Gray code changes only ONE bit between adjacent positions.
+In mechanical rotary encoders, if two bits changed simultaneously,
+mechanical imprecision could cause one bit to change slightly before other.
+This gives a wrong intermediate reading.
+With Gray code: maximum error = 1 position (not large jumps).
+
+Q: What is CRC and where is it used?
+A: Cyclic Redundancy Check. Error detection method.
+Treats data as binary polynomial, divides by generator polynomial.
+Remainder is appended as CRC.
+Receiver does same division: if remainder ≠ 0, error detected.
+Used in: Ethernet frames (CRC-32), ZIP files, UART optional CRC.
+Implemented using LFSR (shift register with feedback).
+
+Q: What is LFSR?
+A: Linear Feedback Shift Register.
+Shift register with XOR feedback from certain stages (taps).
+Generates pseudo-random sequence.
+Maximum length LFSR with n FFs: 2^n - 1 states (all states except 0).
+Used in: PRNG, encryption, CRC generation, BIST (Built-In Self Test).
+
+Q: Explain the operation of a D flip-flop using a circuit diagram.
+A: D FF built from SR FF: S=D, R=D'.
+Or built using master-slave or edge-detect structure.
+Positive edge triggered: looks at D just before rising clock edge.
+If D=1 when clock rises → Q becomes 1.
+If D=0 when clock rises → Q becomes 0.
+Q remains unchanged between clock edges.
+
+Q: What is the difference between synchronous and asynchronous reset?
+A: Synchronous reset: reset happens at clock edge when reset signal is active.
+If clock is absent, reset doesn't work.
+Asynchronous reset: reset happens immediately when reset signal goes active.
+Regardless of clock.
+Synchronous reset: cleaner timing, but needs clock running.
+Asynchronous reset: immediate effect, but can cause timing problems.
+Best practice: Asynchronous assert, synchronous deassert (deassertion synchronized to clock).
+
+Q: What is CMOS latch-up?
+A: Parasitic SCR (thyristor) formed by PMOS and NMOS transistors.
+If triggered (ESD, noise), it can cause permanent short circuit.
+Prevention: Guard rings, ESD protection, proper layout spacing.
+Modern foundries have design rules to prevent latch-up.
+
+Q: What is propagation delay in logic gates?
+A: Time from input change to output change.
+tpHL: high-to-low output transition delay (NMOS pulling down).
+tpLH: low-to-high output transition delay (PMOS pulling up).
+Average: tpd = (tpHL + tpLH) / 2.
+Critical path: Longest delay path in circuit → determines max clock frequency.
+
+Q: What are setup and hold time violations and how do you fix them?
+A: Violation: timing constraints not met → metastability.
+Fix for setup violation: Reduce combinational logic depth, use pipeline,
+increase clock period (reduce frequency), use faster technology.
+Fix for hold violation: Add delay (buffers) in data path.
+Hold violation is more serious (can't be fixed by slowing clock!).
+EDA tools perform Static Timing Analysis (STA) to verify timing.
+
+Q: What is the difference between TTL and CMOS?
+A: TTL: BJT-based, 5V, faster older versions, current-driven, static power 10mA/gate.
+CMOS: MOSFET-based, various voltages (5V to 0.7V), near-zero static power.
+CMOS is dominant because: scalable, low power, high integration density.
+Modern CPUs at 3nm: billions of CMOS transistors.
+
+Q: What is tri-state logic?
+A: Three states: HIGH, LOW, High-Impedance (Hi-Z).
+Hi-Z: output is effectively disconnected from bus.
+Used for: shared buses (multiple devices share same wire).
+I²C, SPI buses use tri-state logic.
+Open-drain output + pull-up resistor = wired-AND.'

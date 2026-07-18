@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sign In · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.page-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:2rem}
+.signin-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:2.5rem;width:100%;max-width:420px;box-shadow:var(--shadow)}
+.signin-logo{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);text-align:center;margin-bottom:.5rem}
+.signin-logo span{color:var(--purple)}
+.signin-sub{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:2rem}
+.error-msg{background:#FEE2E2;border:1.5px solid var(--red);border-radius:8px;padding:.75rem 1rem;font-size:.85rem;color:var(--red);font-weight:600;margin-bottom:1rem;display:none}
+.error-msg.show{display:block}
+.divider{text-align:center;color:var(--muted);font-size:.82rem;margin:1.25rem 0}
+.loading-btn{opacity:.7;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="signin-card">
+    <div class="signin-logo">🧭 Career<span>Compass</span></div>
+    <div class="signin-sub">Welcome back! Enter your name to continue.</div>
+
+    <div class="error-msg" id="err-msg">Name not found. Please sign up first.</div>
+
+    <div class="form-group">
+      <label class="form-label">Your name (same as signup)</label>
+      <input class="form-input" id="inp-name" type="text" placeholder="e.g. Joy Sandhiya" autofocus/>
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg" id="signin-btn" style="margin-top:.5rem" onclick="doSignin()">
+      Sign in →
+    </button>
+
+    <div class="divider">— or —</div>
+
+    <a href="/signup" class="btn btn-outline btn-full">
+      Create new profile
+    </a>
+
+    <div style="text-align:center;margin-top:1rem;font-size:.8rem;color:var(--muted)">
+      We look up your saved profile from our database.
+    </div>
+  </div>
+</div>
+
+<script>
+async function doSignin(){
+  const name = document.getElementById('inp-name').value.trim();
+  const errBox = document.getElementById('err-msg');
+  const btn = document.getElementById('signin-btn');
+
+  errBox.classList.remove('show');
+
+  if(!name){
+    errBox.textContent = 'Please enter your name.';
+    errBox.classList.add('show');
+    return;
+  }
+
+  btn.textContent = 'Checking...';
+  btn.classList.add('loading-btn');
+
+  try {
+    // ── ACTUALLY CALL THE BACKEND — this was missing before! ──
+    const res = await fetch('/api/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // ── Clear any previous session's leftover data first ──
+      localStorage.clear();
+
+      // ── Now load THIS user's real data from the database ──
+      localStorage.setItem('cc_name',     data.name);
+      localStorage.setItem('cc_company',  data.company);
+      localStorage.setItem('cc_year',     data.year);
+      localStorage.setItem('cc_user_id',  data.user_id);
+      localStorage.setItem('cc_subjects', JSON.stringify(data.subjects));
+      localStorage.setItem('cc_ratings',  JSON.stringify(data.ratings));
+      localStorage.setItem('cc_days',     data.days);
+      localStorage.setItem('cc_hours',    data.hours);
+
+      window.location.href = '/dashboard';
+    } else {
+      errBox.textContent = data.error || 'Name not found. Please sign up first.';
+      errBox.classList.add('show');
+      btn.textContent = 'Sign in →';
+      btn.classList.remove('loading-btn');
+    }
+  } catch (err) {
+    errBox.textContent = 'Connection error. Make sure the server is running.';
+    errBox.classList.add('show');
+    btn.textContent = 'Sign in →';
+    btn.classList.remove('loading-btn');
+  }
+}
+
+document.getElementById('inp-name').addEventListener('keydown', e=>{
+  if(e.key==='Enter') doSignin();
+});
+</script>
+</body>
+</html>

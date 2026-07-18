@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Manager's Call · CareerCompass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.manager-wrap{max-width:520px;margin:0 auto;padding:1.5rem}
+
+/* TOP STATUS BAR */
+.status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.status-day{font-family:'Nunito',sans-serif;font-weight:900;font-size:.85rem;color:var(--ink)}
+.status-badge{background:var(--purple-lt);color:var(--purple);font-size:.75rem;font-weight:700;padding:.25rem .75rem;border-radius:20px;font-family:'Nunito',sans-serif}
+
+/* FORMAT TABS */
+.format-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;background:var(--bg);border-radius:12px;padding:.3rem}
+.format-tab{flex:1;text-align:center;padding:.45rem;border-radius:10px;font-size:.78rem;font-weight:700;cursor:pointer;color:var(--muted);font-family:'Nunito',sans-serif;transition:all .15s;border:none;background:transparent}
+.format-tab.active{background:var(--white);color:var(--purple);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+/* ── WHATSAPP FORMAT ── */
+.wa-wrap{background:#E8FDD8;border-radius:16px;overflow:hidden;box-shadow:0 4px 0 #D1D5DB}
+.wa-header{background:#075E54;padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem}
+.wa-avatar{width:40px;height:40px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:white;font-family:'Nunito',sans-serif;flex-shrink:0}
+.wa-name{color:white;font-weight:700;font-size:.9rem}
+.wa-status{color:rgba(255,255,255,.7);font-size:.72rem}
+.wa-body{padding:1rem;min-height:280px;display:flex;flex-direction:column;gap:.6rem}
+.wa-msg{max-width:85%;padding:.7rem .9rem;border-radius:12px;font-size:.875rem;line-height:1.6;position:relative}
+.wa-msg.received{background:white;border-top-left-radius:4px;align-self:flex-start;color:#111}
+.wa-msg.sent{background:#DCF8C6;border-top-right-radius:4px;align-self:flex-end;color:#111}
+.wa-time{font-size:.65rem;color:rgba(0,0,0,.45);margin-top:.2rem;text-align:right}
+.wa-typing{display:flex;align-items:center;gap:.3rem;padding:.5rem .9rem;background:white;border-radius:12px;border-top-left-radius:4px;width:60px}
+.wa-dot{width:6px;height:6px;border-radius:50%;background:#999;animation:waBounce .9s infinite}
+.wa-dot:nth-child(2){animation-delay:.15s}
+.wa-dot:nth-child(3){animation-delay:.3s}
+@keyframes waBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+
+/* ── EMAIL FORMAT ── */
+.email-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 4px 0 #D1D5DB}
+.email-header{background:#1A73E8;padding:1rem;color:white}
+.email-from{font-size:.75rem;opacity:.8;margin-bottom:.2rem}
+.email-subject{font-size:.95rem;font-weight:700}
+.email-meta{display:flex;gap:1rem;margin-top:.5rem;font-size:.72rem;opacity:.7}
+.email-body{padding:1.25rem;font-size:.875rem;line-height:1.75;color:var(--ink)}
+.email-sig{margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted)}
+
+/* ── VOICE NOTE FORMAT ── */
+.voice-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 4px 0 #D1D5DB}
+.voice-header{background:var(--ink);padding:1rem;display:flex;align-items:center;gap:.75rem}
+.voice-avatar{width:44px;height:44px;border-radius:50%;background:var(--purple);color:white;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.voice-name{color:white;font-weight:700;font-size:.9rem}
+.voice-time{color:rgba(255,255,255,.6);font-size:.72rem}
+.voice-player{padding:1rem;display:flex;align-items:center;gap:.75rem;background:#F8F8F8;border-bottom:1px solid var(--border)}
+.play-btn{width:40px;height:40px;border-radius:50%;background:var(--purple);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s}
+.play-btn:hover{transform:scale(1.05)}
+.play-btn svg{fill:white;width:16px;height:16px;margin-left:2px}
+.voice-wave{flex:1;height:36px;display:flex;align-items:center;gap:2px}
+.wave-bar{width:3px;border-radius:2px;background:var(--purple);opacity:.4;transition:opacity .3s}
+.wave-bar.played{opacity:1}
+.voice-duration{font-size:.75rem;font-weight:700;color:var(--muted)}
+.voice-transcript{padding:1.25rem}
+.transcript-label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem}
+.transcript-text{font-size:.875rem;line-height:1.75;color:var(--ink);font-style:italic}
+
+/* ── QUESTION SECTION ── */
+.question-section{margin-top:1.25rem;background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:1.25rem;box-shadow:0 4px 0 #D1D5DB}
+.q-eyebrow{font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem}
+.q-text{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:var(--ink);margin-bottom:1rem;line-height:1.4}
+.q-options{display:flex;flex-direction:column;gap:.5rem}
+.q-opt{
+  padding:.8rem 1rem;border-radius:12px;border:2px solid var(--border);
+  background:var(--white);text-align:left;cursor:pointer;
+  font-size:.875rem;font-weight:600;font-family:'Nunito',sans-serif;
+  display:flex;align-items:center;gap:.75rem;transition:all .15s;color:var(--ink);
+}
+.q-opt:hover{border-color:var(--purple);background:var(--purple-lt)}
+.q-opt.correct{border-color:#16A34A;background:#DCFCE7;color:#166534}
+.q-opt.wrong{border-color:#DC2626;background:#FEE2E2;color:#991B1B}
+.opt-letter{width:26px;height:26px;border-radius:8px;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;transition:background .15s}
+.q-opt:hover .opt-letter{background:var(--purple);color:white}
+.q-opt.correct .opt-letter{background:#16A34A;color:white}
+.q-opt.wrong .opt-letter{background:#DC2626;color:white}
+
+/* ── MANAGER REACTION ── */
+.manager-reaction{margin-top:1rem;border-radius:12px;padding:1rem;font-size:.875rem;line-height:1.6;display:none;animation:fadeIn .4s ease}
+.manager-reaction.show{display:block}
+.manager-reaction.good{background:#DCFCE7;border:1.5px solid #16A34A;color:#166534}
+.manager-reaction.bad{background:#FEE2E2;border:1.5px solid #DC2626;color:#991B1B}
+.reaction-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;margin-bottom:.3rem}
+.explanation-box{margin-top:.75rem;padding:.75rem;background:rgba(0,0,0,.05);border-radius:8px;font-size:.82rem}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── NEXT BTN ── */
+.next-row{margin-top:1.25rem;display:flex;gap:.75rem}
+
+/* ── TOPIC STUDIED ── */
+.topic-pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--purple-lt);color:var(--purple);padding:.35rem .85rem;border-radius:20px;font-size:.78rem;font-weight:700;font-family:'Nunito',sans-serif;margin-bottom:1.25rem}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-links">
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/learn" class="nav-link">Learn</a>
+    <a href="/practice" class="nav-link">Practice</a>
+    <a href="/manager" class="nav-link" style="color:var(--purple)">Manager's Call</a>
+    <a href="/mentor" class="nav-link">AI Mentor</a>
+  </div>
+</nav>
+
+<div class="manager-wrap">
+
+  <!-- Status -->
+  <div class="status-bar">
+    <div class="status-day" id="status-day">Monday · Day 1 at HCL</div>
+    <div class="status-badge" id="status-badge">📚 Yesterday: Logic Gates</div>
+  </div>
+
+  <!-- Topic studied yesterday -->
+  <div class="topic-pill">
+    📖 Based on what you studied: <span id="topic-name">Logic Gates</span>
+  </div>
+
+  <!-- Format tabs -->
+  <div class="format-tabs">
+    <button class="format-tab active" onclick="switchFormat('whatsapp',this)">💬 WhatsApp</button>
+    <button class="format-tab" onclick="switchFormat('email',this)">📧 Email</button>
+    <button class="format-tab" onclick="switchFormat('voice',this)">🎙️ Voice note</button>
+  </div>
+
+  <!-- WHATSAPP FORMAT -->
+  <div id="fmt-whatsapp">
+    <div class="wa-wrap">
+      <div class="wa-header">
+        <div class="wa-avatar" id="wa-avatar">RK</div>
+        <div>
+          <div class="wa-name" id="wa-name">Rajesh Kumar (Manager)</div>
+          <div class="wa-status">HCLTech · online</div>
+        </div>
+      </div>
+      <div class="wa-body" id="wa-body">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL FORMAT -->
+  <div id="fmt-email" style="display:none">
+    <div class="email-wrap">
+      <div class="email-header">
+        <div class="email-from">From: rajesh.kumar@hcltech.com</div>
+        <div class="email-subject" id="email-subject">Quick technical check — respond before standup</div>
+        <div class="email-meta">
+          <span id="email-time">Today, 7:58 AM</span>
+          <span>To: you@hcltech.com</span>
+        </div>
+      </div>
+      <div class="email-body" id="email-body">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- VOICE FORMAT -->
+  <div id="fmt-voice" style="display:none">
+    <div class="voice-wrap">
+      <div class="voice-header">
+        <div class="voice-avatar" id="voice-avatar">RK</div>
+        <div>
+          <div class="voice-name" id="voice-name">Rajesh Kumar</div>
+          <div class="voice-time">Voice note · 8:02 AM</div>
+        </div>
+      </div>
+      <div class="voice-player">
+        <button class="play-btn" onclick="playVoice()" id="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="voice-wave" id="voice-wave">
+          <!-- bars filled by JS -->
+        </div>
+        <div class="voice-duration" id="voice-dur">0:24</div>
+      </div>
+      <div class="voice-transcript">
+        <div class="transcript-label">📝 Transcript</div>
+        <div class="transcript-text" id="voice-transcript"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="question-section">
+    <div class="q-eyebrow">🎯 Manager's question for you</div>
+    <div class="q-text" id="q-text">Loading your question...</div>
+    <div class="q-options" id="q-options"></div>
+
+    <!-- Manager reaction -->
+    <div class="manager-reaction" id="manager-reaction">
+      <div class="reaction-name" id="reaction-name"></div>
+      <div id="reaction-msg"></div>
+      <div class="explanation-box" id="explanation-box"></div>
+    </div>
+  </div>
+
+  <!-- Next -->
+  <div class="next-row" id="next-row" style="display:none">
+    <a href="/learn" class="btn btn-outline" style="flex:1;justify-content:center">📖 Study more</a>
+    <a href="/dashboard" class="btn btn-primary" style="flex:1;justify-content:center">Back to desk →</a>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────
+const SCENARIOS = {
+  'Logic Gates': {
+    manager: { name:'Rajesh Kumar', initials:'RK', title:'Senior Engineer' },
+    whatsapp: [
+      { from:'manager', text:'Good morning! Hope you studied logic gates yesterday 👀', delay:0 },
+      { from:'manager', text:'I need you to verify something before standup. Our circuit has an issue.', delay:800 },
+      { from:'manager', text:'Quick question — which gate do we need if the alarm should trigger ONLY when BOTH sensors detect intrusion?', delay:1600 },
+    ],
+    email_subject: 'Quick check before standup — circuit verification',
+    email_body: `Good morning,<br><br>
+Hope you had a productive study session yesterday. Before our 9am standup, I need you to answer one quick technical question.<br><br>
+We are installing a security system in the server room. The alarm should trigger <strong>only when both motion sensor A AND temperature sensor B detect a problem simultaneously.</strong><br><br>
+Which logic gate should we use for this?<br><br>
+Reply within 10 minutes please — client is visiting at 10am.<br><br>
+<div class="email-sig">Rajesh Kumar<br>Senior Engineer, HCLTech<br>📱 +91 98XXX XXXXX</div>`,
+    voice_transcript: `"Hey, good morning. Listen, I need a quick answer before standup. We have this new security system for the server room — it should only trigger the alarm when BOTH sensors go off at the same time, not just one. Which gate handles that? Text me back, I'm heading into a call."`,
+    question: 'The server room alarm must trigger ONLY when sensor A AND sensor B both detect a problem. Which logic gate should be used?',
+    options: ['OR gate', 'AND gate', 'NAND gate', 'XOR gate'],
+    answer: 1,
+    explanation: 'AND gate output is 1 ONLY when ALL inputs are 1. So if A=1 and B=1 (both sensors triggered), alarm fires. If only one sensor triggers, output is 0 — no alarm. This is exactly what we need!',
+    good_reaction: ["Great work! That's exactly right.", "AND gate it is. Output is HIGH only when BOTH inputs are HIGH. You just saved us from a false alarm situation. See you at standup 👍"],
+    bad_reaction: ["Hmm, that's not quite right.", "Think about it — we need the alarm ONLY when BOTH sensors trigger, not just one. AND gate is what we need here. Review your logic gates notes before standup."]
+  },
+  'Number Systems': {
+    manager: { name:'Priya Sharma', initials:'PS', title:'Project Lead' },
+    whatsapp: [
+      { from:'manager', text:'Morning! Quick question before you come in 🙂', delay:0 },
+      { from:'manager', text:'We are migrating a database and I need to convert some addresses.', delay:800 },
+      { from:'manager', text:'What is the decimal value of binary 10110? I need this for the config file.', delay:1600 },
+    ],
+    email_subject: 'Config file values — need before 9am',
+    email_body: `Good morning,<br><br>
+We are updating server configuration files this morning. I need the decimal equivalent of a binary value for the IP routing table.<br><br>
+<strong>What is the decimal value of binary 10110?</strong><br><br>
+Simple question but I want to make sure you know your number systems — you'll be doing this often here.<br><br>
+<div class="email-sig">Priya Sharma<br>Project Lead, HCLTech</div>`,
+    voice_transcript: `"Hey good morning, quick one — I'm updating the config file and I need to convert binary 10110 to decimal. What's the value? Text me back, I need it before standup."`,
+    question: 'Your manager needs the decimal value of binary 10110 for the server config. What do you tell her?',
+    options: ['20', '22', '18', '24'],
+    answer: 1,
+    explanation: '10110 = (1×16) + (0×8) + (1×4) + (1×2) + (0×1) = 16+0+4+2+0 = 22. Read each position value from right: 1,2,4,8,16.',
+    good_reaction: ["Correct! 22 it is.", "Config file updated. Good job knowing your binary conversions — you'll use this more than you think here 💪"],
+    bad_reaction: ["That's not right.", "Binary 10110 = 16+4+2 = 22. Remember — positions from right are 1,2,4,8,16. Review number systems before you come in."]
+  },
+  'C Programming': {
+    manager: { name:'Arun Mehta', initials:'AM', title:'Tech Lead' },
+    whatsapp: [
+      { from:'manager', text:'Good morning. Did you go through pointers yesterday?', delay:0 },
+      { from:'manager', text:'I found a bug in the junior dev code. Let me send it.', delay:800 },
+      { from:'manager', text:'int x=10; int *p=&x; *p=25; — after this runs, what is the value of x?', delay:1600 },
+    ],
+    email_subject: 'Code review — tell me what this outputs',
+    email_body: `Morning,<br><br>
+Found an issue in the codebase. Before I explain it to the junior dev, I want to test if you understand it.<br><br>
+<pre style="background:#F0F0F0;padding:.75rem;border-radius:8px;font-size:.85rem">int x = 10;
+int *p = &x;
+*p = 25;</pre>
+<strong>After this code runs — what is the value of x?</strong><br><br>
+Reply before standup.<br>
+<div class="email-sig">Arun Mehta<br>Tech Lead, HCLTech</div>`,
+    voice_transcript: `"Hey, morning. Listen I found a bug. There's a pointer issue. The code does int x=10, then int star p equals ampersand x, then star p equals 25. After that what is the value of x? Think carefully and text me."`,
+    question: 'After running: int x=10; int *p=&x; *p=25; — what is the value of x?',
+    options: ['10 (unchanged)', '25', 'Garbage value', 'Compilation error'],
+    answer: 1,
+    explanation: '*p=25 changes the value at the address p points to. Since p=&x (p stores address of x), *p=25 directly changes x. So x becomes 25. This is call by reference — the original variable changes.',
+    good_reaction: ["Exactly right!", "x becomes 25 because *p dereferences the pointer — it goes to x's address and changes the value there. Good understanding of pointers 🎯"],
+    bad_reaction: ["Not quite.", "x becomes 25, not 10. When you do *p=25, you're going to x's memory address and changing it. *p is not a copy — it IS x. Review pointer dereferencing."]
+  }
+};
+
+// ── STATE ──────────────────────────────────────────────────
+const topic    = localStorage.getItem('cc_last_topic') || 'Logic Gates';
+const scenario = SCENARIOS[topic] || SCENARIOS['Logic Gates'];
+const days     = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const dayName  = days[new Date().getDay()] || 'Monday';
+let answered   = false;
+let currentFmt = 'whatsapp';
+
+// ── INIT ──────────────────────────────────────────────────
+document.getElementById('status-day').textContent = `${dayName} · Day ${Math.floor(Math.random()*20)+1} at HCL`;
+document.getElementById('status-badge').textContent = `📚 Yesterday: ${topic}`;
+document.getElementById('topic-name').textContent = topic;
+
+// Manager details
+const m = scenario.manager;
+['wa-avatar','voice-avatar'].forEach(id=>{
+  document.getElementById(id).textContent = m.initials;
+});
+document.getElementById('wa-name').textContent = `${m.name} (${m.title})`;
+document.getElementById('voice-name').textContent = m.name;
+
+// Build WhatsApp messages with typing delay
+function buildWhatsapp(){
+  const body = document.getElementById('wa-body');
+  body.innerHTML='';
+  const now = new Date();
+  scenario.whatsapp.forEach((msg,i)=>{
+    setTimeout(()=>{
+      // Remove typing indicator
+      const typing = body.querySelector('.wa-typing-wrap');
+      if(typing) typing.remove();
+
+      const div=document.createElement('div');
+      div.className=`wa-msg ${msg.from==='manager'?'received':'sent'}`;
+      div.innerHTML=`${msg.text}<div class="wa-time">${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}</div>`;
+      body.appendChild(div);
+      body.scrollTop=body.scrollHeight;
+
+      // Add typing indicator after last message except last
+      if(i<scenario.whatsapp.length-1){
+        const tw=document.createElement('div');
+        tw.className='wa-typing-wrap';
+        tw.innerHTML='<div class="wa-typing"><div class="wa-dot"></div><div class="wa-dot"></div><div class="wa-dot"></div></div>';
+        body.appendChild(tw);
+      }
+    }, msg.delay);
+  });
+}
+buildWhatsapp();
+
+// Build email
+document.getElementById('email-subject').textContent = scenario.email_subject;
+document.getElementById('email-body').innerHTML = scenario.email_body;
+document.getElementById('email-time').textContent = `Today, ${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2,'0')} AM`;
+
+// Build voice note
+document.getElementById('voice-transcript').textContent = scenario.voice_transcript;
+const wave = document.getElementById('voice-wave');
+for(let i=0;i<40;i++){
+  const bar=document.createElement('div');
+  bar.className='wave-bar';
+  bar.style.height=Math.floor(Math.random()*24+8)+'px';
+  wave.appendChild(bar);
+}
+
+// Voice play animation
+let playing=false, playInterval=null, playIdx=0;
+function playVoice(){
+  const bars=wave.querySelectorAll('.wave-bar');
+  const btn=document.getElementById('play-btn');
+  if(playing){
+    clearInterval(playInterval);
+    playing=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>';
+    return;
+  }
+  playing=true;
+  btn.innerHTML='<svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  playInterval=setInterval(()=>{
+    if(playIdx<bars.length){ bars[playIdx].classList.add('played'); playIdx++; }
+    else{ clearInterval(playInterval); playing=false; playIdx=0; btn.innerHTML='<svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>'; }
+  }, 80);
+}
+
+// Build question
+document.getElementById('q-text').textContent = scenario.question;
+const opts = document.getElementById('q-options');
+scenario.options.forEach((opt,i)=>{
+  const btn=document.createElement('button');
+  btn.className='q-opt';
+  btn.innerHTML=`<span class="opt-letter">${['A','B','C','D'][i]}</span>${opt}`;
+  btn.onclick=()=>answer(i,btn);
+  opts.appendChild(btn);
+});
+
+function answer(idx,btn){
+  if(answered) return;
+  answered=true;
+  const correct=idx===scenario.answer;
+
+  document.querySelectorAll('.q-opt').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===scenario.answer) b.classList.add('correct');
+    if(i===idx&&!correct) b.classList.add('wrong');
+  });
+
+  const reaction=document.getElementById('manager-reaction');
+  const reactionData=correct?scenario.good_reaction:scenario.bad_reaction;
+  reaction.className=`manager-reaction show ${correct?'good':'bad'}`;
+  document.getElementById('reaction-name').textContent=`${m.name}: "${reactionData[0]}"`;
+  document.getElementById('reaction-msg').textContent=reactionData[1];
+  document.getElementById('explanation-box').textContent=`📚 Why: ${scenario.explanation}`;
+
+  // Update XP
+  if(correct){
+    const xp=parseInt(localStorage.getItem('cc_xp')||'0')+15;
+    localStorage.setItem('cc_xp',xp);
+  }
+
+  document.getElementById('next-row').style.display='flex';
+}
+
+// Format switcher
+function switchFormat(fmt,tab){
+  currentFmt=fmt;
+  ['whatsapp','email','voice'].forEach(f=>{
+    document.getElementById(`fmt-${f}`).style.display=f===fmt?'block':'none';
+  });
+  document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+}
+</script>
+</body>
+</html>

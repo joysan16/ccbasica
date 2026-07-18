@@ -5,106 +5,72 @@
 <title>Learn · CareerCompass</title>
 <link rel="stylesheet" href="/static/css/main.css"/>
 <style>
-.learn-wrap{max-width:940px;margin:0 auto;padding:2rem}
-.learn-layout{display:grid;grid-template-columns:260px 1fr;gap:1.5rem;align-items:start}
-
-/* Left sidebar — topics list */
-.topics-sidebar{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.learn-wrap{max-width:980px;margin:0 auto;padding:2rem}
+.learn-layout{display:grid;grid-template-columns:270px 1fr;gap:1.5rem;align-items:start}
+.topics-sidebar{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);position:sticky;top:84px;max-height:calc(100vh - 100px);overflow-y:auto}
 .topics-sidebar-header{padding:1rem 1.25rem;border-bottom:1.5px solid var(--border);background:var(--bg)}
 .topics-sidebar-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink)}
 .topics-sidebar-sub{font-size:.75rem;color:var(--muted);margin-top:.15rem}
-.topic-list-item{
-  display:flex;align-items:center;gap:.75rem;padding:.8rem 1.25rem;
-  border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s;
-}
+.section-label{padding:.5rem 1.25rem .25rem;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg);border-bottom:1px solid var(--border)}
+.topic-list-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.25rem;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s}
 .topic-list-item:hover{background:var(--purple-lt)}
 .topic-list-item.active{background:var(--purple-lt);border-left:3px solid var(--purple)}
 .topic-list-item.done{background:#F0FDF4}
-.tli-icon{font-size:1.1rem;flex-shrink:0}
+.tli-icon{font-size:1rem;flex-shrink:0}
 .tli-text{flex:1}
-.tli-name{font-size:.85rem;font-weight:700;color:var(--ink)}
-.tli-sub{font-size:.72rem;color:var(--muted);margin-top:.1rem}
-.tli-status{font-size:.75rem}
-
-/* Right — content area */
-.content-area{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
-
-/* Concept header */
-.concept-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
-.concept-title-area{}
+.tli-name{font-size:.84rem;font-weight:700;color:var(--ink)}
+.tli-sub{font-size:.7rem;color:var(--muted);margin-top:.1rem}
+.tli-status{font-size:.8rem}
+.content-area{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);min-height:500px}
 .concept-eyebrow{font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
-.concept-title{font-family:'Nunito',sans-serif;font-size:1.75rem;font-weight:900;color:var(--ink);margin-bottom:.4rem}
-.concept-meta{display:flex;gap:.5rem;flex-wrap:wrap}
-.concept-badge{font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:8px}
+.concept-title{font-family:'Nunito',sans-serif;font-size:1.8rem;font-weight:900;color:var(--ink);margin-bottom:.5rem}
+.concept-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.concept-badge{font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:8px}
 .xp-badge{background:var(--yellow-lt);color:#92400E;border:1.5px solid var(--yellow)}
 .time-badge{background:var(--purple-lt);color:var(--purple);border:1.5px solid var(--purple)}
 .hcl-badge{background:#FEE2E2;color:#991B1B;border:1.5px solid #FCA5A5}
-
-/* Concept body */
-.concept-body{font-size:.95rem;color:var(--ink2);line-height:1.85;margin-bottom:1.5rem}
+.concept-intro{font-size:1rem;color:var(--ink2);line-height:1.85;margin-bottom:1.5rem;padding:1rem 1.25rem;background:var(--bg);border-radius:12px;border-left:4px solid var(--purple)}
+.concept-section{margin-bottom:1.5rem}
+.concept-section-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:var(--ink);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.concept-body{font-size:.9rem;color:var(--ink2);line-height:1.9}
 .concept-body strong{color:var(--ink);font-weight:700}
-
-.concept-block{
-  background:var(--bg);border:1.5px solid var(--border);
-  border-radius:12px;padding:1.25rem;margin:1.25rem 0;
-}
-.concept-block-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-.code-block{
-  background:var(--ink);border-radius:10px;padding:1rem 1.25rem;
-  font-family:'Courier New',monospace;font-size:.82rem;color:#E5E7EB;
-  line-height:1.7;overflow-x:auto;margin:.75rem 0;
-}
-.code-block .kw{color:#C084FC}
-.code-block .str{color:#86EFAC}
-.code-block .cmt{color:#6B7280}
-.code-block .num{color:#FCD34D}
-
-/* Exam tip */
-.exam-tip{
-  background:var(--yellow-lt);border:1.5px solid var(--yellow);
-  border-radius:12px;padding:1.1rem 1.25rem;margin:1.25rem 0;
-}
+.concept-body code{background:#F0F0F0;padding:.1rem .4rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85rem;color:var(--purple)}
+.analogy-box{background:linear-gradient(135deg,#EDE9FE,#F5F3FF);border:1.5px solid var(--purple);border-radius:12px;padding:1.1rem 1.25rem;margin:1rem 0}
+.analogy-box-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:var(--purple);margin-bottom:.4rem}
+.analogy-box-body{font-size:.875rem;color:var(--ink2);line-height:1.65}
+.exam-tip{background:var(--yellow-lt);border:1.5px solid var(--yellow);border-radius:12px;padding:1rem 1.25rem;margin:1rem 0}
 .exam-tip-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:#92400E;margin-bottom:.4rem}
 .exam-tip-body{font-size:.85rem;color:#78350F;line-height:1.65}
-
-/* HCL specific box */
-.hcl-box{
-  background:#FEF2F2;border:1.5px solid #FCA5A5;
-  border-radius:12px;padding:1.1rem 1.25rem;margin:1.25rem 0;
-}
-.hcl-box-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:#991B1B;margin-bottom:.6rem}
-.hcl-q-item{font-size:.83rem;color:#7F1D1D;line-height:1.6;padding:.2rem 0;border-bottom:1px solid #FEE2E2;display:flex;gap:.5rem}
-.hcl-q-item:last-child{border-bottom:none}
-
-/* Navigation between concepts */
+.interview-box{background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:12px;padding:1rem 1.25rem;margin:1rem 0}
+.interview-box-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:#991B1B;margin-bottom:.6rem}
+.interview-q{font-size:.83rem;color:#7F1D1D;line-height:1.7;padding:.2rem 0;display:flex;gap:.5rem}
+.truth-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.85rem}
+.truth-table th{background:var(--purple);color:var(--white);padding:.5rem .75rem;text-align:center;font-family:'Nunito',sans-serif;font-weight:700}
+.truth-table td{padding:.4rem .75rem;text-align:center;border:1px solid var(--border)}
+.truth-table tr:nth-child(even){background:var(--bg)}
+.truth-table tr.highlight td{background:var(--purple-lt);font-weight:700;color:var(--purple)}
 .concept-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1.5px solid var(--border)}
-.nav-concept-btn{
-  display:flex;align-items:center;gap:.5rem;
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:10px;padding:.6rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;
-  font-weight:700;font-size:.85rem;color:var(--ink);transition:all .15s;text-decoration:none;
-}
-.nav-concept-btn:hover{border-color:var(--purple);color:var(--purple)}
-.nav-concept-btn.primary{background:var(--purple);color:var(--white);border-color:var(--purple);box-shadow:0 3px 0 #5B21B6}
-
-/* Done button */
-.mark-done-btn{
-  display:flex;align-items:center;gap:.5rem;
-  background:#DCFCE7;border:1.5px solid #16A34A;
-  border-radius:10px;padding:.65rem 1.25rem;cursor:pointer;font-family:'Nunito',sans-serif;
-  font-weight:800;font-size:.875rem;color:#166534;transition:all .15s;
-}
+.nav-btn{display:flex;align-items:center;gap:.5rem;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.6rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;color:var(--ink);transition:all .15s;text-decoration:none}
+.nav-btn:hover{border-color:var(--purple);color:var(--purple)}
+.nav-btn.primary{background:var(--purple);color:var(--white);border-color:var(--purple);box-shadow:0 3px 0 #5B21B6}
+.nav-btn.primary:hover{color:var(--white);transform:translateY(-1px)}
+.mark-done-btn{display:flex;align-items:center;gap:.5rem;background:#DCFCE7;border:1.5px solid #16A34A;border-radius:10px;padding:.65rem 1.25rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:#166534;transition:all .15s}
 .mark-done-btn:hover{background:#BBF7D0}
 .mark-done-btn.done-state{background:#166534;color:var(--white);border-color:#166534}
-
-@media(max-width:700px){
-  .learn-layout{grid-template-columns:1fr}
-  .topics-sidebar{margin-bottom:1rem}
-}
+.ai-explain-btn{display:flex;align-items:center;gap:.5rem;background:var(--purple-lt);border:1.5px solid var(--purple);border-radius:10px;padding:.65rem 1.25rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:var(--purple);transition:all .15s}
+.ai-explain-btn:hover{background:var(--purple);color:var(--white)}
+.ai-response{background:linear-gradient(135deg,#1C1C2E,#2D1B69);border-radius:12px;padding:1.25rem;margin-top:1rem;display:none}
+.ai-response.show{display:block}
+.ai-response-text{font-size:.875rem;color:rgba(255,255,255,.9);line-height:1.8}
+.ai-loading{display:flex;align-items:center;gap:.75rem;color:rgba(255,255,255,.7);font-size:.85rem}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);animation:blink .8s infinite}
+.ai-dot:nth-child(2){animation-delay:.2s}
+.ai-dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@media(max-width:700px){.learn-layout{grid-template-columns:1fr}.topics-sidebar{position:static;max-height:300px}}
 </style>
 </head>
 <body>
-
 <nav class="navbar">
   <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
   <div class="nav-links">
@@ -112,408 +78,1596 @@
     <a href="/learn" class="nav-link" style="color:var(--purple)">Learn</a>
     <a href="/practice" class="nav-link">Practice</a>
     <a href="/mock" class="nav-link">Mock Test</a>
+    <a href="/mentor" class="nav-link">AI Mentor</a>
+    <a href="/cheatsheet" class="nav-link">Cheat Sheets</a>
   </div>
   <div class="nav-right">
-    <span id="xp-pill" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:var(--purple)">⚡ Loading...</span>
+    <span id="xp-pill" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;color:var(--purple)">⚡ 0 XP today</span>
   </div>
 </nav>
 
 <div class="learn-wrap">
   <div style="margin-bottom:1.25rem">
     <h2 style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:.2rem">Learn Concepts 📖</h2>
-    <p style="color:var(--muted);font-size:.875rem">Read, understand, then practice. Each concept has an exam tip and HCL-specific questions.</p>
+    <p style="color:var(--muted);font-size:.875rem">Explained like your friend is teaching you. Real examples. No textbook boredom.</p>
   </div>
 
   <div class="learn-layout">
-
-    <!-- Topics sidebar -->
+    <!-- SIDEBAR -->
     <div class="topics-sidebar">
       <div class="topics-sidebar-header">
         <div class="topics-sidebar-title" id="sidebar-company-label">HCLTech · ECE Track</div>
-        <div class="topics-sidebar-sub" id="sidebar-progress-label">0 of 8 completed</div>
+        <div class="topics-sidebar-sub" id="sidebar-progress-label">0 of 20 completed</div>
       </div>
 
-      <!-- Digital Electronics section -->
-      <div style="padding:.6rem 1.25rem .3rem;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg)">🔌 Digital Electronics</div>
+      <div class="section-label">🔢 Number Systems</div>
+      <div class="topic-list-item" onclick="loadConcept('number_systems',this)">
+        <div class="tli-icon">🔢</div>
+        <div class="tli-text"><div class="tli-name">Number Systems</div><div class="tli-sub">Binary, Hex, Octal · 6 min</div></div>
+        <div class="tli-status" id="status-number_systems">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('complements',this)">
+        <div class="tli-icon">➕</div>
+        <div class="tli-text"><div class="tli-name">Complements & Arithmetic</div><div class="tli-sub">1s, 2s complement · 5 min</div></div>
+        <div class="tli-status" id="status-complements">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('codes',this)">
+        <div class="tli-icon">📟</div>
+        <div class="tli-text"><div class="tli-name">Digital Codes</div><div class="tli-sub">BCD, Gray, Hamming · 5 min</div></div>
+        <div class="tli-status" id="status-codes">⬜</div>
+      </div>
+
+      <div class="section-label">🔌 Boolean & Gates</div>
       <div class="topic-list-item active" onclick="loadConcept('logic_gates',this)">
         <div class="tli-icon">🔌</div>
-        <div class="tli-text"><div class="tli-name">Logic Gates</div><div class="tli-sub">5 min · Basic</div></div>
+        <div class="tli-text"><div class="tli-name">Logic Gates</div><div class="tli-sub">AND, OR, NAND, NOR, XOR · 7 min</div></div>
         <div class="tli-status" id="status-logic_gates">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('boolean_algebra',this)">
+        <div class="tli-icon">📐</div>
+        <div class="tli-text"><div class="tli-name">Boolean Algebra</div><div class="tli-sub">Laws, De Morgan's · 6 min</div></div>
+        <div class="tli-status" id="status-boolean_algebra">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('kmap',this)">
+        <div class="tli-icon">🗺️</div>
+        <div class="tli-text"><div class="tli-name">K-Map Minimization</div><div class="tli-sub">SOP, POS, Don't care · 8 min</div></div>
+        <div class="tli-status" id="status-kmap">⬜</div>
+      </div>
+
+      <div class="section-label">⚙️ Combinational Circuits</div>
+      <div class="topic-list-item" onclick="loadConcept('adders',this)">
+        <div class="tli-icon">➕</div>
+        <div class="tli-text"><div class="tli-name">Adders & Subtractors</div><div class="tli-sub">Half, Full, CLA · 7 min</div></div>
+        <div class="tli-status" id="status-adders">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('mux_demux',this)">
+        <div class="tli-icon">🔀</div>
+        <div class="tli-text"><div class="tli-name">MUX & DEMUX</div><div class="tli-sub">Data selector, Universal logic · 6 min</div></div>
+        <div class="tli-status" id="status-mux_demux">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('encoders_decoders',this)">
+        <div class="tli-icon">🔣</div>
+        <div class="tli-text"><div class="tli-name">Encoders & Decoders</div><div class="tli-sub">Priority encoder, 7-seg · 5 min</div></div>
+        <div class="tli-status" id="status-encoders_decoders">⬜</div>
+      </div>
+
+      <div class="section-label">🔄 Sequential Circuits</div>
+      <div class="topic-list-item" onclick="loadConcept('latches',this)">
+        <div class="tli-icon">💾</div>
+        <div class="tli-text"><div class="tli-name">Latches</div><div class="tli-sub">SR, D latch · 5 min</div></div>
+        <div class="tli-status" id="status-latches">⬜</div>
       </div>
       <div class="topic-list-item" onclick="loadConcept('flipflops',this)">
         <div class="tli-icon">🔄</div>
-        <div class="tli-text"><div class="tli-name">Flip-Flops</div><div class="tli-sub">7 min · Basic</div></div>
+        <div class="tli-text"><div class="tli-name">Flip-Flops</div><div class="tli-sub">SR, D, JK, T · 8 min</div></div>
         <div class="tli-status" id="status-flipflops">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('registers',this)">
+        <div class="tli-icon">📋</div>
+        <div class="tli-text"><div class="tli-name">Registers & Shift Registers</div><div class="tli-sub">SIPO, PISO, LFSR · 6 min</div></div>
+        <div class="tli-status" id="status-registers">⬜</div>
       </div>
       <div class="topic-list-item" onclick="loadConcept('counters',this)">
         <div class="tli-icon">🔢</div>
-        <div class="tli-text"><div class="tli-name">Counters</div><div class="tli-sub">6 min · Intermediate</div></div>
+        <div class="tli-text"><div class="tli-name">Counters</div><div class="tli-sub">Ripple, Sync, MOD-N · 7 min</div></div>
         <div class="tli-status" id="status-counters">⬜</div>
       </div>
-      <div class="topic-list-item" onclick="loadConcept('number_systems',this)">
-        <div class="tli-icon">🔢</div>
-        <div class="tli-text"><div class="tli-name">Number Systems</div><div class="tli-sub">5 min · Basic</div></div>
-        <div class="tli-status" id="status-number_systems">⬜</div>
+      <div class="topic-list-item" onclick="loadConcept('state_machines',this)">
+        <div class="tli-icon">🧩</div>
+        <div class="tli-text"><div class="tli-name">State Machines</div><div class="tli-sub">Mealy, Moore, FSM design · 8 min</div></div>
+        <div class="tli-status" id="status-state_machines">⬜</div>
       </div>
-
-      <!-- C Programming section -->
-      <div style="padding:.6rem 1.25rem .3rem;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg)">💻 C Programming</div>
+      <div class="section-label">💻 C Programming</div>
       <div class="topic-list-item" onclick="loadConcept('c_basics',this)">
         <div class="tli-icon">💻</div>
-        <div class="tli-text"><div class="tli-name">C Basics</div><div class="tli-sub">6 min · Basic</div></div>
+        <div class="tli-text"><div class="tli-name">C Basics & Data Types</div><div class="tli-sub">Operators, compilation · 6 min</div></div>
         <div class="tli-status" id="status-c_basics">⬜</div>
       </div>
       <div class="topic-list-item" onclick="loadConcept('pointers',this)">
         <div class="tli-icon">👉</div>
-        <div class="tli-text"><div class="tli-name">Pointers</div><div class="tli-sub">8 min · Intermediate</div></div>
+        <div class="tli-text"><div class="tli-name">Pointers</div><div class="tli-sub">Function ptr, double ptr · 10 min</div></div>
         <div class="tli-status" id="status-pointers">⬜</div>
       </div>
       <div class="topic-list-item" onclick="loadConcept('arrays_strings',this)">
         <div class="tli-icon">📦</div>
-        <div class="tli-text"><div class="tli-name">Arrays & Strings</div><div class="tli-sub">7 min · Intermediate</div></div>
+        <div class="tli-text"><div class="tli-name">Arrays & Strings</div><div class="tli-sub">Decay, string literals · 7 min</div></div>
         <div class="tli-status" id="status-arrays_strings">⬜</div>
       </div>
+      <div class="topic-list-item" onclick="loadConcept('dynamic_memory',this)">
+        <div class="tli-icon">🧠</div>
+        <div class="tli-text"><div class="tli-name">Dynamic Memory</div><div class="tli-sub">malloc, free, leaks · 7 min</div></div>
+        <div class="tli-status" id="status-dynamic_memory">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('structures_unions',this)">
+        <div class="tli-icon">📋</div>
+        <div class="tli-text"><div class="tli-name">Structures & Unions</div><div class="tli-sub">Padding, typedef · 6 min</div></div>
+        <div class="tli-status" id="status-structures_unions">⬜</div>
+      </div>
+      <div class="topic-list-item" onclick="loadConcept('embedded_c',this)">
+        <div class="tli-icon">⚙️</div>
+        <div class="tli-text"><div class="tli-name">Embedded C Concepts</div><div class="tli-sub">Bit manipulation, ISR · 8 min</div></div>
+        <div class="tli-status" id="status-embedded_c">⬜</div>
+      </div>
 
-      <!-- Networking section -->
-      <div style="padding:.6rem 1.25rem .3rem;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:var(--bg)">🌐 Networking</div>
-      <div class="topic-list-item" onclick="loadConcept('osi_model',this)">
-        <div class="tli-icon">🌐</div>
-        <div class="tli-text"><div class="tli-name">OSI Model</div><div class="tli-sub">6 min · Basic</div></div>
-        <div class="tli-status" id="status-osi_model">⬜</div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area" id="content-area">
+      <div style="text-align:center;padding:3rem 1rem;color:var(--muted)">
+        <div style="font-size:3rem;margin-bottom:1rem">👈</div>
+        <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem">Pick a topic from the left to start learning</div>
       </div>
     </div>
-
-    <!-- Content area -->
-    <div class="content-area" id="content-area">
-      <!-- Filled by JS -->
-    </div>
-
   </div>
 </div>
 
 <script>
+// ── CONCEPT DATA ──────────────────────────────────────────────────
 const CONCEPTS = {
-  logic_gates: {
-    title: "Logic Gates",
-    subject: "Digital Electronics",
-    xp: 20, time: "5 min",
-    hcl_importance: "Very High",
-    body: `A <strong>logic gate</strong> is the fundamental building block of all digital circuits. It takes one or more binary inputs (0 or 1) and produces a single binary output based on a logical operation.
 
-Every computer, phone, and digital device is made of billions of these tiny gates.`,
-    blocks: [
-      { title: "🔑 The 7 Basic Gates", content: `
-<strong>AND Gate:</strong> Output = 1 only when ALL inputs are 1<br>
-&nbsp;&nbsp;Truth: 0·0=0, 0·1=0, 1·0=0, <span style="color:#16A34A">1·1=1</span><br><br>
-<strong>OR Gate:</strong> Output = 1 when AT LEAST ONE input is 1<br>
-&nbsp;&nbsp;Truth: 0+0=0, <span style="color:#16A34A">0+1=1, 1+0=1, 1+1=1</span><br><br>
-<strong>NOT Gate (Inverter):</strong> Output is OPPOSITE of input<br>
-&nbsp;&nbsp;NOT(0)=1, NOT(1)=0<br><br>
-<strong>NAND Gate:</strong> AND followed by NOT. Output = 0 only when all inputs = 1<br>
-<strong>NOR Gate:</strong> OR followed by NOT. Output = 1 only when all inputs = 0<br>
-<strong>XOR Gate:</strong> Output = 1 when inputs are DIFFERENT (0⊕1=1, 1⊕0=1)<br>
-<strong>XNOR Gate:</strong> Output = 1 when inputs are SAME (0⊕0=1, 1⊕1=1)` },
-      { title: "⭐ Universal Gates — Most Important", content: `
-<strong>NAND and NOR are called Universal Gates</strong> because you can implement ANY logic function using ONLY NAND gates or ONLY NOR gates.<br><br>
-This is extremely important in chip manufacturing — you only need one type of gate, simplifying the manufacturing process significantly.<br><br>
-<strong>NOT using NAND:</strong> Connect both inputs of NAND together → A·A = NOT(A)<br>
-<strong>AND using NAND:</strong> NAND output → NOT gate (another NAND)<br>
-<strong>OR using NAND:</strong> NOT both inputs first, then NAND them` }
-    ],
-    exam_tip: "NAND and NOR as Universal Gates is the #1 most asked question from Logic Gates in HCL and all IT company tests. Also remember: XOR output is 1 when inputs DIFFER, XNOR when they're SAME.",
-    hcl_questions: [
-      "Which gate is called universal gate and WHY?",
-      "Truth table of XOR gate — common in aptitude round",
-      "Output of NAND gate when both inputs are 1 (answer: 0)",
-      "Difference between NAND and AND gate"
-    ]
+logic_gates: {
+  title: "Logic Gates",
+  subject: "Boolean Algebra & Logic",
+  xp: 25, time: "7 min",
+  hcl_importance: "Very High",
+  intro: `Okay so imagine your bike. It starts ONLY when you have the key AND fuel AND the kickstand is up. All three conditions must be true simultaneously. That's exactly how an AND gate works. Logic gates are the tiniest building blocks of every digital device — your phone, laptop, calculator — all made of billions of these tiny switches.`,
+  sections: [
+    {
+      title: "🔌 The 7 Gates You Must Know",
+      body: `<strong>AND Gate — The Strict One</strong><br>
+Output is 1 ONLY when ALL inputs are 1. Like your bike example.<br>
+Boolean: Y = A·B &nbsp;|&nbsp; Symbol: D-shape<br><br>
+
+<strong>OR Gate — The Generous One</strong><br>
+Output is 1 when AT LEAST ONE input is 1. Like a door alarm — triggers if front door OR back door opens.<br>
+Boolean: Y = A+B &nbsp;|&nbsp; Symbol: Curved arrow shape<br><br>
+
+<strong>NOT Gate — The Rebel</strong><br>
+Flips the input. 0 becomes 1, 1 becomes 0. Like a "do not disturb" sign — when it's ON, the world stays OFF.<br>
+Boolean: Y = A' &nbsp;|&nbsp; Symbol: Triangle with bubble<br><br>
+
+<strong>NAND Gate — AND's Evil Twin</strong><br>
+AND followed by NOT. Output is 0 ONLY when all inputs are 1. Otherwise always 1.<br>
+Boolean: Y = (A·B)'<br><br>
+
+<strong>NOR Gate — OR's Evil Twin</strong><br>
+OR followed by NOT. Output is 1 ONLY when all inputs are 0.<br>
+Boolean: Y = (A+B)'<br><br>
+
+<strong>XOR Gate — The Picky One</strong><br>
+Output is 1 when inputs are DIFFERENT. Like a staircase light switch — flipping either switch toggles the light.<br>
+Boolean: Y = A⊕B &nbsp;|&nbsp; Key: A⊕A=0, A⊕0=A, A⊕1=A'<br><br>
+
+<strong>XNOR Gate — The Agreement Gate</strong><br>
+Output is 1 when inputs are SAME. Opposite of XOR.<br>
+Boolean: Y = (A⊕B)'`,
+    },
+    {
+      title: "⭐ Universal Gates — The Most Important Concept",
+      body: `<strong>NAND and NOR are called Universal Gates</strong> because you can build ANY other gate using ONLY NAND (or ONLY NOR).<br><br>
+
+Building NOT from NAND: Connect both inputs together → NAND(A,A) = (A·A)' = A'<br>
+Building AND from NAND: NOT the NAND output → NAND then NOT<br>
+Building OR from NAND: By De Morgan's law → (A'·B')' = A+B<br><br>
+
+<strong>Why does this matter in real life?</strong><br>
+When manufacturing chips, having ONE type of gate simplifies everything — fewer masks, lower cost, easier testing.
+Real chips are designed using primarily NAND gates because NAND is also FASTER than NOR in CMOS technology
+(NMOS transistors are faster than PMOS, and NAND uses series NMOS for pull-down).`,
+    },
+    {
+      title: "📊 Truth Tables (Memorize These)",
+      body: `<table class="truth-table">
+<tr><th>A</th><th>B</th><th>AND</th><th>OR</th><th>NAND</th><th>NOR</th><th>XOR</th><th>XNOR</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr class="highlight"><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+</table>
+Memory trick: AND is strict (only 1·1=1). NOR is strict opposite (only 0+0 gives 1).
+XOR: same=0, different=1. XNOR: same=1, different=0.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `Think of gates as security systems:
+<br>AND = Biometric door — needs fingerprint AND face AND PIN
+<br>OR = Hotel keycard — works with room card OR master key
+<br>NAND = Safe deposit box — locked ONLY when BOTH keys are turned (outputs 0)
+<br>XOR = Staircase light — either switch toggles it on/off`,
   },
+  exam_tip: "NAND and NOR as Universal Gates is the single most frequently asked question from this topic in ALL company interviews. Also remember: XOR output is 1 when inputs DIFFER, and XNOR when SAME. NAND(1,1)=0 is a common trap question.",
+  interview_qs: [
+    "Which gates are called universal gates and WHY? (Both NAND and NOR — can implement any Boolean function)",
+    "NAND gate with inputs 1,1 gives output? (0 — this is the most common trap)",
+    "Implement XOR using only NAND gates (4 NAND gates needed)",
+    "Why is NAND preferred over NOR in industry? (NMOS faster than PMOS in CMOS)",
+    "What is the output of NOR gate when all inputs are 0? (1 — only time NOR outputs 1)",
+  ],
+},
 
-  flipflops: {
-    title: "Flip-Flops",
-    subject: "Digital Electronics",
-    xp: 25, time: "7 min",
-    hcl_importance: "Very High",
-    body: `A <strong>flip-flop</strong> is a bistable sequential circuit — it can store 1 bit of information and holds its state until triggered to change. It's the basic memory element of digital systems.
+number_systems: {
+  title: "Number Systems",
+  subject: "Number Systems & Codes",
+  xp: 20, time: "6 min",
+  hcl_importance: "High",
+  intro: `Ever noticed how your program crashes with a weird number like 255 or 65535? Or why memory addresses look like 0xFF3A? That's number systems in action. Digital computers only understand 0s and 1s — because transistors are either ON or OFF. Everything else is just a clever way of representing these two states.`,
+  sections: [
+    {
+      title: "📊 The Four Number Systems",
+      body: `<strong>Decimal (Base 10)</strong> — What you grew up with. Digits 0-9.<br><br>
 
-Unlike combinational circuits (gates), flip-flops have memory — their output depends on both current input AND previous state.`,
-    blocks: [
-      { title: "🔑 4 Types of Flip-Flops", content: `
-<strong>SR Flip-Flop (Set-Reset):</strong><br>
-S=1 → Q=1 (Set). R=1 → Q=0 (Reset). S=R=1 → INVALID STATE ⚠️<br><br>
-<strong>D Flip-Flop (Data):</strong><br>
-Output Q follows input D at clock edge. Eliminates SR's invalid state. Most used FF in practice.<br><br>
-<strong>JK Flip-Flop:</strong><br>
-Improved SR. J=K=0 → No change. J=1,K=0 → Set. J=0,K=1 → Reset. <span style="color:#7C3AED"><strong>J=K=1 → TOGGLE</strong></span><br>
-No invalid state! Universal flip-flop.<br><br>
-<strong>T Flip-Flop (Toggle):</strong><br>
-T=0 → No change. T=1 → Output TOGGLES every clock. Used in counters.` },
-      { title: "⏰ Edge Triggering", content: `
-Modern flip-flops change state <strong>only at clock edge</strong> (rising ↑ or falling ↓), NOT during entire clock HIGH period.<br><br>
-<strong>Why this matters:</strong> Prevents glitches caused by input transitions. Makes circuit behavior predictable and synchronized. All modern digital systems use edge-triggered flip-flops.` }
-    ],
-    exam_tip: "SR flip-flop invalid state (S=R=1) and JK flip-flop toggle (J=K=1) are the TWO most common flip-flop questions in placement papers. Also: 'D flip-flop solves SR's invalid state problem' — memorize this.",
-    hcl_questions: [
-      "Difference between SR and JK flip-flop",
-      "What is the invalid/forbidden state in SR flip-flop?",
-      "JK with J=1, K=1 — what happens? (Toggle)",
-      "Which flip-flop is used in counters? (T flip-flop)"
-    ]
+<strong>Binary (Base 2)</strong> — Computer's language. Only 0 and 1.<br>
+Each position is a power of 2: 1, 2, 4, 8, 16, 32...<br>
+1011 = 1×8 + 0×4 + 1×2 + 1×1 = 11<br><br>
+
+<strong>Octal (Base 8)</strong> — Digits 0-7. Each octal digit = 3 binary bits.<br>
+17 octal = 001 111 binary = 15 decimal<br>
+Used in Unix file permissions (chmod 755 — you've seen this!)<br><br>
+
+<strong>Hexadecimal (Base 16)</strong> — Digits 0-9 and A(10) B(11) C(12) D(13) E(14) F(15).<br>
+Each hex digit = 4 binary bits (nibble).<br>
+0xFF = 1111 1111 = 255 decimal<br>
+Used everywhere: memory addresses, color codes (#FF5733), error codes (0xDEADBEEF)`,
+    },
+    {
+      title: "🔄 Conversions (Most Asked in Interviews)",
+      body: `<strong>Decimal → Binary:</strong> Divide by 2, read remainders bottom-up.<br>
+13 ÷ 2 = 6 R<strong>1</strong> → 6 ÷ 2 = 3 R<strong>0</strong> → 3 ÷ 2 = 1 R<strong>1</strong> → 1 ÷ 2 = 0 R<strong>1</strong><br>
+Read bottom-up: <strong>1101</strong> ✓<br><br>
+
+<strong>Binary → Decimal:</strong> Multiply each bit × its power of 2.<br>
+1101 = 1×8 + 1×4 + 0×2 + 1×1 = 13 ✓<br><br>
+
+<strong>Binary → Hex:</strong> Group 4 bits from right, convert each group.<br>
+10110111 → 1011 0111 → B 7 → 0xB7<br><br>
+
+<strong>Hex → Binary:</strong> Each hex digit → 4 bits.<br>
+0xAF → A=1010, F=1111 → 10101111<br><br>
+
+<strong>Quick Memorize:</strong><br>
+0xFF = 255 &nbsp;|&nbsp; 0x0F = 15 &nbsp;|&nbsp; 0x10 = 16 &nbsp;|&nbsp; 0x100 = 256`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Connection",
+    body: `Binary is like a light switch — only ON or OFF.<br>
+Octal is like 3 light switches grouped together (2³=8 combinations).<br>
+Hex is like 4 light switches grouped (2⁴=16 combinations).<br>
+When you see 0xFF in code, think: 8 light switches ALL turned ON.`,
   },
+  exam_tip: "Convert 25 to binary (11001), 1010 binary to decimal (10), 0xFF to decimal (255). These three are most common. Also: BCD of 39 = 0011 1001 (each digit separately in 4 bits).",
+  interview_qs: [
+    "Convert 45 decimal to binary (101101) and hexadecimal (2D)",
+    "What is 0xFF in decimal? (255) What is 0x100? (256)",
+    "Convert binary 11001101 to hexadecimal (0xCD)",
+    "Why do computers use binary instead of decimal? (Transistors have 2 stable states)",
+    "What is the range of an 8-bit unsigned number? (0 to 255 = 2⁸-1)",
+  ],
+},
 
-  counters: {
-    title: "Counters",
-    subject: "Digital Electronics",
-    xp: 25, time: "6 min",
-    hcl_importance: "High",
-    body: `A <strong>counter</strong> is a sequential circuit that counts clock pulses in binary or other sequences. Counters are built using flip-flops chained together.`,
-    blocks: [
-      { title: "🔑 Types of Counters", content: `
-<strong>Ripple Counter (Asynchronous):</strong><br>
-Each flip-flop triggers the next one. Simple but slow — delay adds up.<br>
-4-bit ripple counter total delay = 4 × FF propagation delay<br><br>
-<strong>Synchronous Counter:</strong><br>
-ALL flip-flops triggered by the SAME clock. Faster — no cumulative delay. Used in modern circuits.<br><br>
-<strong>MOD-N Counter:</strong> Counts 0 to N-1, then resets.<br>
-MOD-8 counts: 0,1,2,3,4,5,6,7,0,1... (3 flip-flops needed)<br><br>
-<strong>Formula:</strong> n flip-flops → 2ⁿ states → MOD-2ⁿ counter` },
-      { title: "🧮 Quick Calculation Table", content: `
-MOD-2 → 1 flip-flop (counts 0,1)<br>
-MOD-4 → 2 flip-flops (counts 0-3)<br>
-MOD-8 → 3 flip-flops (counts 0-7)<br>
-<strong>MOD-10 → 4 flip-flops (counts 0-9) ← Decade counter</strong><br>
-MOD-16 → 4 flip-flops (counts 0-15)<br>
-MOD-32 → 5 flip-flops (counts 0-31)` }
-    ],
-    exam_tip: "Most asked counter question: 'How many flip-flops for MOD-X counter?' Use formula n = ⌈log₂(X)⌉. MOD-10 (decade counter) using 4 flip-flops is the most common specific example.",
-    hcl_questions: [
-      "How many FFs needed for MOD-16 counter? (Answer: 4)",
-      "Difference between synchronous and asynchronous counter",
-      "What is a decade counter? (MOD-10)",
-      "Disadvantage of ripple counter (cumulative delay)"
-    ]
+complements: {
+  title: "Complements & Binary Arithmetic",
+  subject: "Number Systems & Codes",
+  xp: 20, time: "5 min",
+  hcl_importance: "High",
+  intro: `Here's a mind-blowing fact: your CPU has NO subtraction circuit. Zero. It converts every subtraction into addition using a trick called 2's complement. The range of int in C (-2147483648 to 2147483647) comes directly from 2's complement. This is not textbook trivia — it's how computers actually work.`,
+  sections: [
+    {
+      title: "🔄 1's Complement",
+      body: `<strong>1's complement:</strong> Simply flip all bits.<br>
+6 = 0110 → 1's complement = 1001<br><br>
+Problem: Has two representations of zero (+0 = 0000, -0 = 1111).<br>
+Not used in modern computers because of this double-zero issue.`,
+    },
+    {
+      title: "🔄 2's Complement (How Computers Work)",
+      body: `<strong>Step 1:</strong> Find 1's complement (flip all bits).<br>
+<strong>Step 2:</strong> Add 1.<br><br>
+Example: -6 in 8-bit<br>
+6 = 00000110 → flip → 11111001 → add 1 → <strong>11111010</strong><br><br>
+
+<strong>Range of n-bit 2's complement:</strong><br>
+Minimum: -2^(n-1) &nbsp;|&nbsp; Maximum: 2^(n-1) - 1<br>
+8-bit: -128 to +127<br>
+16-bit: -32768 to +32767<br>
+32-bit: -2,147,483,648 to +2,147,483,647 ← This is int in C!<br><br>
+
+<strong>Subtraction using 2's complement:</strong><br>
+A - B = A + (2's complement of B)<br>
+7 - 5 = 7 + (-5) = 0111 + 1011 = 10010 → ignore carry → 0010 = 2 ✓`,
+    },
+    {
+      title: "📊 Overflow Detection",
+      body: `Overflow occurs when result exceeds range.<br>
+Two positives give negative → overflow.<br>
+Two negatives give positive → overflow.<br>
+Mixed signs NEVER overflow.<br><br>
+Hardware check: overflow = Carry into MSB XOR Carry out of MSB.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Why 2's Complement is Genius",
+    body: `Normal subtraction: need separate circuit → expensive.<br>
+2's complement subtraction: use the same adder → genius!<br>
+Computer designers in 1950s saved millions of transistors with this trick.<br>
+Every CPU you've ever used relies on this.`,
   },
+  exam_tip: "2's complement of 0110 (4-bit) = 1010. Verify: 0110 + 1010 = 10000, ignore carry = 0000 ✓. Also remember: -128 cannot be represented as positive in 8-bit 2's complement (this is why abs(-128) in C gives -128, a classic bug!).",
+  interview_qs: [
+    "Find 2's complement of 10110 (5-bit): flip=01001, add 1=01010",
+    "What is the range of 8-bit signed integer? (-128 to +127)",
+    "Why do computers use 2's complement? (Same adder circuit for subtraction)",
+    "Detect overflow: 0110 + 0100 in 4-bit signed = 1010. Overflow? Yes — two positives gave negative",
+    "What is -1 in 8-bit 2's complement? (11111111 = 0xFF)",
+  ],
+},
 
-  number_systems: {
-    title: "Number Systems",
-    subject: "Digital Electronics",
-    xp: 20, time: "5 min",
-    hcl_importance: "High",
-    body: `Digital computers work in <strong>binary (base 2)</strong>. Understanding number system conversions is essential for both aptitude and technical rounds.`,
-    blocks: [
-      { title: "🔑 4 Number Systems", content: `
-<strong>Decimal (Base 10):</strong> Digits 0-9. Our daily system.<br>
-<strong>Binary (Base 2):</strong> Only 0 and 1. Computer's native language.<br>
-<strong>Octal (Base 8):</strong> Digits 0-7. Each octal digit = 3 bits.<br>
-<strong>Hexadecimal (Base 16):</strong> 0-9 and A-F. Each hex digit = 4 bits.` },
-      { title: "🔄 Conversion Methods", content: `
-<strong>Decimal → Binary:</strong> Divide by 2, collect remainders bottom-up<br>
-Example: 13 → 13÷2=6R<strong>1</strong>, 6÷2=3R<strong>0</strong>, 3÷2=1R<strong>1</strong>, 1÷2=0R<strong>1</strong> → Read bottom-up: <strong>1101</strong><br><br>
-<strong>Binary → Decimal:</strong> Multiply each bit by 2^position<br>
-1101 = 1×2³+1×2²+0×2¹+1×2⁰ = 8+4+0+1 = <strong>13</strong><br><br>
-<strong>2's Complement (Negative numbers):</strong><br>
-Step 1: Flip all bits (1's complement)<br>
-Step 2: Add 1<br>
-Example: -5 in 4-bit: 5=0101 → flip=1010 → +1=<strong>1011</strong>` }
-    ],
-    exam_tip: "Conversion questions appear in HCL aptitude round. Practice: decimal↔binary, hex↔binary. Also know: 0xFF=255, 0x0F=15. 2's complement for negative numbers is asked in technical round.",
-    hcl_questions: [
-      "Convert 25 to binary (answer: 11001)",
-      "Convert 1010 binary to decimal (answer: 10)",
-      "What is 0xFF in decimal? (answer: 255)",
-      "Find 2's complement of 0110 (answer: 1010)"
-    ]
+codes: {
+  title: "Digital Codes",
+  subject: "Number Systems & Codes",
+  xp: 20, time: "5 min",
+  hcl_importance: "Medium",
+  intro: `Why does the digital clock on your microwave show "12:00" and not some weird binary number? Because it uses BCD — Binary Coded Decimal. And why do rotary encoders (used in your car's volume knob) use Gray code? Because changing multiple bits at once causes errors in mechanical systems. Codes solve real problems.`,
+  sections: [
+    {
+      title: "📟 BCD (Binary Coded Decimal)",
+      body: `Each decimal digit encoded in 4 bits separately.<br>
+9 → 1001 &nbsp;|&nbsp; 39 → <strong>0011 1001</strong> (3→0011, 9→1001)<br>
+25 → 0010 0101 &nbsp;|&nbsp; 7 → 0111<br><br>
+Invalid BCD codes: 1010 to 1111 (10 to 15 — not valid decimal digits).<br><br>
+<strong>Where BCD is used:</strong><br>
+→ 7-segment displays (your microwave clock)<br>
+→ BCD arithmetic in calculators<br>
+→ Financial calculations (no floating point errors)<br>
+→ IC 7447: BCD to 7-segment decoder`,
+    },
+    {
+      title: "🔘 Gray Code",
+      body: `Only ONE bit changes between consecutive values.<br>
+Decimal: 0→1→2→3 in Gray: 000→001→011→010<br><br>
+<strong>Converting Binary to Gray:</strong><br>
+MSB stays same. Each bit = XOR of that binary bit and previous binary bit.<br>
+Binary 1011 → Gray: 1, 1⊕0=1, 0⊕1=1, 1⊕1=0 → <strong>1110</strong><br><br>
+<strong>Why Gray code in encoders?</strong><br>
+Car volume knob, CNC machine position sensors use rotary encoders.<br>
+If shaft is between two positions, multiple bits might change.<br>
+With binary: 3(011)→4(100) changes 3 bits simultaneously → noise gives 7(111) briefly.<br>
+With Gray: 3(010)→4(110) changes only 1 bit → worst case error = 1 step. Much safer.`,
+    },
+    {
+      title: "🛡️ Hamming Code (Error Detection & Correction)",
+      body: `Detects AND corrects single-bit errors. Detects double-bit errors.<br>
+Parity bits placed at positions that are powers of 2 (1, 2, 4, 8...).<br><br>
+For 4 data bits: need 3 parity bits (7-bit Hamming code).<br>
+Formula: 2^p ≥ p + d + 1 (p=parity bits, d=data bits).<br><br>
+<strong>Real life use:</strong><br>
+→ ECC RAM (Error Correcting Code) in servers uses Hamming.<br>
+→ Satellite communication (data corrupted by radiation).<br>
+→ Deep space probes — NASA uses powerful error codes.<br><br>
+<strong>Simple Parity Bit:</strong><br>
+Even parity: total 1s is even. &nbsp; Odd parity: total 1s is odd.<br>
+Detects single-bit errors only. Cannot correct. Used in UART.<br>
+XOR of all bits = even parity bit.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `BCD: Like giving each person a separate ID card instead of a group number.<br>
+Gray code: Like climbing stairs one step at a time instead of jumping.<br>
+Hamming: Like sending a message and its spell-check — receiver knows if something is wrong AND fixes it.`,
   },
+  exam_tip: "BCD of 9 = 1001, 39 = 0011 1001. Gray code: 0=000, 1=001, 2=011, 3=010, 4=110, 5=111, 6=101, 7=100. Common question: 'What are invalid BCD codes?' Answer: 1010 to 1111.",
+  interview_qs: [
+    "What is BCD representation of 73? (0111 0011)",
+    "Which code is used in shaft encoders and why? (Gray code — only 1 bit changes)",
+    "What is the difference between Hamming code and parity bit? (Hamming corrects, parity only detects)",
+    "Invalid BCD codes? (1010 to 1111 — no decimal digit 10-15)",
+    "What is excess-3 code? (BCD + 3, self-complementing)",
+  ],
+},
 
-  c_basics: {
-    title: "C Programming Basics",
-    subject: "C Programming",
-    xp: 20, time: "6 min",
-    hcl_importance: "Very High",
-    body: `<strong>C</strong> is a structured, middle-level programming language developed by Dennis Ritchie in 1972 at Bell Labs. It is the most important programming language for ECE students targeting HCL and other IT companies.
+boolean_algebra: {
+  title: "Boolean Algebra",
+  subject: "Boolean Algebra & Logic",
+  xp: 25, time: "6 min",
+  hcl_importance: "Very High",
+  intro: `George Boole created this algebra in 1854 for pure mathematics. Claude Shannon in 1937 realized it perfectly describes electrical circuits. That single insight built the entire digital revolution. Boolean algebra is how we simplify circuits — fewer gates = cheaper chip = less power = faster operation. Every VLSI engineer does this daily.`,
+  sections: [
+    {
+      title: "📏 Boolean Laws (Memorize All)",
+      body: `<strong>Identity:</strong> A+0=A &nbsp; A·1=A (adding zero or multiplying by one changes nothing)<br>
+<strong>Null:</strong> A+1=1 &nbsp; A·0=0 (OR with 1 always 1; AND with 0 always 0)<br>
+<strong>Idempotent:</strong> A+A=A &nbsp; A·A=A (ORing/ANDing with itself = itself)<br>
+<strong>Complement:</strong> A+A'=1 &nbsp; A·A'=0 (A OR NOT-A always 1; A AND NOT-A always 0)<br>
+<strong>Double Negation:</strong> (A')' = A<br>
+<strong>Commutative:</strong> A+B=B+A &nbsp; A·B=B·A<br>
+<strong>Associative:</strong> A+(B+C)=(A+B)+C<br>
+<strong>Distributive:</strong> A·(B+C)=A·B+A·C &nbsp; A+(B·C)=(A+B)·(A+C)<br>
+<strong>Absorption:</strong> A+AB=A &nbsp; A(A+B)=A ← Very useful for simplification`,
+    },
+    {
+      title: "⚡ De Morgan's Theorem — The Most Important One",
+      body: `<strong>(A+B)' = A'·B'</strong> → complement of OR = AND of complements<br>
+<strong>(A·B)' = A'+B'</strong> → complement of AND = OR of complements<br><br>
 
-HCL technical round ALWAYS has C programming questions. They focus on fundamentals — not complex algorithms.`,
-    blocks: [
-      { title: "📋 Basic Program Structure", content: `
-<div class="code-block"><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>    <span class="cmt">// Standard I/O header</span>
-<span class="kw">int</span> main() {
-    <span class="kw">int</span> a = <span class="num">10</span>;
-    printf(<span class="str">"%d"</span>, a);   <span class="cmt">// Output: 10</span>
-    <span class="kw">return</span> <span class="num">0</span>;
-}</div>` },
-      { title: "📊 Data Types & Sizes (32-bit system)", content: `
-<strong>int</strong> → 4 bytes → range: -2,147,483,648 to 2,147,483,647<br>
-<strong>float</strong> → 4 bytes → 6-7 decimal precision<br>
-<strong>double</strong> → 8 bytes → 15-16 decimal precision<br>
-<strong>char</strong> → 1 byte → stores single character<br>
-<strong>void</strong> → no value (used for functions with no return)<br><br>
-<strong>HCL asks:</strong> sizeof(int)=4, sizeof(char)=1, sizeof(float)=4` },
-      { title: "⚡ Key Operators", content: `
-<strong>Arithmetic:</strong> + − * / %<br>
-<strong>% (Modulo):</strong> Returns remainder. 10%3=1, 7%2=1, 6%2=0<br>
-<strong>Relational:</strong> == != > < >= <=<br>
-<strong>Important:</strong> = is ASSIGNMENT, == is COMPARISON<br>
-<strong>Logical:</strong> && (AND) || (OR) ! (NOT)<br>
-<strong>Bitwise:</strong> & | ^ ~ << >><br>
-<strong>Left shift:</strong> a<<n = a×2ⁿ (e.g., 2<<3 = 16)<br>
-<strong>Right shift:</strong> a>>n = a÷2ⁿ` }
-    ],
-    exam_tip: "HCL most commonly asks: sizeof() of data types, difference between = and ==, what % operator does, static variable behavior, and the output of simple C programs. Know these cold!",
-    hcl_questions: [
-      "What is sizeof(int)? (Answer: 4 bytes on 32-bit)",
-      "Difference between = and == (assignment vs comparison)",
-      "Output of printf(\"%d\", 5/2) — answer: 2 (integer division)",
-      "What is static variable? (retains value between calls)"
-    ]
+<strong>Extended:</strong> (A+B+C)' = A'·B'·C'<br>
+(A·B·C)' = A'+B'+C'<br><br>
+
+<strong>Practical meaning:</strong><br>
+NOR(A,B) = NAND(A',B') — NOR can be implemented with inverted inputs to NAND<br>
+NAND(A,B) = NOR(A',B') — and vice versa<br><br>
+
+This is why you can build everything from just NAND gates!<br>
+It's the foundation of universal gate theory.`,
+    },
+    {
+      title: "✏️ Simplification Examples",
+      body: `<strong>Example 1:</strong> Simplify A + AB<br>
+= A(1+B) [factoring A]<br>
+= A·1 [since 1+B=1]<br>
+= <strong>A</strong> [Absorption law directly: A+AB=A]<br><br>
+
+<strong>Example 2:</strong> Simplify A·(A+B)<br>
+= A·A + A·B [Distributive]<br>
+= A + AB [Idempotent: A·A=A]<br>
+= A [Absorption]<br><br>
+
+<strong>Example 3:</strong> Simplify (A+B)(A+B')<br>
+= A + BB' [Distributive in reverse]<br>
+= A + 0 [Complement: BB'=0]<br>
+= <strong>A</strong>`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Think of Boolean as Logic Puzzles",
+    body: `"Will you go to the party?" = "Do you have a car OR your friend has a car?"<br>
+If you have a car OR friend has a car → you go. That's an OR gate.<br>
+"Will you swim?" = "Is it sunny AND pool is open AND you have time?"<br>
+All three must be true. AND gate.<br>
+Boolean algebra is just systematizing these everyday decisions.`,
   },
+  exam_tip: "De Morgan's is asked in almost every interview. Practice: (A'+B')' = A·B. Also common: simplify AB'+AB = A(B'+B) = A·1 = A. The absorption laws A+AB=A and A(A+B)=A trip up many students.",
+  interview_qs: [
+    "Simplify: AB + AB' (= A(B+B') = A·1 = A)",
+    "Apply De Morgan's to (ABC)' (= A'+B'+C')",
+    "What is duality principle? (Swap AND↔OR, 0↔1, the dual expression is also valid)",
+    "Simplify: A'B + AB + A'B' (= A' + AB = A' + B by consensus theorem)",
+    "What is the difference between Boolean algebra and regular algebra? (No subtraction or division; complement instead)",
+  ],
+},
 
-  pointers: {
-    title: "Pointers in C",
-    subject: "C Programming",
-    xp: 30, time: "8 min",
-    hcl_importance: "Very High",
-    body: `A <strong>pointer</strong> is a variable that stores the memory ADDRESS of another variable. Pointers are the most important and most tested C topic in HCL interviews.
-
-HCL interviewers have directly asked: "What is a function pointer?" and "Differentiate between pointer to array and array of pointers."`,
-    blocks: [
-      { title: "🔑 Pointer Basics", content: `
-<div class="code-block"><span class="kw">int</span> a = <span class="num">10</span>;
-<span class="kw">int</span> *p = &a;      <span class="cmt">// p stores ADDRESS of a</span>
-printf(<span class="str">"%d"</span>, *p);  <span class="cmt">// *p dereferences → prints 10</span>
-printf(<span class="str">"%p"</span>, p);   <span class="cmt">// p prints address like 0x7fff...</span>
-*p = <span class="num">20</span>;          <span class="cmt">// Changes value of a to 20!</span></div>
-<strong>& operator:</strong> Returns address of variable<br>
-<strong>* operator:</strong> Dereferences — gives value at address` },
-      { title: "⚠️ Types of Problematic Pointers", content: `
-<strong>NULL Pointer:</strong> int *p = NULL; Points to nothing (address 0). Safe default. Dereferencing NULL = SEGFAULT.<br><br>
-<strong>Dangling Pointer:</strong> Points to freed memory.<br>
-<div class="code-block"><span class="kw">int</span> *p = malloc(<span class="num">4</span>);
-free(p);   <span class="cmt">// p is now DANGLING — dangerous!</span>
-p = NULL;  <span class="cmt">// Fix: always set to NULL after free</span></div>
-<strong>Wild Pointer:</strong> Uninitialized pointer. Always initialize!` },
-      { title: "🔴 Function Pointer — HCL Asked This!", content: `
-A function pointer stores the ADDRESS of a function.<br><br>
-<div class="code-block"><span class="kw">int</span> add(<span class="kw">int</span> a, <span class="kw">int</span> b) { <span class="kw">return</span> a+b; }
-
-<span class="kw">int</span> (*fp)(<span class="kw">int</span>, <span class="kw">int</span>);  <span class="cmt">// Declare function pointer</span>
-fp = add;               <span class="cmt">// Assign address of function</span>
-<span class="kw">int</span> result = fp(<span class="num">3</span>,<span class="num">4</span>);  <span class="cmt">// Call: result = 7</span></div>
-<strong>Key:</strong> Parentheses around *fp are ESSENTIAL. int *fp(int,int) means function returning int*.` }
-    ],
-    exam_tip: "HCL directly asked real candidates: What is a function pointer? What is the declaration syntax? What is dangling pointer? int *p[5] vs int (*p)[5] difference. These are HIGH priority topics.",
-    hcl_questions: [
-      "What is a function pointer? Declare one (int (*fp)(int,int))",
-      "What is dangling pointer? How to fix it?",
-      "Difference: int *p[5] vs int (*p)[5]",
-      "What does NULL pointer mean? What happens if you dereference it?"
-    ]
+kmap: {
+  title: "K-Map Minimization",
+  subject: "Boolean Algebra & Logic",
+  xp: 30, time: "8 min",
+  hcl_importance: "Very High",
+  intro: `Minimizing Boolean expressions by algebra is painful and error-prone. Maurice Karnaugh invented the K-map in 1953 as a visual tool. Think of it like a puzzle — spot the patterns (groups of 1s), and each group eliminates one variable. VLSI engineers use tools that do this for millions of gates, but the concept is the same.`,
+  sections: [
+    {
+      title: "📐 K-Map Structure",
+      body: `<strong>Key rule: Adjacent cells differ in EXACTLY ONE variable (Gray code ordering)</strong><br><br>
+2-variable K-map (4 cells): &nbsp; 3-variable (8 cells): &nbsp; 4-variable (16 cells)<br><br>
+4-variable K-map rows (CD): <code>00, 01, 11, 10</code> ← Gray code order!<br>
+4-variable K-map columns (AB): <code>00, 01, 11, 10</code><br><br>
+<strong>CRITICAL: Map wraps around — top row adjacent to bottom row, left column adjacent to right column!</strong>`,
+    },
+    {
+      title: "📏 Grouping Rules",
+      body: `1. Groups must be powers of 2: 1, 2, 4, 8, or 16 cells.<br>
+2. Groups must be rectangular (squares or rectangles).<br>
+3. Groups CAN overlap — use overlap to make bigger groups.<br>
+4. Groups CAN wrap around edges (top↔bottom, left↔right, corners).<br>
+5. ALWAYS make groups as LARGE as possible.<br>
+6. Every 1 must be covered.<br>
+7. Minimize number of groups (for minimum SOP).<br><br>
+<strong>What each group size gives you:</strong><br>
+Group of 1 → 4-variable term (no elimination)<br>
+Group of 2 → 3-variable term (eliminates 1 variable)<br>
+Group of 4 → 2-variable term (eliminates 2 variables)<br>
+Group of 8 → 1-variable term (eliminates 3 variables)<br>
+Group of 16 → f = 1 constant (all variables eliminated)`,
+    },
+    {
+      title: "🃏 Don't Care Conditions",
+      body: `Some input combinations never occur in practice (e.g., BCD has invalid codes 1010-1111).<br>
+Output can be 0 OR 1 — we don't care.<br>
+Represented as 'X' or 'd' in K-map.<br><br>
+<strong>Rule:</strong> Treat X as 1 when it helps make a LARGER group.<br>
+Never cover X-only groups (must include at least one 1).<br><br>
+<strong>Example:</strong> BCD to 7-segment decoder<br>
+Inputs 1010-1111 never occur → use as don't cares.<br>
+This allows 50% more grouping opportunities → simpler circuit.`,
+    },
+    {
+      title: "✏️ SOP vs POS",
+      body: `<strong>SOP (Sum of Products):</strong> Group the 1s in K-map → AND then OR.<br>
+<strong>POS (Product of Sums):</strong> Group the 0s in K-map → OR then AND.<br><br>
+Use whichever gives fewer gates!<br><br>
+<strong>Prime Implicant:</strong> Largest possible group (can't be merged into bigger group).<br>
+<strong>Essential Prime Implicant:</strong> Covers a minterm that NO other group covers. Must be included.<br><br>
+<strong>Algorithm:</strong><br>
+1. Find all prime implicants.<br>
+2. Identify essential prime implicants.<br>
+3. Cover remaining minterms with minimum additional groups.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 K-Map is Like Seating at a Dinner Party",
+    body: `Imagine placing guests (1s) at a round table (K-map).<br>
+You want to describe groups: "the left side" (group of 4), "the top row" (group of 4).<br>
+The bigger the group you can describe with ONE simple rule, the simpler your circuit.<br>
+Wrapping around is like a round table — left edge IS adjacent to right edge.`,
   },
+  exam_tip: "The Gray code ordering of K-map rows/columns (00,01,11,10 NOT 00,01,10,11) is the most common mistake. Corners can form a group of 4 (all four corners are adjacent). Don't cares should be used to increase group size whenever possible.",
+  interview_qs: [
+    "Minimize f(A,B,C,D) = Σm(0,1,2,3,4,5,6,7) using K-map (= A' — all minterms with A=0)",
+    "What is a prime implicant? (Largest group that cannot be combined with another group)",
+    "What is an essential prime implicant? (Covers a minterm no other group covers)",
+    "Can groups overlap in K-map? (Yes — use overlap to make larger groups)",
+    "What are don't care conditions? When do they occur? (Output unspecified; BCD invalid codes, etc.)",
+  ],
+},
 
-  arrays_strings: {
-    title: "Arrays & Strings in C",
-    subject: "C Programming",
-    xp: 25, time: "7 min",
-    hcl_importance: "High",
-    body: `<strong>Arrays</strong> store multiple values of the same type in contiguous memory. <strong>Strings</strong> in C are character arrays ending with null terminator '\\0'.
-
-HCL coding round has questions on string manipulation and array operations.`,
-    blocks: [
-      { title: "📦 Arrays", content: `
-<div class="code-block"><span class="kw">int</span> arr[<span class="num">5</span>] = {<span class="num">10</span>,<span class="num">20</span>,<span class="num">30</span>,<span class="num">40</span>,<span class="num">50</span>};
-arr[<span class="num">0</span>] = <span class="num">10</span>;  <span class="cmt">// Index starts at 0!</span>
-arr[<span class="num">4</span>] = <span class="num">50</span>;  <span class="cmt">// Last element</span>
-
-<span class="cmt">// Array name = pointer to first element</span>
-<span class="kw">int</span> *p = arr;   <span class="cmt">// Same as &arr[0]</span>
-*(p+<span class="num">2</span>) == arr[<span class="num">2</span>]  <span class="cmt">// TRUE — pointer arithmetic</span></div>` },
-      { title: "📝 Strings in C", content: `
-<div class="code-block"><span class="kw">char</span> str[] = <span class="str">"Hello"</span>;  <span class="cmt">// Stored as: H e l l o \0</span>
-<span class="kw">char</span> *p = <span class="str">"Hello"</span>;   <span class="cmt">// Pointer to string literal</span>
-<span class="cmt">// p[0]='h' → SEGFAULT! String literal is read-only</span>
-<span class="cmt">// str[0]='h' → OK! char array is modifiable</span></div>
-<strong>String functions (string.h):</strong><br>
-strlen(s) — length of string<br>
-strcpy(dest,src) — copy string<br>
-strcmp(s1,s2) — compare (0 if equal)<br>
-strcat(s1,s2) — concatenate<br>
-strstr(s,sub) — find substring` }
-    ],
-    exam_tip: "HCL coding round asks: reverse a string, check palindrome, find string length without strlen(). Know difference between char *p = \"Hello\" (read-only) and char p[] = \"Hello\" (modifiable).",
-    hcl_questions: [
-      "Write program to check if string is palindrome",
-      "Difference between char *p vs char p[] for strings",
-      "What is strtok() and strstr() function?",
-      "Output: char *p=\"Hello\"; p[0]='h'; (Answer: Segfault)"
-    ]
+adders: {
+  title: "Adders & Subtractors",
+  subject: "Combinational Circuits",
+  xp: 25, time: "7 min",
+  hcl_importance: "High",
+  intro: `Addition is the most fundamental operation in computing. Everything — multiplication, division, floating point — boils down to addition. And here's the shocker: your CPU does subtraction by adding! Understanding adders is understanding the heart of every processor ever made.`,
+  sections: [
+    {
+      title: "➕ Half Adder",
+      body: `Adds two single bits. No carry input.<br>
+<strong>Sum = A ⊕ B</strong> (XOR gate)<br>
+<strong>Carry = A · B</strong> (AND gate)<br><br>
+Just 2 gates! But useless alone because real numbers are multi-bit.<br>
+Can't cascade because it ignores carry-in from previous bit.`,
+    },
+    {
+      title: "➕ Full Adder",
+      body: `Adds three bits: A, B, and Carry-in (Cin).<br>
+<strong>Sum = A ⊕ B ⊕ Cin</strong><br>
+<strong>Cout = AB + BCin + ACin = AB + Cin(A⊕B)</strong><br><br>
+Can be cascaded for n-bit addition.<br>
+<strong>Ripple Carry Adder:</strong> n full adders in series.<br>
+Problem: carry must propagate through ALL stages.<br>
+32-bit ripple: delay = 32 × tFA (very slow!).<br><br>
+<strong>Carry Lookahead Adder (CLA):</strong><br>
+Generate G = AB (carry generated regardless of Cin)<br>
+Propagate P = A⊕B (carry passed through if Cin=1)<br>
+Computes ALL carries simultaneously → much faster.<br>
+Modern CPUs use CLA or similar fast adder designs.`,
+    },
+    {
+      title: "➖ Subtraction — The 2's Complement Trick",
+      body: `CPUs do NOT have subtraction circuits.<br>
+A - B = A + (2's complement of B) = A + B' + 1<br><br>
+Adder-Subtractor circuit:<br>
+One control line M: M=0 for add, M=1 for subtract.<br>
+XOR each B bit with M: if M=1, inverts B (1's complement).<br>
+Set initial carry-in = M: if M=1, adds 1 to get 2's complement.<br>
+Same adder circuit handles both! Elegant.`,
+    },
+    {
+      title: "🔢 BCD Adder",
+      body: `Adds two BCD digits (must keep result in valid BCD).<br>
+If sum > 9 (1001) or binary carry = 1 → add 6 (0110) to correct.<br>
+Why 6? BCD skips 6 invalid states (1010-1111).<br><br>
+Example: 9 + 8 = 17<br>
+1001 + 1000 = 10001 (binary carry = 1)<br>
+Since carry=1, add 0110: 0001 + 0110 = 0111<br>
+Result: 0001 0111 = 17 BCD ✓`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `Half adder = Calculator that only adds 1-digit numbers (no carry from previous).<br>
+Full adder = Adding machine that accepts "carry over" from previous column.<br>
+Ripple carry adder = Counting votes one by one down a line of counters.<br>
+CLA adder = Counting all votes simultaneously with parallel counting machines.`,
   },
+  exam_tip: "Full adder can be built from two half adders + one OR gate. This is a common design question. Ripple carry adder delay = n × tpd. Also know: 4-bit ripple counter is called IC 7483.",
+  interview_qs: [
+    "Build full adder from two half adders (HA1: Sum1=A⊕B, C1=AB; HA2: Sum=Sum1⊕Cin, C2=Sum1·Cin; Cout=C1+C2)",
+    "What is the disadvantage of ripple carry adder? (Cumulative delay — all carries must propagate serially)",
+    "Explain carry lookahead adder (All carries computed simultaneously using generate and propagate)",
+    "How does CLA improve speed? (Delay is O(log n) vs O(n) for ripple carry)",
+    "BCD adder correction: when do you add 6? (Sum > 9 OR carry generated)",
+  ],
+},
 
-  osi_model: {
-    title: "OSI Model",
-    subject: "Networking",
-    xp: 20, time: "6 min",
-    hcl_importance: "High",
-    body: `The <strong>OSI (Open Systems Interconnection) Model</strong> is a conceptual framework with 7 layers that describes how data communication works between two devices on a network.
+mux_demux: {
+  title: "Multiplexer & Demultiplexer",
+  subject: "Combinational Circuits",
+  xp: 20, time: "6 min",
+  hcl_importance: "High",
+  intro: `Think of a MUX like a railway track switch — multiple tracks (data inputs) but only one train can go through at a time (output). The operator (select lines) decides which track. In digital systems, MUX lets you select which data source to use. It's everywhere — CPU datapaths, memory systems, communication systems.`,
+  sections: [
+    {
+      title: "🔀 Multiplexer (MUX)",
+      body: `Data selector. Selects one of 2^n inputs based on n select lines.<br><br>
+<strong>4-to-1 MUX:</strong> 4 inputs (I0-I3), 2 select lines (S1,S0), 1 output.<br>
+S1S0=00 → Y=I0 &nbsp;|&nbsp; S1S0=01 → Y=I1<br>
+S1S0=10 → Y=I2 &nbsp;|&nbsp; S1S0=11 → Y=I3<br>
+Y = S1'S0'I0 + S1'S0I1 + S1S0'I2 + S1S0I3<br><br>
+<strong>MUX as Universal Logic:</strong><br>
+Any Boolean function of n variables can be implemented with 2^(n-1) to 1 MUX!<br>
+2-variable function → 4-to-1 MUX (no extra gates)<br>
+3-variable function → 4-to-1 MUX (use 2 variables as select, 3rd as data input)<br><br>
+This is very powerful — memory-efficient logic implementation.<br>
+FPGAs use LUTs (Look-Up Tables) which are essentially large MUXes.`,
+    },
+    {
+      title: "🔀 Demultiplexer (DEMUX)",
+      body: `Routes single input to one of 2^n outputs based on select lines.<br>
+Like a postal sorting machine — one input mail, routes to correct mailbox.<br><br>
+<strong>1-to-4 DEMUX:</strong><br>
+Y0=D·S1'S0' &nbsp;|&nbsp; Y1=D·S1'S0 &nbsp;|&nbsp; Y2=D·S1S0' &nbsp;|&nbsp; Y3=D·S1S0<br><br>
+DEMUX with Enable = Decoder with data!<br>
+Set D=1 → only selected output is 1 → works as decoder.<br>
+Set D=data → routes data to selected output → works as DEMUX.`,
+    },
+    {
+      title: "🔗 Cascading MUX",
+      body: `Need 8-to-1 MUX but only have 4-to-1 MUX?<br>
+Use two 4-to-1 MUX → feed their outputs into one 2-to-1 MUX.<br>
+MSB of select controls top-level MUX, remaining bits control lower MUXes.<br><br>
+<strong>Real use cases:</strong><br>
+→ CPU datapath selects ALU operand sources<br>
+→ Memory: MUX selects which memory bank to read<br>
+→ FPGA routing: programmable interconnect = giant MUX network<br>
+→ Communication: time-division multiplexing sends multiple signals over one wire`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Everyday Analogy",
+    body: `MUX = TV remote — one device (select) controls which channel (input) goes to screen (output).<br>
+DEMUX = Distribution center — one delivery truck (input) sorts packages to different locations (outputs).<br>
+Cascaded MUX = Branch offices — regional hub routes to local hub routes to destination.`,
+  },
+  exam_tip: "MUX implementation of Boolean functions is a favourite interview question. For f(A,B,C): use A,B as select (4 combinations), evaluate f for each AB with C as variable → connect C, C', 0, or 1 to I0-I3.",
+  interview_qs: [
+    "Implement f(A,B) = AB + A'B' using 4-to-1 MUX (I0=0(A'B'→1), wait... use truth table approach)",
+    "What is the difference between MUX and DEMUX? (MUX: many-to-one; DEMUX: one-to-many)",
+    "How many select lines for 8-to-1 MUX? (3 select lines — 2³=8)",
+    "How is DEMUX related to decoder? (DEMUX with Enable=1 works as decoder)",
+    "Why are FPGAs based on LUTs rather than gates? (LUTs = ROM-based MUX — flexible, any function)",
+  ],
+},
 
-Understanding OSI is essential for HCL technical interviews — they always ask "how many layers?" and "what does each layer do?"`,
-    blocks: [
-      { title: "🌐 The 7 Layers (Bottom to Top)", content: `
-<strong>Layer 1 — Physical:</strong> Actual cables, signals, bits. Hubs work here.<br>
-<strong>Layer 2 — Data Link:</strong> MAC addresses, frames, error detection. Switches work here.<br>
-<strong>Layer 3 — Network:</strong> IP addresses, routing. <strong>Routers work here.</strong><br>
-<strong>Layer 4 — Transport:</strong> TCP/UDP, ports, segmentation. End-to-end delivery.<br>
-<strong>Layer 5 — Session:</strong> Establishes, manages, terminates sessions.<br>
-<strong>Layer 6 — Presentation:</strong> Encryption, compression, format conversion.<br>
-<strong>Layer 7 — Application:</strong> HTTP, FTP, SMTP, DNS. What users see.<br><br>
-<strong>Mnemonic:</strong> <span style="color:var(--purple)">P</span>lease <span style="color:var(--purple)">D</span>o <span style="color:var(--purple)">N</span>ot <span style="color:var(--purple)">T</span>hrow <span style="color:var(--purple)">S</span>ausage <span style="color:var(--purple)">P</span>izza <span style="color:var(--purple)">A</span>way` },
-      { title: "⚡ TCP vs UDP — Very Common Question", content: `
-<strong>TCP (Transmission Control Protocol):</strong><br>
-Connection-oriented · Reliable · Ordered · Slower<br>
-Used for: Web browsing, email, file transfer<br>
-Port examples: HTTP=80, HTTPS=443, FTP=21<br><br>
-<strong>UDP (User Datagram Protocol):</strong><br>
-Connectionless · Unreliable · No ordering · Faster<br>
-Used for: Video streaming, gaming, DNS, VoIP<br>
-Port examples: DNS=53, DHCP=67` }
-    ],
-    exam_tip: "OSI model layer count (7) and TCP vs UDP difference are the TOP networking questions in HCL. Also memorize port numbers: HTTP=80, HTTPS=443, FTP=21, SSH=22, SMTP=25, DNS=53.",
-    hcl_questions: [
-      "How many layers does OSI model have? (7)",
-      "At which layer do routers work? (Network Layer 3)",
-      "Difference between TCP and UDP",
-      "Port number for HTTP, HTTPS, FTP (80, 443, 21)"
-    ]
-  }
+encoders_decoders: {
+  title: "Encoders & Decoders",
+  subject: "Combinational Circuits",
+  xp: 20, time: "5 min",
+  hcl_importance: "High",
+  intro: `Every time you press a keyboard key, an encoder converts it to a digital code. Every time your microcontroller selects a peripheral (UART, SPI, GPIO), a decoder activates the right one. These circuits are the translators of the digital world — converting between formats.`,
+  sections: [
+    {
+      title: "🔣 Decoder",
+      body: `Converts binary code to one-of-N outputs. n inputs → 2^n outputs (only one active).<br><br>
+<strong>2-to-4 Decoder:</strong><br>
+A1A0=00 → Y0=1 &nbsp;|&nbsp; A1A0=01 → Y1=1 &nbsp;|&nbsp; A1A0=10 → Y2=1 &nbsp;|&nbsp; A1A0=11 → Y3=1<br><br>
+<strong>Enable input:</strong> When Enable=0, all outputs=0. Allows cascading.<br><br>
+<strong>Real applications:</strong><br>
+→ Memory address decoding — select which memory chip is active<br>
+→ 7-segment display decoder (IC 7447: BCD → 7 segments a-g)<br>
+→ Microcontroller peripheral select (CS pin)<br>
+→ Implementing Boolean functions — each output = one minterm`,
+    },
+    {
+      title: "🔣 Encoder",
+      body: `Opposite of decoder. 2^n inputs → n outputs.<br>
+Only one input active at a time → outputs its binary code.<br><br>
+<strong>Problem with basic encoder:</strong> What if multiple inputs are 1 simultaneously?<br><br>
+<strong>Priority Encoder:</strong> If multiple inputs active → outputs code of HIGHEST priority input.<br>
+Plus a Valid output (V=1 if any input is 1).<br><br>
+<strong>IC 74148: 8-to-3 Priority Encoder</strong><br>
+Used in: Interrupt controllers (8259A PIC — x86 interrupt controller is essentially a priority encoder)<br>
+When multiple devices request CPU attention simultaneously → priority encoder selects highest priority.`,
+    },
+    {
+      title: "📺 7-Segment Display",
+      body: `A 7-segment display has segments a,b,c,d,e,f,g.<br>
+Each digit (0-9) requires specific segments to be on.<br>
+BCD → 7-segment decoder (IC 7447) converts 4-bit BCD to 7 segment control lines.<br><br>
+Digit 0: segments a,b,c,d,e,f ON (g OFF)<br>
+Digit 1: segments b,c ON only<br>
+Digit 8: ALL segments ON<br><br>
+Common cathode: segment ON when input=1.<br>
+Common anode: segment ON when input=0 (active low).<br>
+LED or LCD based displays both use this decoder.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Connection",
+    body: `Decoder = Post office sorting machine (binary code of city → activates that city's slot)<br>
+Encoder = Bar code scanner (physical barcode → binary number)<br>
+Priority encoder = Hospital triage — if ICU patient AND regular patient both need doctor, ICU goes first.`,
+  },
+  exam_tip: "Decoder with enable input = DEMUX when enable carries data. A decoder implements all minterms — n-to-2^n decoder implements any Boolean function with external OR gate. IC 74138 is a 3-to-8 decoder.",
+  interview_qs: [
+    "How many outputs in a 4-to-16 decoder? (16 outputs)",
+    "What is a priority encoder? Give an example. (Outputs code of highest priority active input; interrupt controller)",
+    "Implement f(A,B,C) = Σm(1,3,5) using 3-to-8 decoder (connect Y1, Y3, Y5 to OR gate)",
+    "What is the enable input in a decoder used for? (Cascading and power saving — disable unused decoder)",
+    "What IC is used for BCD to 7-segment decoding? (7447 or 4511)",
+  ],
+},
+
+latches: {
+  title: "Latches",
+  subject: "Sequential Circuits",
+  xp: 20, time: "5 min",
+  hcl_importance: "Medium",
+  intro: `Combinational circuits forget everything the moment inputs change. To build a memory, you need a circuit whose output depends on its PAST. That's a latch. When you power up your microcontroller, the first few nanoseconds involve latches capturing initial states. The entire concept of RAM is based on this — a cell that remembers.`,
+  sections: [
+    {
+      title: "💾 SR Latch (Set-Reset)",
+      body: `Two cross-coupled NOR gates (or NAND gates). Basic memory cell.<br><br>
+<strong>NOR-based SR Latch:</strong><br>
+S=1, R=0 → Q=1 (Set)<br>
+S=0, R=1 → Q=0 (Reset)<br>
+S=0, R=0 → Q=Q_prev (Hold — THIS is the memory!)<br>
+S=1, R=1 → FORBIDDEN (race condition — Q is unpredictable)<br><br>
+Why forbidden? Both NOR gates try to force Q and Q' to 0 simultaneously.
+When S,R both return to 0, the faster gate wins — nondeterministic!<br><br>
+<strong>NAND-based SR Latch:</strong> Active-LOW inputs. S'=0 sets, R'=0 resets.
+S'=R'=0 is forbidden in NAND version.`,
+    },
+    {
+      title: "💾 D Latch (Transparent Latch)",
+      body: `Solves the forbidden state of SR latch.<br>
+Has Enable (E) input.<br><br>
+E=1: Q = D (transparent — output follows input)<br>
+E=0: Q = Q_prev (memory — holds last value)<br><br>
+<strong>Problem: Transparency</strong><br>
+When E=1 and D changes rapidly, Q changes rapidly too.<br>
+This can cause timing problems in complex systems.<br>
+Solution: Use edge-triggered flip-flops instead.<br><br>
+<strong>Real use:</strong><br>
+IC 74LS373: 8-bit transparent latch — used in microprocessor address/data buses.<br>
+Arduino's 74HC595 shift register has built-in latch for output.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Analogy",
+    body: `SR Latch = Light switch that STAYS in position until you flip it.<br>
+SR forbidden state = Trying to flip it up and down simultaneously — it vibrates.<br>
+D Latch = Camera with open shutter — while shutter is open (E=1), captures everything. Closed = holds last image.`,
+  },
+  exam_tip: "SR latch forbidden state S=R=1 (NOR latch) or S=R=0 (NAND latch). D latch is level-sensitive (transparent), flip-flop is edge-triggered. This distinction is extremely important for timing analysis.",
+  interview_qs: [
+    "What is the forbidden state of SR latch? Why? (S=R=1; race condition — Q unpredictable)",
+    "Difference between latch and flip-flop? (Latch: level-sensitive; FF: edge-triggered)",
+    "Build D latch from SR latch (S=D, R=D')",
+    "What is metastability? When does it occur? (Indeterminate output when setup/hold violated)",
+    "Why do we prefer flip-flops over latches in digital design? (Edge-triggering gives precise timing control)",
+  ],
+},
+
+flipflops: {
+  title: "Flip-Flops",
+  subject: "Sequential Circuits",
+  xp: 30, time: "8 min",
+  hcl_importance: "Very High",
+  intro: `If latches are like cameras with open shutters, flip-flops are like cameras that take a photo at the EXACT moment you press the button. That precise timing is what makes synchronous digital design possible. Every register in your CPU, every bit of SRAM, every pipeline stage — flip-flops everywhere. This is THE most important sequential circuit.`,
+  sections: [
+    {
+      title: "📸 D Flip-Flop — The Workhorse",
+      body: `Positive edge triggered: captures D at rising clock edge. Holds until next edge.<br><br>
+D=1 when ↑clock → Q becomes 1<br>
+D=0 when ↑clock → Q becomes 0<br>
+Between clock edges → Q unchanged regardless of D<br><br>
+<strong>Timing parameters:</strong><br>
+<strong>Setup time (tsu):</strong> D must be stable BEFORE clock edge. Violate → metastability.<br>
+<strong>Hold time (th):</strong> D must stay stable AFTER clock edge. Violate → metastability.<br>
+<strong>Propagation delay (tpd/tco):</strong> Time from clock edge to Q change.<br><br>
+Max clock frequency = 1 / (tco + tsu + routing delay)<br><br>
+<strong>Used in:</strong> Registers, pipeline stages, FIFO, RAM cells, everything!`,
+    },
+    {
+      title: "🔄 JK Flip-Flop — The Universal One",
+      body: `Eliminates SR's forbidden state. J=K=1 is now defined as TOGGLE.<br><br>
+J=0, K=0 → No change (Q=Q)<br>
+J=1, K=0 → Set (Q=1)<br>
+J=0, K=1 → Reset (Q=0)<br>
+J=1, K=1 → <strong>TOGGLE (Q = Q')</strong> ← The key improvement!<br><br>
+Characteristic equation: Q(next) = JQ' + K'Q<br><br>
+<strong>Race-around problem:</strong> In LEVEL-triggered JK with J=K=1,<br>
+output toggles continuously while clock=1 (multiple toggles per cycle).<br>
+Solution: Master-slave JK or edge-triggered JK.`,
+    },
+    {
+      title: "⏰ T Flip-Flop — The Counter FF",
+      body: `Toggle flip-flop. Special case of JK with J=K connected.<br>
+T=0 → No change<br>
+T=1 → Toggle (Q = Q')<br>
+Characteristic equation: Q(next) = T⊕Q<br><br>
+<strong>Key property:</strong> Output frequency = Clock frequency / 2<br>
+Chain of T FFs → binary counter!<br>
+Each FF divides clock by 2.<br>
+10MHz → FF1=5MHz → FF2=2.5MHz → FF3=1.25MHz...<br><br>
+<strong>Used in:</strong> Binary counters, frequency dividers, clock dividers in PLLs.`,
+    },
+    {
+      title: "📊 SR Flip-Flop",
+      body: `Clocked version of SR latch. Forbidden state still exists (S=R=1 at clock edge).<br>
+Q(next) = S + R'Q, constraint SR=0<br><br>
+Less used in practice (JK and D are preferred).<br>
+But appears in textbooks and some interview questions.`,
+    },
+    {
+      title: "🔄 Flip-Flop Conversions",
+      body: `You can convert one FF to another using combinational logic:<br><br>
+<strong>D → JK:</strong> J=D, K=D'<br>
+<strong>JK → D:</strong> J=D, K=D'<br>
+<strong>T → D:</strong> T=D⊕Q<br>
+<strong>D → T:</strong> D=T⊕Q<br>
+<strong>JK → T:</strong> Connect J=K=T<br><br>
+Conversion procedure: Compare excitation tables → derive input equations using K-map.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Analogy",
+    body: `D FF = Photographer who takes ONE photo exactly when you say "click!" (clock edge).<br>
+JK FF = Smart photographer who can set (take portrait), reset (delete), or toggle (switch style).<br>
+T FF = Doorbell counter — increments EVERY time you ring it.<br>
+Setup time = "Please be ready 10ms before I take the photo" — shows metastability if violated.`,
+  },
+  exam_tip: "D flip-flop is most used. JK flip-flop J=K=1 = toggle is the most asked question. T flip-flop divides frequency by 2. Metastability occurs when setup OR hold time is violated. These four facts cover 80% of flip-flop interview questions.",
+  interview_qs: [
+    "JK flip-flop with J=1,K=1 at clock edge — what happens? (Toggle — Q = Q')",
+    "What is setup time and what happens if violated? (Metastability — output unpredictable)",
+    "Convert JK FF to D FF (J=D, K=D')",
+    "Why is D flip-flop preferred over SR? (No forbidden state — D and D' always valid)",
+    "What is the difference between positive edge and negative edge triggered FF? (Sample on rising vs falling clock edge)",
+    "What is master-slave JK FF? Why was it invented? (Eliminates race-around; master captures on CLK=1, slave updates on CLK=0)",
+  ],
+},
+
+registers: {
+  title: "Registers & Shift Registers",
+  subject: "Sequential Circuits",
+  xp: 25, time: "6 min",
+  hcl_importance: "High",
+  intro: `Every number your CPU processes passes through registers. The AX, BX, CX registers in x86 assembly? Shift registers. SPI communication on your Arduino? Shift registers. UART? Shift register. These are the workhorses of digital communication and data storage. Understanding them means understanding how data actually moves in digital systems.`,
+  sections: [
+    {
+      title: "📋 Storage Register",
+      body: `n D flip-flops sharing common clock → stores n-bit word.<br>
+8-bit register = 8 D FFs = 1 byte storage.<br><br>
+<strong>Load operation:</strong> When Load=1 at clock edge, new data enters register.<br>
+<strong>Hold:</strong> When Load=0, register holds current value.<br><br>
+<strong>CPU registers (x86):</strong> AX(16-bit), EAX(32-bit), RAX(64-bit) — all built from D flip-flops.<br>
+Register file: array of registers with read/write ports.<br>
+ARM Cortex-M has 16 general purpose registers (R0-R15), each 32-bit = 32 D FFs each.`,
+    },
+    {
+      title: "➡️ Shift Registers",
+      body: `Data shifts left or right on each clock pulse.<br><br>
+<strong>SISO (Serial-In Serial-Out):</strong><br>
+Data enters one bit at a time from left, exits from right.<br>
+n-bit SISO = n clock cycles to shift all data through.<br>
+Used as: Digital delay line (delays signal by n clock cycles).<br><br>
+<strong>SIPO (Serial-In Parallel-Out):</strong><br>
+Receives data serially, read all bits simultaneously.<br>
+SPI slave receives 8 bits serially → 8-bit parallel output to CPU.<br>
+Used in: SPI communication, I²C, any serial-to-parallel conversion.<br>
+Your Arduino's SPI.transfer() uses SIPO internally.<br><br>
+<strong>PISO (Parallel-In Serial-Out):</strong><br>
+Load 8 bits at once, transmit one bit at a time.<br>
+UART transmitter sends 8-bit ASCII serially → PISO.<br>
+USB, Ethernet: high-speed serial uses PISO.<br><br>
+<strong>PIPO (Parallel-In Parallel-Out):</strong><br>
+Load and read in parallel. Basically storage register with shift capability.<br>
+IC 74194: Universal shift register (all four modes in one IC).`,
+    },
+    {
+      title: "🔁 Ring Counter & Johnson Counter",
+      body: `<strong>Ring Counter:</strong><br>
+Shift register with output fed back to input.<br>
+Circulates a single 1 through n FFs.<br>
+4-bit: 1000→0100→0010→0001→1000...<br>
+n states for n flip-flops. One FF = 1 at a time.<br>
+Used in: Stepper motor control (4-bit ring counter drives 4 coils in sequence).<br><br>
+<strong>Johnson Counter (Twisted Ring):</strong><br>
+Complement of last FF fed back to input.<br>
+2n states for n FFs (vs n for ring counter).<br>
+4-bit Johnson: 0000→1000→1100→1110→1111→0111→0011→0001→0000<br>
+Used in: Divide-by-2n counter, sequence generators.<br><br>
+<strong>LFSR (Linear Feedback Shift Register):</strong><br>
+XOR of specific stages fed back to input.<br>
+Generates pseudo-random sequence of 2^n - 1 states.<br>
+Used in: CRC calculation (Ethernet, USB, ZIP), encryption, PRNG, BIST.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Analogy",
+    body: `SISO = Tunnel — cars enter one side, exit the other, n cars fill n positions.<br>
+SIPO = Parking garage with ONE entry but you can see ALL cars once parked.<br>
+PISO = Race start — all cars line up (parallel), then leave one by one (serial).<br>
+Ring counter = Rotating restaurant — dishes circulate through each position.`,
+  },
+  exam_tip: "SIPO = serial to parallel (receive). PISO = parallel to serial (transmit). This direction confuses many students. Remember: SPI = Serial Peripheral Interface — uses BOTH SIPO (receive) and PISO (transmit). Ring counter has n states; Johnson has 2n states.",
+  interview_qs: [
+    "What is the difference between SIPO and PISO? (SIPO: serial in, read parallel; PISO: load parallel, transmit serial)",
+    "Where are shift registers used in communication? (SPI, UART, I2C — serial protocols)",
+    "How many states does 4-bit ring counter have? Johnson counter? (4 and 8 respectively)",
+    "What is LFSR? What is it used for? (Linear Feedback SR — CRC, PRNG, Built-In Self Test)",
+    "Design a 4-bit PISO shift register (4 D-FFs with parallel load and serial output)",
+  ],
+},
+
+counters: {
+  title: "Counters",
+  subject: "Sequential Circuits",
+  xp: 25, time: "7 min",
+  hcl_importance: "Very High",
+  intro: `How does your digital watch know it's been one second? Counter. How does a traffic light know when to change? Counter. How does your microcontroller's Timer peripheral work? Counter. Counters are everywhere — and the question "how many flip-flops for MOD-N counter" is probably the most asked DE interview question after universal gates.`,
+  sections: [
+    {
+      title: "🔢 Ripple Counter (Asynchronous)",
+      body: `Each FF's Q output clocks the next FF.<br>
+Simple but has cumulative delay — NOT all FFs change simultaneously.<br><br>
+4-bit ripple: CLK→FF0→FF1→FF2→FF3<br>
+Total delay = 4 × tpd per FF.<br>
+At 100MHz (period=10ns): if tpd=3ns → ripple delay=12ns > period → FAILS!<br><br>
+<strong>Why it's still used:</strong> Simple design, very low power.<br>
+Used only in slow-speed applications (e.g., power-on reset circuits).`,
+    },
+    {
+      title: "🔢 Synchronous Counter",
+      body: `ALL flip-flops clocked simultaneously from same clock.<br>
+No cumulative delay. Works at full clock frequency.<br>
+Standard for all modern digital design.<br><br>
+<strong>4-bit synchronous binary counter logic:</strong><br>
+FF0: T0 = 1 (always toggles)<br>
+FF1: T1 = Q0 (toggles when FF0=1)<br>
+FF2: T2 = Q0·Q1 (toggles when both FF0,FF1=1)<br>
+FF3: T3 = Q0·Q1·Q2 (toggles when FF0,FF1,FF2 all=1)<br><br>
+All get same clock → no ripple → fast.<br>
+IC 74163: Synchronous 4-bit binary counter (industry standard).`,
+    },
+    {
+      title: "📐 MOD-N Counter Design",
+      body: `MOD-N: counts 0 to N-1 then resets.<br><br>
+<strong>Number of flip-flops = ⌈log₂N⌉</strong><br>
+MOD-5 → n=3 (2³=8≥5) &nbsp;|&nbsp; MOD-10 → n=4 (2⁴=16≥10)<br>
+MOD-12 → n=4 &nbsp;|&nbsp; MOD-16 → n=4 (exact) &nbsp;|&nbsp; MOD-32 → n=5<br><br>
+<strong>Method 1 (Simple but has glitch):</strong><br>
+Count normally; when count=N, NAND gate detects it → asynchronous CLR.<br>
+Brief glitch at state N before reset. Works for slow circuits.<br><br>
+<strong>Method 2 (Clean — synchronous preset):</strong><br>
+When count=N-1, preset counter to 0 on next clock edge.<br>
+No glitch. Professional approach.<br><br>
+<strong>BCD Counter (MOD-10):</strong><br>
+Most important MOD-N counter. Counts 0-9, resets to 0.<br>
+Detect state 10 (1010): Q3=1 and Q1=1 → CLR.<br>
+Cascade two BCD counters → 00 to 99 (decimal display).<br>
+IC 7490: Decade counter (MOD-10).`,
+    },
+    {
+      title: "⏱️ Applications of Counters",
+      body: `<strong>Frequency Divider:</strong><br>
+Each FF divides clock by 2. 10MHz → 5MHz → 2.5MHz...<br>
+Used in PLLs and clock generation circuits.<br><br>
+<strong>Digital Clock:</strong><br>
+60Hz input → MOD-60 (seconds) → MOD-60 (minutes) → MOD-12 (hours).<br><br>
+<strong>Timer/Counter in Microcontrollers:</strong><br>
+ATmega328P (Arduino) Timer0: 8-bit = MOD-256.<br>
+Timer1: 16-bit = MOD-65536.<br>
+Counts clock cycles → measures time → generates PWM.<br><br>
+<strong>Event Counter:</strong><br>
+Count pulses from sensors (flow meter, RPM sensor).`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Analogy",
+    body: `Ripple counter = Falling dominoes — each one knocks the next. Fast but cumulative delay.<br>
+Synchronous counter = Synchronized swimmers — all change exactly together on the beat.<br>
+MOD-10 counter = Odometer digit — 0,1,2...9, then resets to 0 and carries to next digit.<br>
+Frequency divider = Every other heartbeat (÷2) or every 4th heartbeat (÷4).`,
+  },
+  exam_tip: "MOD-N counter needs ⌈log₂N⌉ flip-flops is asked in EVERY interview. MOD-10=4FFs, MOD-16=4FFs, MOD-32=5FFs. Synchronous counter is always preferred over ripple for speed. Ripple counter's disadvantage = cumulative propagation delay.",
+  interview_qs: [
+    "How many flip-flops for MOD-100 counter? (7 — 2⁷=128≥100)",
+    "Difference between ripple and synchronous counter? (Ripple: cumulative delay; Sync: all FFs clocked together)",
+    "Design MOD-6 counter — explain detection logic (detect state 6=0110: Q2 AND Q1 → CLR)",
+    "What is a decade counter? (MOD-10 counter, counts 0-9, used in frequency dividers and clocks)",
+    "How does a counter work as frequency divider? (FF output = CLK/2; n FFs = CLK/2^n)",
+    "What is lock-out in counters? How to avoid? (Unused states that loop forever; use self-correcting design)",
+  ],
+},
+
+state_machines: {
+  title: "Finite State Machines",
+  subject: "Sequential Circuits",
+  xp: 30, time: "8 min",
+  hcl_importance: "Very High",
+  intro: `Every protocol you've used — USB, SPI, I2C, TCP — is implemented as a state machine. Traffic lights, vending machines, elevators — state machines. Even your compiler uses state machines (lexer, parser). State machines are the most powerful tool in digital design. Understanding them means you can design anything from a simple counter to a complex communication protocol.`,
+  sections: [
+    {
+      title: "🧩 Mealy vs Moore Machine",
+      body: `<strong>Moore Machine:</strong><br>
+Output depends ONLY on current state.<br>
+Output changes only at clock edge → predictable, glitch-free.<br>
+More states needed than Mealy (output encoded in state).<br>
+Output written inside state circles.<br>
+Easier to implement and verify. Preferred in practice.<br><br>
+<strong>Mealy Machine:</strong><br>
+Output depends on current state AND current inputs.<br>
+Output can change immediately when input changes (even without clock edge).<br>
+Fewer states than equivalent Moore machine.<br>
+Output written on transition arrows.<br>
+Can cause glitches if input is glitchy.`,
+    },
+    {
+      title: "🗺️ FSM Design Procedure",
+      body: `<strong>Step 1: Define states</strong> — What situations can the system be in?<br>
+<strong>Step 2: Draw state diagram</strong> — Circles=states, Arrows=transitions, Labels=input/output<br>
+<strong>Step 3: Create state table</strong> — Current state + input → next state + output<br>
+<strong>Step 4: Assign binary codes</strong> to states<br>
+<strong>Step 5: Derive next-state equations</strong> using K-map<br>
+<strong>Step 6: Derive output equations</strong><br>
+<strong>Step 7: Implement</strong> with flip-flops + combinational logic<br>
+<strong>Step 8: Verify timing</strong> and simulate<br><br>
+<strong>State Encoding Choices:</strong><br>
+Binary encoding: log₂N bits for N states. Compact.<br>
+One-hot encoding: N bits, only one 1. Simple next-state logic. Used in FPGAs.<br>
+Gray code: minimize switching → lower power.`,
+    },
+    {
+      title: "🎰 Classic FSM Examples",
+      body: `<strong>Sequence Detector (Most common interview problem):</strong><br>
+Detect sequence "1011" in serial bit stream.<br>
+States: S0(idle), S1(got 1), S2(got 10), S3(got 101), S4(got 1011, output=1)<br>
+Moore machine. Each state remembers how much of sequence is matched.<br><br>
+<strong>Vending Machine:</strong><br>
+States: IDLE, NICKEL_IN(5¢), DIME_IN(10¢), FIFTEEN_CENTS, PRODUCT_OUT<br>
+Inputs: nickel, dime, quarter inserted<br>
+Output: dispense product, give change<br>
+This is the classic Moore FSM textbook example.<br><br>
+<strong>Traffic Light Controller:</strong><br>
+States: NS_GREEN, NS_YELLOW, EW_GREEN, EW_YELLOW<br>
+Timer input triggers transitions.`,
+    },
+    {
+      title: "🔍 State Minimization",
+      body: `Reduce number of states → simpler circuit.<br>
+Two states are equivalent if: same output AND same next state for all inputs.<br>
+Implication chart method identifies equivalent states.<br><br>
+<strong>Unreachable states:</strong> States never visited from initial state → remove them.<br>
+<strong>Equivalent states:</strong> States with identical behavior → merge them.<br><br>
+Important for exam: Given state table, identify and merge equivalent states.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life FSM",
+    body: `Traffic light = State machine with 4 states (NS-Green, NS-Yellow, EW-Green, EW-Yellow).<br>
+Your turnstile = 2 states (LOCKED, UNLOCKED). Coin → unlock. Push → pass → lock again.<br>
+Your phone = Complex FSM: OFF→BOOTING→HOME→APP→SLEEPING→HOME...<br>
+Every elevator you've ever ridden is a Moore state machine.`,
+  },
+  exam_tip: "Sequence detectors are the #1 FSM interview question. Know how to draw state diagram for detecting a binary sequence. Also know Mealy vs Moore difference — 'Moore output in state, Mealy output on transition' is the one-line answer interviewers want.",
+  interview_qs: [
+    "Difference between Mealy and Moore machine? (Mealy: output depends on state+input; Moore: only state)",
+    "Design sequence detector for '1011' — draw state diagram",
+    "Which is preferred: Mealy or Moore? Why? (Moore — predictable output timing, no glitches)",
+    "What is state minimization? Why is it needed? (Remove redundant states to reduce hardware)",
+    "What is one-hot encoding? When is it used? (One FF per state, only one active; used in FPGAs for speed)",
+    "Design a 3-bit binary counter using FSM approach",
+  ],
+},
+
+// ═══════════════════════════════════════════
+// C PROGRAMMING TOPICS — Add to CONCEPTS object
+// ═══════════════════════════════════════════
+
+c_basics: {
+  title: "C Basics & Data Types",
+  subject: "C Programming",
+  xp: 20, time: "6 min",
+  hcl_importance: "Very High",
+  intro: `C was built by Dennis Ritchie in 1972 to write UNIX. Here's the thing — your Arduino code, your car's ECU firmware, the Linux kernel — all C. Every core ECE company (Bosch, TI, Qualcomm) tests C hard because it's literally how hardware gets programmed. Get comfortable here — it pays off for your entire career, not just interviews.`,
+  sections: [
+    {
+      title: "📊 Data Types & Sizes (Memorize This Table)",
+      body: `<strong>On a 32-bit system:</strong><br>
+char: 1 byte &nbsp;|&nbsp; int: 4 bytes &nbsp;|&nbsp; short: 2 bytes<br>
+float: 4 bytes &nbsp;|&nbsp; double: 8 bytes &nbsp;|&nbsp; long: 4 or 8 bytes<br><br>
+<strong>Golden rule:</strong> Never assume sizes — always use <code>sizeof()</code>.
+Sizes are platform dependent! sizeof(int) was 2 bytes on old 16-bit systems.<br><br>
+<strong>volatile keyword</strong> — this one's special for embedded work:<br>
+Tells the compiler "this value can change unexpectedly, don't cache it."<br>
+<code>volatile uint8_t *STATUS = (uint8_t*)0x4000;</code><br>
+Without volatile, the compiler might read a hardware register ONCE,
+cache it in a CPU register, and never notice when the actual hardware
+changes it. This causes bugs that only show up on REAL hardware, never
+in simulators — a classic embedded gotcha.`,
+    },
+    {
+      title: "⚡ Operators You'll Actually Use",
+      body: `<strong>Modulo %:</strong> Only works on integers, gives remainder.<br>
+10%3=1. Classic use: <code>if(n%2==0)</code> checks even/odd.<br><br>
+<strong>Bitwise operators (embedded engineers live here):</strong><br>
+<code>SET_BIT(x,n) = x | (1&lt;&lt;n)</code><br>
+<code>CLEAR_BIT(x,n) = x & ~(1&lt;&lt;n)</code><br>
+<code>TOGGLE_BIT(x,n) = x ^ (1&lt;&lt;n)</code><br>
+<code>CHECK_BIT(x,n) = (x&gt;&gt;n) & 1</code><br>
+This EXACT pattern controls every GPIO pin, every hardware register
+on every microcontroller you'll ever program.<br><br>
+<strong>Short-circuit evaluation:</strong><br>
+<code>if(p != NULL && p->value == 5)</code> — if p is NULL, the second
+condition is NEVER evaluated. This prevents a crash. Very important
+safety pattern.`,
+    },
+    {
+      title: "🔨 How Compilation Actually Works",
+      body: `Four stages, often asked in interviews:<br>
+1. <strong>Preprocessing:</strong> handles #include, #define → .i file<br>
+2. <strong>Compilation:</strong> C code → assembly → .s file<br>
+3. <strong>Assembly:</strong> assembly → machine code (object file) → .o file<br>
+4. <strong>Linking:</strong> combines object files + libraries → executable<br><br>
+<code>gcc -E file.c</code> → preprocessing only<br>
+<code>gcc -c file.c</code> → stops after creating object file<br>
+<code>gcc file.c -o out</code> → full pipeline, ready-to-run program`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `Data types are like different sized containers — char is a shot glass (1 byte), int is a regular cup (4 bytes), double is a jug (8 bytes). You pick the container size based on what you need to store — using a jug for a single digit wastes memory (critical in embedded systems with only KB of RAM).`,
+  },
+  exam_tip: "sizeof(int)=4 on modern systems is the single most repeated question. Also memorize: int a=5; int b=a++; gives b=5,a=6 (post-increment). The volatile keyword question is a favorite at embedded/core companies specifically.",
+  interview_qs: [
+    "What is sizeof(int) on a 32-bit system? (4 bytes)",
+    "What does volatile keyword do and why is it needed in embedded code?",
+    "Explain the 4 stages of C compilation (preprocessing, compilation, assembly, linking)",
+    "Write a macro to check if bit 3 of a variable x is set",
+    "Difference between = and == (assignment vs comparison — classic trap)",
+  ],
+},
+
+pointers: {
+  title: "Pointers — The Heart of C",
+  subject: "C Programming",
+  xp: 30, time: "10 min",
+  hcl_importance: "Very High",
+  intro: `Here's why pointers matter so much: arrays, strings, dynamic memory, linked lists, function callbacks — literally everything interesting in C depends on pointers. This is why 80% of C interview questions are about pointers. And in embedded systems, pointers aren't abstract — they're literal memory addresses of real hardware registers.`,
+  sections: [
+    {
+      title: "👉 The Basics",
+      body: `<code>int a = 10;<br>
+int *p = &a;      // p stores the ADDRESS of a<br>
+printf("%d", *p); // *p dereferences — prints 10</code><br><br>
+<strong>&</strong> = "address of" — gets a variable's memory address<br>
+<strong>*</strong> has two meanings: in declaration (int *p) it says "p is
+a pointer". In usage (*p) it dereferences — gets the value AT that address.<br><br>
+<strong>Pointer size is always the same</strong> regardless of what it
+points to! sizeof(int*) == sizeof(char*) == sizeof(double*) on a given
+system (4 bytes on 32-bit, 8 bytes on 64-bit). This surprises people —
+the pointed-to type doesn't affect pointer SIZE, only pointer ARITHMETIC.`,
+    },
+    {
+      title: "⚠️ The 3 Dangerous Pointers",
+      body: `<strong>NULL pointer:</strong> <code>int *p = NULL;</code> points to
+nothing. Dereferencing it → instant crash (segfault). ALWAYS check
+before use: <code>if(p != NULL) { *p = 5; }</code><br><br>
+<strong>Dangling pointer:</strong> points to memory that's been freed.<br>
+<code>int *p = malloc(4);<br>
+free(p);<br>
+// p is DANGLING now — using it is undefined behavior!<br>
+*p = 5;  // dangerous — may corrupt memory silently</code><br>
+Fix: <code>free(p); p = NULL;</code> immediately after freeing.<br><br>
+<strong>Wild pointer:</strong> uninitialized, points to random garbage.<br>
+<code>int *p;  // WILD — random address<br>
+*p = 5;   // crash or silent corruption</code><br>
+Always initialize: <code>int *p = NULL;</code>`,
+    },
+    {
+      title: "🔴 Function Pointers — Very Commonly Asked",
+      body: `A pointer that stores the ADDRESS of a function, not a variable.<br>
+<code>int add(int a, int b) { return a+b; }<br>
+int (*fp)(int, int);  // fp is pointer to function(int,int)→int<br>
+fp = add;<br>
+int result = fp(3, 4);  // calls add through the pointer → 7</code><br><br>
+<strong>CRITICAL syntax trap (asked directly in interviews):</strong><br>
+<code>int (*fp)(int,int)</code> → fp is a pointer TO a function<br>
+<code>int *fp(int,int)</code> → fp is a FUNCTION returning int* — totally different!<br>
+The parentheses around *fp make all the difference.<br><br>
+<strong>Real embedded use:</strong> Interrupt vector tables are literally
+arrays of function pointers:<br>
+<code>void (*isr_table[10])(void);<br>
+isr_table[3] = timer_handler;</code>`,
+    },
+    {
+      title: "🔗 Double Pointers (Pointer to Pointer)",
+      body: `<code>int a = 5;<br>
+int *p = &a;<br>
+int **pp = &p;   // pp points to p, which points to a<br>
+**pp == a        // double dereference</code><br><br>
+<strong>Why does this matter?</strong> Classic linked-list interview question:
+"Why does insert-at-head need Node** not Node*?"<br>
+<code>void insert(Node **head, int data) {<br>
+&nbsp;&nbsp;Node *n = malloc(sizeof(Node));<br>
+&nbsp;&nbsp;n->next = *head;<br>
+&nbsp;&nbsp;*head = n;   // modifies CALLER's head pointer<br>
+}</code><br>
+If you passed Node* instead, C's pass-by-value would only modify a local
+COPY of the pointer — caller's head would never actually change!`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `A pointer is like a house address written on paper. The paper (pointer variable) is small and fixed size no matter how big the house (data type) is. Dereferencing (*p) means actually walking to that address and looking inside the house. A NULL pointer is an address of "nowhere" — walking there gets you lost (crash). A dangling pointer is an address to a house that's been demolished — walking there is dangerous.`,
+  },
+  exam_tip: "Function pointer syntax int (*fp)(int,int) vs int *fp(int,int) is THE most common pointer trap question. Also: dangling pointer definition, and why linked-list insert needs Node** — these three cover most pointer interviews.",
+  interview_qs: [
+    "Declare a function pointer for a function taking 2 ints, returning int",
+    "What is a dangling pointer? How do you prevent it?",
+    "Why does linked list insertion at head need Node** parameter?",
+    "int arr[]={1,2,3}; int *p=arr; What is *(p+2)? (3 — pointer arithmetic)",
+    "Difference between NULL pointer and dangling pointer?",
+    "What does void* mean and why can't it be dereferenced directly?",
+  ],
+},
+
+arrays_strings: {
+  title: "Arrays & Strings",
+  subject: "C Programming",
+  xp: 25, time: "7 min",
+  hcl_importance: "High",
+  intro: `Ever wondered why C has no bounds checking on arrays, unlike Python or Java? That's a deliberate design choice for speed — but it's also why buffer overflows are one of the most common security vulnerabilities in software history. Understanding arrays and strings in C means understanding both the power AND the danger of low-level programming.`,
+  sections: [
+    {
+      title: "📦 Arrays — No Safety Net",
+      body: `<code>int arr[5] = {10,20,30,40,50};</code><br>
+Index starts at 0, last valid index is 4. <code>arr[5]</code> is OUT OF
+BOUNDS — and C will NOT stop you or warn you! It'll just read/write
+whatever memory happens to be there. This is a classic source of bugs.<br><br>
+<strong>Array name decays to pointer:</strong><br>
+<code>arr</code> is equivalent to <code>&arr[0]</code><br>
+<code>arr[i]</code> is equivalent to <code>*(arr+i)</code> ← asked constantly<br><br>
+<strong>BUT they're not identical!</strong><br>
+<code>sizeof(arr)</code> gives TOTAL size (5 ints = 20 bytes)<br>
+<code>sizeof(pointer_to_arr)</code> gives just pointer size (4 or 8 bytes)<br>
+This exact distinction is a favorite trick question.`,
+    },
+    {
+      title: "📝 Strings — The Read-Only Trap",
+      body: `C strings are character arrays ending with <code>'\\0'</code> (null terminator).<br><br>
+<code>char str[] = "Hello";  // MODIFIABLE — own copy on stack<br>
+str[0] = 'h';            // works fine ✓</code><br><br>
+<code>char *p = "Hello";     // pointer to READ-ONLY literal<br>
+p[0] = 'h';               // SEGFAULT — undefined behavior!</code><br><br>
+This exact difference (array vs pointer for strings) is asked in
+almost every C interview. The string literal <code>"Hello"</code> lives
+in read-only memory when accessed via pointer.`,
+    },
+    {
+      title: "🛠️ String Functions You Must Know",
+      body: `<code>strlen(s)</code> — length (NOT counting the null terminator)<br>
+<code>strcpy(dest,src)</code> — copies, NO bounds checking (dangerous!)<br>
+<code>strncpy(dest,src,n)</code> — safer, bounded version<br>
+<code>strcmp(s1,s2)</code> — 0 if equal, negative/positive otherwise<br>
+<code>strcat(dest,src)</code> — appends src to end of dest<br>
+<code>strstr(s,sub)</code> — finds substring, returns pointer or NULL<br><br>
+<strong>Why strcpy is dangerous:</strong> No bounds checking means if src
+is longer than dest's allocated space, you get a BUFFER OVERFLOW —
+literally the #1 cause of software security vulnerabilities historically.
+Always prefer strncpy with explicit size limits.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `An array is like a row of numbered parking spots — you can walk to spot 47 even if the lot only has 20 spots, C won't stop you (you'll just be in someone else's property = memory corruption). A string literal (char *p="Hello") is like a printed book — you can read it but not edit the text. A char array (char str[]="Hello") is like your handwritten notes — fully editable.`,
+  },
+  exam_tip: "arr[i] equals *(arr+i) is asked constantly. Also: char *p vs char p[] for string modification is a classic trap. sizeof(array) vs sizeof(pointer) — different results, commonly tested.",
+  interview_qs: [
+    "Why does char *p=\"Hello\"; p[0]='h'; crash but char str[]=\"Hello\"; str[0]='h'; work?",
+    "What is the relationship between arr[i] and *(arr+i)?",
+    "Why is strcpy() considered dangerous? What's the safer alternative?",
+    "What does sizeof(arr) return for int arr[10]? (40 bytes, not 10)",
+    "How are 2D arrays stored in memory in C? (Row-major order)",
+  ],
+},
+
+dynamic_memory: {
+  title: "Dynamic Memory Management",
+  subject: "C Programming",
+  xp: 25, time: "7 min",
+  hcl_importance: "High",
+  intro: `Arrays have a fixed size decided at compile time. But what if you don't know how much data you need until the program is running? That's exactly what dynamic memory solves — and it's also where C programmers get into the most trouble (memory leaks, dangling pointers, double-frees). This is core knowledge for any real systems programming job.`,
+  sections: [
+    {
+      title: "📚 Stack vs Heap",
+      body: `<strong>Stack:</strong> Automatic memory for local variables and function
+calls. Fast (just moves a pointer). LIMITED size — few MB normally,
+often just a few KB in embedded systems! Auto-freed when function returns.<br><br>
+<strong>Heap:</strong> Dynamic memory via malloc/calloc/realloc. Slower
+(memory manager searches for a free block). Much bigger available space.
+YOU must manually free it — nothing does it automatically!<br><br>
+<strong>Stack overflow</strong> happens from too much recursion or huge
+local arrays. In embedded systems with tiny stacks, this is a real,
+common bug.`,
+    },
+    {
+      title: "🔨 malloc, calloc, realloc, free",
+      body: `<code>malloc(size)</code> — allocates size bytes, UNINITIALIZED
+(contains garbage!). Returns void*, must cast.<br>
+<code>int *p = (int*)malloc(5 * sizeof(int));</code><br>
+<strong>Always check:</strong> <code>if(p == NULL) { /* alloc failed */ }</code><br><br>
+<code>calloc(n, size)</code> — allocates n elements of size bytes,
+INITIALIZED TO ZERO (unlike malloc). Slightly slower but safer.<br><br>
+<code>realloc(ptr, new_size)</code> — resizes previously allocated memory,
+MAY move the block to a new address.<br>
+<strong>Danger:</strong> if realloc fails, it returns NULL but doesn't
+free the original — don't overwrite your only pointer!<br>
+<code>int *temp = realloc(p, newsize);<br>
+if(temp != NULL) p = temp;  // safe pattern</code><br><br>
+<code>free(ptr)</code> — releases heap memory. MUST match every
+malloc/calloc/realloc. After freeing: <code>p = NULL;</code> to avoid
+dangling pointer bugs.`,
+    },
+    {
+      title: "🐛 The Classic Memory Bugs",
+      body: `<strong>Memory leak:</strong> allocated but never freed. Program's
+memory usage keeps growing. In embedded systems running for months
+(routers, IoT devices), this eventually crashes the whole system.<br><br>
+<strong>Double free:</strong> calling free() twice on same pointer.
+Corrupts heap management structures — undefined behavior, sometimes
+exploitable as a security bug.<br><br>
+<strong>Buffer overflow:</strong> writing beyond allocated boundary.<br>
+<code>char buf[10];<br>
+strcpy(buf, "This is way too long!");  // OVERFLOW — corrupts memory</code><br>
+This is literally the #1 historical cause of software security
+vulnerabilities (think: countless CVEs over decades).`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `Stack memory is like a hotel room you're renting by the hour — automatically cleaned when you check out (function returns). Heap memory is like buying a house — YOU are responsible for selling it (freeing it) when done. Forget to sell it (memory leak) and you keep paying for houses you don't use, until you run out of money (RAM).`,
+  },
+  exam_tip: "malloc vs calloc (uninitialized vs zero-initialized) is asked constantly. Also: what happens on double free, and the realloc safety pattern (never overwrite the only pointer directly).",
+  interview_qs: [
+    "Difference between malloc() and calloc()?",
+    "What happens if you free() a pointer twice?",
+    "What is a memory leak? How would you detect one?",
+    "Why is it dangerous to write: p = realloc(p, newSize) directly?",
+    "What is buffer overflow? Give a real example with strcpy",
+  ],
+},
+
+structures_unions: {
+  title: "Structures, Unions & Enums",
+  subject: "C Programming",
+  xp: 20, time: "6 min",
+  hcl_importance: "High",
+  intro: `Ever noticed sizeof(struct) doesn't equal the sum of its members' sizes? That's structure padding — one of the most commonly asked "gotcha" questions in C interviews. Understanding this shows you actually understand memory layout, not just syntax. This matters hugely in embedded systems where memory is precious.`,
+  sections: [
+    {
+      title: "📋 Structures — Grouping Different Types",
+      body: `<code>struct Point {<br>
+&nbsp;&nbsp;int x;<br>
+&nbsp;&nbsp;int y;<br>
+};<br>
+struct Point p1 = {10, 20};<br>
+p1.x = 15;              // dot operator for struct variable<br>
+struct Point *ptr = &p1;<br>
+ptr->x = 20;             // arrow operator for struct pointer</code><br><br>
+<code>ptr->x</code> is shorthand for <code>(*ptr).x</code>`,
+    },
+    {
+      title: "⚠️ Structure Padding — The Classic Gotcha",
+      body: `<code>struct Example {<br>
+&nbsp;&nbsp;char a;    // 1 byte<br>
+&nbsp;&nbsp;int b;     // 4 bytes<br>
+&nbsp;&nbsp;char c;    // 1 byte<br>
+};</code><br>
+You'd expect <code>sizeof</code> = 6, but it's usually <strong>12</strong>!<br><br>
+Why? The compiler adds PADDING so int b starts at an address
+divisible by 4 (CPU efficiency requirement). Layout becomes:
+char a (1) + 3 padding + int b (4) + char c (1) + 3 padding = 12 bytes.<br><br>
+<strong>Optimization trick:</strong> reorder members largest-first:<br>
+<code>struct Optimized { int b; char a; char c; };</code> → only 8 bytes!
+This is a real skill embedded engineers use to save RAM.`,
+    },
+    {
+      title: "🔀 Unions — Shared Memory",
+      body: `<code>union Data {<br>
+&nbsp;&nbsp;int i;<br>
+&nbsp;&nbsp;float f;<br>
+&nbsp;&nbsp;char c;<br>
+};</code><br>
+ALL members share the SAME memory location!<br>
+<code>sizeof(union)</code> = size of the LARGEST member (unlike struct
+which sums them up).<br>
+Only one member is valid at a time — writing to one overwrites others.<br><br>
+<strong>Used for:</strong> memory-efficient storage, type punning
+(reinterpreting bits), and protocol/packet parsing in embedded systems
+where you interpret the same bytes different ways depending on context.`,
+    },
+    {
+      title: "🏷️ Enums & Typedef",
+      body: `<code>enum Color { RED, GREEN, BLUE };</code>  // RED=0,GREEN=1,BLUE=2 auto<br>
+Can assign custom values: <code>enum Status { OK=0, ERROR=-1 };</code><br>
+Used heavily in embedded firmware for readable state machines instead
+of confusing "magic numbers".<br><br>
+<code>typedef unsigned int uint32_t;</code> — creates a type alias.<br>
+Standard in embedded: <code>uint8_t, uint16_t, uint32_t</code> from
+stdint.h give you EXPLICIT-width types that work the same across
+different platforms/compilers — crucial for portable embedded code.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `A struct is like a filing cabinet with labeled drawers — each drawer (member) has its own dedicated space. A union is like ONE drawer that can hold EITHER a document, OR a photo, OR a USB drive — but only one item at a time, and they all use the exact same drawer space. Padding is like adding empty folders between drawers so each drawer aligns with the cabinet's shelf structure.`,
+  },
+  exam_tip: "Why sizeof(struct) != sum of members (padding) is the #1 struct question. Struct vs union difference (separate memory vs shared memory) is the #2 most asked.",
+  interview_qs: [
+    "Why doesn't sizeof(struct) equal the sum of its member sizes?",
+    "Difference between struct and union?",
+    "How would you reorder struct members to minimize padding?",
+    "What is typedef used for? Give an embedded example (uint8_t etc)",
+    "What value does enum start from by default? (0, auto-incrementing)",
+  ],
+},
+
+embedded_c: {
+  title: "Embedded C Concepts",
+  subject: "C Programming",
+  xp: 30, time: "8 min",
+  hcl_importance: "Very High",
+  intro: `If you're interviewing at Bosch, Continental, Harman, Texas Instruments, or any core/automotive company — this section gets tested hard, on top of standard C questions. This is where C stops being abstract and becomes about literally controlling physical hardware — GPIO pins, timers, interrupts, registers.`,
+  sections: [
+    {
+      title: "🔌 Bit Manipulation for Hardware Registers",
+      body: `This is THE most practical embedded C skill — controlling hardware
+one bit at a time.<br><br>
+<code>#define LED_PIN 5<br>
+GPIO_PORT |= (1 << LED_PIN);    // SET bit 5 — LED on<br>
+GPIO_PORT &= ~(1 << LED_PIN);   // CLEAR bit 5 — LED off<br>
+GPIO_PORT ^= (1 << LED_PIN);    // TOGGLE bit 5<br>
+if(GPIO_PORT & (1 << LED_PIN))  // CHECK if bit 5 is set</code><br><br>
+Every single peripheral on every microcontroller — timers, UART, SPI,
+ADC — is controlled through EXACTLY this bit manipulation pattern
+applied to memory-mapped registers.`,
+    },
+    {
+      title: "⚡ Interrupt Service Routines (ISR)",
+      body: `Functions that run automatically when a hardware event happens
+(timer overflow, button press, incoming UART data).<br><br>
+<strong>Golden rule: ISRs must be SHORT and FAST.</strong> Just set a
+flag, do the heavy work in the main loop:<br>
+<code>volatile uint8_t data_ready = 0;<br><br>
+ISR(UART_RX_vect) {<br>
+&nbsp;&nbsp;received_byte = UDR0;<br>
+&nbsp;&nbsp;data_ready = 1;   // just signal — don't process here!<br>
+}<br><br>
+void main() {<br>
+&nbsp;&nbsp;while(1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(data_ready) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process_data();  // heavy work here<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data_ready = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}</code><br><br>
+Note the <code>volatile</code> on data_ready — REQUIRED because it's
+modified inside an ISR, changing "unexpectedly" from main()'s perspective.
+ISRs typically CANNOT call standard library functions like printf/malloc
+— must execute quickly and predictably.`,
+    },
+    {
+      title: "🗺️ Memory-Mapped I/O",
+      body: `Hardware peripherals are accessed as if they're regular memory
+addresses.<br><br>
+<code>#define GPIO_BASE 0x40020000<br>
+#define GPIO_ODR (*(volatile uint32_t*)(GPIO_BASE + 0x14))<br>
+GPIO_ODR |= (1 << 5);  // writes DIRECTLY to hardware register</code><br><br>
+This is how you control hardware from C without special assembly
+instructions — the "variable" GPIO_ODR IS a real physical register.
+The volatile keyword here is not optional — it's essential.`,
+    },
+    {
+      title: "🔢 Bit Fields & Endianness",
+      body: `<strong>Bit Fields:</strong> pack multiple small values into fewer bytes.<br>
+<code>struct Flags {<br>
+&nbsp;&nbsp;unsigned int flag1 : 1;   // uses only 1 bit<br>
+&nbsp;&nbsp;unsigned int mode   : 3;   // uses 3 bits (values 0-7)<br>
+};</code><br>
+Saves precious memory in constrained systems.<br><br>
+<strong>Endianness:</strong> byte order for multi-byte values.<br>
+Little-endian (x86, ARM default): least significant byte stored FIRST.<br>
+Big-endian (network protocols): most significant byte stored FIRST.<br>
+This is why htons()/ntohs() exist — converting between host and
+network byte order when parsing network packets. Critical when
+communicating between different architectures.`,
+    },
+  ],
+  analogy: {
+    title: "🎯 Real-Life Analogy",
+    body: `Bit manipulation is like a bank of 8 light switches on a wall — you flip switch 5 without touching the other 7 (SET_BIT). An ISR is like a fire alarm — it should just RING (set a flag) not try to fight the fire itself (heavy processing); firefighters (main loop) handle the actual work. Memory-mapped I/O is like a universal remote where each "channel number" directly controls a specific physical device.`,
+  },
+  exam_tip: "Bit manipulation macros (SET/CLEAR/TOGGLE/CHECK bit) are asked as coding questions at nearly every embedded company. Also: why ISRs must be short, and why volatile is needed for ISR-modified variables.",
+  interview_qs: [
+    "Write a macro to toggle bit 3 of a register",
+    "Why must ISRs be kept short? What should they do instead of heavy processing?",
+    "Why is volatile required for a variable modified inside an ISR?",
+    "What is memory-mapped I/O? Give an example",
+    "Explain little-endian vs big-endian with an example",
+    "What are bit fields in a struct used for?",
+  ],
+},
+
+
 };
 
-const ORDER = ['logic_gates','flipflops','counters','number_systems','c_basics','pointers','arrays_strings','osi_model'];
-let currentConcept = 'logic_gates';
-let doneConcepts = JSON.parse(localStorage.getItem('cc_done_concepts')||'[]');
+// ── TOPIC ORDER ───────────────────────────────────────────────────
+const ORDER = [
+  'number_systems','complements','codes',
+  'logic_gates','boolean_algebra','kmap',
+  'adders','mux_demux','encoders_decoders',
+  'latches','flipflops','registers','counters','state_machines',
+  'c_basics','pointers','arrays_strings','dynamic_memory',
+  'structures_unions','embedded_c'
+];
 
-function loadConcept(id, el){
+let currentConcept = null;
+let doneConcepts   = JSON.parse(localStorage.getItem('cc_done_concepts') || '[]');
+
+// ── LOAD CONCEPT ─────────────────────────────────────────────────
+function loadConcept(id, el) {
   currentConcept = id;
-  document.querySelectorAll('.topic-list-item').forEach(i=>i.classList.remove('active'));
-  if(el) el.classList.add('active');
+  document.querySelectorAll('.topic-list-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
 
   const c = CONCEPTS[id];
-  if(!c){ document.getElementById('content-area').innerHTML='<p>Coming soon!</p>'; return; }
+  if (!c) {
+    document.getElementById('content-area').innerHTML =
+      '<div style="padding:2rem;color:var(--muted)">Coming soon!</div>';
+    return;
+  }
 
   const isDone = doneConcepts.includes(id);
-  const idx = ORDER.indexOf(id);
-  const prevId = idx>0?ORDER[idx-1]:null;
-  const nextId = idx<ORDER.length-1?ORDER[idx+1]:null;
+  const idx    = ORDER.indexOf(id);
+  const prevId = idx > 0 ? ORDER[idx - 1] : null;
+  const nextId = idx < ORDER.length - 1 ? ORDER[idx + 1] : null;
 
-  const blocksHTML = c.blocks.map(b=>`
-    <div class="concept-block">
-      <div class="concept-block-title">${b.title}</div>
-      <div style="font-size:.875rem;color:var(--ink2);line-height:1.8">${b.content}</div>
+  // Build sections HTML
+  const sectionsHTML = c.sections.map(s => `
+    <div class="concept-section">
+      <div class="concept-section-title">${s.title}</div>
+      <div class="concept-body">${s.body}</div>
     </div>`).join('');
 
-  const hclQsHTML = c.hcl_questions.map(q=>`
-    <div class="hcl-q-item"><span>🔴</span><span>${q}</span></div>`).join('');
+  // Interview questions
+  const iqHTML = c.interview_qs.map(q =>
+    `<div class="interview-q"><span>🔴</span><span>${q}</span></div>`
+  ).join('');
 
   document.getElementById('content-area').innerHTML = `
-    <div class="concept-header">
-      <div class="concept-title-area">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+      <div>
         <div class="concept-eyebrow">${c.subject}</div>
         <h1 class="concept-title">${c.title}</h1>
         <div class="concept-meta">
@@ -522,66 +1676,162 @@ function loadConcept(id, el){
           <span class="concept-badge hcl-badge">🏢 HCL: ${c.hcl_importance}</span>
         </div>
       </div>
-      <button class="mark-done-btn ${isDone?'done-state':''}" id="done-btn" onclick="markDone('${id}')">
-        ${isDone?'✅ Completed':'Mark as done ✓'}
-      </button>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+        <button class="ai-explain-btn" onclick="askAI('${id}')">🤖 Explain with AI</button>
+        <button class="mark-done-btn ${isDone ? 'done-state' : ''}" id="done-btn" onclick="markDone('${id}')">
+          ${isDone ? '✅ Completed' : 'Mark as done ✓'}
+        </button>
+      </div>
     </div>
 
-    <div class="concept-body">${c.body}</div>
+    <div class="concept-intro">${c.intro}</div>
 
-    ${blocksHTML}
+    ${sectionsHTML}
+
+    <div class="analogy-box">
+      <div class="analogy-box-title">${c.analogy.title}</div>
+      <div class="analogy-box-body">${c.analogy.body}</div>
+    </div>
 
     <div class="exam-tip">
-      <div class="exam-tip-title">⚡ Exam Tip</div>
+      <div class="exam-tip-title">⚡ Exam Tip — What Gets Asked</div>
       <div class="exam-tip-body">${c.exam_tip}</div>
     </div>
 
-    <div class="hcl-box">
-      <div class="hcl-box-title">🏢 HCL Actually Asks These</div>
-      ${hclQsHTML}
+    <div class="interview-box">
+      <div class="interview-box-title">🏢 Interview Questions (${c.hcl_importance} frequency)</div>
+      ${iqHTML}
+    </div>
+
+    <!-- AI Response area -->
+    <div class="ai-response" id="ai-response">
+      <div class="ai-loading" id="ai-loading">
+        <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+        <span>AI Mentor is explaining...</span>
+      </div>
+      <div class="ai-response-text" id="ai-response-text" style="display:none"></div>
     </div>
 
     <div class="concept-nav">
-      ${prevId?`<button class="nav-concept-btn" onclick="loadConcept('${prevId}',null)">← ${CONCEPTS[prevId].title}</button>`:'<div></div>'}
-      <a href="/practice" class="nav-concept-btn">Practice MCQs ✏️</a>
-      ${nextId?`<button class="nav-concept-btn primary" onclick="loadConcept('${nextId}',null)">Next: ${CONCEPTS[nextId].title} →</button>`:'<a href="/practice" class="nav-concept-btn primary">Practice All ✏️ →</a>'}
+      ${prevId ? `<button class="nav-btn" onclick="loadConcept('${prevId}',null)">← ${CONCEPTS[prevId].title}</button>` : '<div></div>'}
+      <a href="/practice" class="nav-btn">Practice MCQs ✏️</a>
+      ${nextId ? `<button class="nav-btn primary" onclick="loadConcept('${nextId}',null)">${CONCEPTS[nextId].title} →</button>` : '<a href="/practice" class="nav-btn primary">Practice All →</a>'}
     </div>`;
 
   updateSidebarProgress();
+  window.scrollTo(0, 0);
 }
 
-function markDone(id){
-  if(!doneConcepts.includes(id)) doneConcepts.push(id);
-  localStorage.setItem('cc_done_concepts', JSON.stringify(doneConcepts));
-  document.getElementById('done-btn').className='mark-done-btn done-state';
-  document.getElementById('done-btn').textContent='✅ Completed';
-  document.getElementById(`status-${id}`).textContent='✅';
-  updateSidebarProgress();
+// ── MARK DONE ─────────────────────────────────────────────────────
+function markDone(id) {
+  if (!doneConcepts.includes(id)) {
+    doneConcepts.push(id);
+    localStorage.setItem('cc_done_concepts', JSON.stringify(doneConcepts));
+  }
+
+  document.getElementById('done-btn').className  = 'mark-done-btn done-state';
+  document.getElementById('done-btn').textContent = '✅ Completed';
+  document.getElementById(`status-${id}`).textContent = '✅';
+
+  // Save XP
+  const xp      = CONCEPTS[id]?.xp || 20;
+  const prevXP  = parseInt(localStorage.getItem('cc_xp_today')  || '0');
+  const totalXP = parseInt(localStorage.getItem('cc_xp_total')  || '0');
+  localStorage.setItem('cc_xp_today',  prevXP  + xp);
+  localStorage.setItem('cc_xp_total',  totalXP + xp);
+  document.getElementById('xp-pill').textContent = `⚡ ${prevXP + xp} XP today`;
+
+  // Streak
+  const today    = new Date().toISOString().split('T')[0];
+  const lastDate = localStorage.getItem('cc_last_study_date');
+  if (lastDate !== today) {
+    const streak = parseInt(localStorage.getItem('cc_streak') || '0');
+    localStorage.setItem('cc_streak', streak + 1);
+    localStorage.setItem('cc_last_study_date', today);
+  }
+
+  // Track studied days for calendar
+  const studied = JSON.parse(localStorage.getItem('cc_studied_days') || '[]');
+  if (!studied.includes(today)) {
+    studied.push(today);
+    localStorage.setItem('cc_studied_days', JSON.stringify(studied));
+  }
 
   // Save to backend
-  const uid=localStorage.getItem('cc_user_id');
-  if(uid){
-    fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({user_id:parseInt(uid),topic_id:id,subject:'learn',status:'completed',score:100,xp:CONCEPTS[id]?.xp||20})});
+  const userId = localStorage.getItem('cc_user_id');
+  if (userId) {
+    fetch('/api/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: parseInt(userId), topic_id: id,
+        subject: 'digital_electronics', status: 'completed',
+        score: 100, xp
+      })
+    }).catch(() => {});
+  }
+
+  updateSidebarProgress();
+}
+
+// ── AI EXPLAIN ────────────────────────────────────────────────────
+async function askAI(id) {
+  const concept = CONCEPTS[id];
+  if (!concept) return;
+
+  const respDiv   = document.getElementById('ai-response');
+  const loadDiv   = document.getElementById('ai-loading');
+  const textDiv   = document.getElementById('ai-response-text');
+  const level     = localStorage.getItem('cc_ratings')
+    ? JSON.parse(localStorage.getItem('cc_ratings') || '{}')['Digital Electronics'] || 'Beginner'
+    : 'Beginner';
+
+  respDiv.classList.add('show');
+  loadDiv.style.display  = 'flex';
+  textDiv.style.display  = 'none';
+  textDiv.textContent    = '';
+
+  try {
+    const res  = await fetch('/api/explain', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ topic: concept.title + ' in Digital Electronics', level })
+    });
+    const data = await res.json();
+    loadDiv.style.display = 'none';
+    textDiv.style.display = 'block';
+    textDiv.innerHTML     = (data.explanation || 'No response').replace(/\n/g, '<br>');
+  } catch (err) {
+    loadDiv.style.display = 'none';
+    textDiv.style.display = 'block';
+    textDiv.textContent   = 'AI unavailable. Check your API key and server.';
   }
 }
 
-function updateSidebarProgress(){
-  const done = ORDER.filter(id=>doneConcepts.includes(id)).length;
-  document.getElementById('sidebar-progress-label').textContent=`${done} of ${ORDER.length} completed`;
-  ORDER.forEach(id=>{
-    const el=document.getElementById(`status-${id}`);
-    if(el) el.textContent=doneConcepts.includes(id)?'✅':'⬜';
+// ── SIDEBAR PROGRESS ──────────────────────────────────────────────
+function updateSidebarProgress() {
+  const done  = ORDER.filter(id => doneConcepts.includes(id)).length;
+  const total = ORDER.length;
+  document.getElementById('sidebar-progress-label').textContent =
+    `${done} of ${total} completed`;
+
+  ORDER.forEach(id => {
+    const el = document.getElementById(`status-${id}`);
+    if (el) el.textContent = doneConcepts.includes(id) ? '✅' : '⬜';
+    const item = document.querySelector(`.topic-list-item[onclick*="'${id}'"]`);
+    if (item && doneConcepts.includes(id)) item.classList.add('done');
   });
 }
 
-// Init
-const company=localStorage.getItem('cc_company')||'HCLTech';
-document.getElementById('sidebar-company-label').textContent=`${company} · ECE Track`;
-const xp=localStorage.getItem('cc_xp_today')||'0';
-document.getElementById('xp-pill').textContent=`⚡ ${xp} XP today`;
+// ── INIT ──────────────────────────────────────────────────────────
+const company = localStorage.getItem('cc_company') || 'HCLTech';
+const xpToday = parseInt(localStorage.getItem('cc_xp_today') || '0');
+document.getElementById('sidebar-company-label').textContent = `${company} · ECE Track`;
+document.getElementById('xp-pill').textContent = `⚡ ${xpToday} XP today`;
 updateSidebarProgress();
-loadConcept('logic_gates', document.querySelector('.topic-list-item'));
+
+// Auto-load first topic
+loadConcept('logic_gates', document.querySelector('.topic-list-item.active'));
 </script>
 </body>
 </html>

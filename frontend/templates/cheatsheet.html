@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cheat Sheets · CareerCompass</title>
+<link rel="stylesheet" href="/static/css/main.css"/>
+<style>
+.cheat-wrap{max-width:1100px;margin:0 auto;padding:2rem}
+.cheat-topic-select{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.cheat-chip{padding:.45rem 1.1rem;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif}
+.cheat-chip:hover{border-color:var(--purple)}
+.cheat-chip.active{background:var(--purple);border-color:var(--purple);color:var(--white)}
+
+.sheet-header{text-align:center;margin-bottom:1.5rem}
+.sheet-title{font-family:'Nunito',sans-serif;font-size:1.8rem;font-weight:900;color:var(--ink);margin-bottom:.3rem}
+.sheet-sub{color:var(--muted);font-size:.9rem}
+
+/* Grid layout for infographic cards */
+.sheet-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem;margin-bottom:1.5rem}
+.card{border-radius:16px;padding:1.25rem;box-shadow:var(--shadow-sm);border:1.5px solid var(--border)}
+.card-purple{background:linear-gradient(135deg,#EDE9FE,#F5F3FF);border-color:var(--purple)}
+.card-blue{background:linear-gradient(135deg,#E0F2FE,#F0F9FF);border-color:var(--blue)}
+.card-yellow{background:linear-gradient(135deg,#FFF8E1,#FFFBEB);border-color:var(--yellow)}
+.card-green{background:linear-gradient(135deg,#DCFCE7,#F0FDF4);border-color:var(--green)}
+.card-red{background:linear-gradient(135deg,#FEE2E2,#FEF2F2);border-color:#FCA5A5}
+.card-dark{background:var(--ink);color:var(--white)}
+
+.col-12{grid-column:span 12}
+.col-6{grid-column:span 6}
+.col-4{grid-column:span 4}
+.col-3{grid-column:span 3}
+.col-8{grid-column:span 8}
+
+.card-icon{font-size:1.4rem;margin-bottom:.4rem}
+.card-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;color:var(--ink);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.card-dark .card-title{color:var(--white)}
+
+/* Gate visual boxes */
+.gate-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;padding:.5rem;background:rgba(255,255,255,.6);border-radius:8px}
+.gate-shape{width:38px;height:28px;background:var(--purple);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;border-radius:6px;flex-shrink:0;font-family:'Nunito',sans-serif}
+.gate-info{flex:1}
+.gate-name{font-weight:800;font-size:.82rem;color:var(--ink);font-family:'Nunito',sans-serif}
+.gate-formula{font-family:'Courier New',monospace;font-size:.78rem;color:var(--purple);font-weight:700}
+.gate-rule{font-size:.72rem;color:var(--muted)}
+
+/* Mini truth table */
+.mini-tt{width:100%;border-collapse:collapse;font-size:.75rem;margin-top:.5rem}
+.mini-tt th{background:var(--ink);color:var(--white);padding:.3rem .5rem;font-family:'Nunito',sans-serif}
+.mini-tt td{padding:.3rem .5rem;text-align:center;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.5)}
+.mini-tt tr.hl td{background:var(--purple);color:var(--white);font-weight:800}
+
+/* Formula box */
+.formula-box{background:var(--ink);color:#86EFAC;font-family:'Courier New',monospace;padding:.6rem .9rem;border-radius:8px;font-size:.85rem;font-weight:700;margin:.4rem 0;text-align:center}
+
+/* Quick fact pill */
+.fact-list{display:flex;flex-direction:column;gap:.4rem}
+.fact-item{display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;color:var(--ink2);line-height:1.5}
+.fact-bullet{color:var(--purple);font-weight:900;flex-shrink:0}
+
+/* Comparison table */
+.compare-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:.3rem}
+.compare-table th{background:var(--purple);color:var(--white);padding:.5rem .75rem;font-family:'Nunito',sans-serif;text-align:left}
+.compare-table td{padding:.5rem .75rem;border-bottom:1px solid var(--border)}
+.compare-table tr:nth-child(even){background:rgba(255,255,255,.5)}
+
+/* Diagram flow (simple CSS boxes with arrows) */
+.flow-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin:.75rem 0}
+.flow-box{background:var(--white);border:2px solid var(--purple);border-radius:8px;padding:.4rem .7rem;font-size:.75rem;font-weight:700;color:var(--purple);font-family:'Nunito',sans-serif}
+.flow-arrow{color:var(--purple);font-weight:900;font-size:1.1rem}
+
+/* Number highlight */
+.num-badge{display:inline-block;background:var(--yellow);color:#78350F;font-weight:900;padding:.15rem .5rem;border-radius:6px;font-family:'Nunito',sans-serif;font-size:.8rem}
+
+/* Warning/gotcha box */
+.gotcha{background:rgba(220,38,38,.08);border-left:4px solid var(--red);padding:.6rem .8rem;border-radius:8px;font-size:.78rem;color:#7F1D1D;margin-top:.5rem}
+
+.print-btn{position:fixed;bottom:2rem;right:2rem;background:var(--purple);color:var(--white);border:none;border-radius:50px;padding:.9rem 1.5rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,.4);display:flex;align-items:center;gap:.5rem;z-index:100}
+
+.sheet-content{display:none}
+.sheet-content.active{display:block}
+
+@media(max-width:768px){
+  .col-6,.col-4,.col-3,.col-8{grid-column:span 12}
+}
+@media print{
+  .navbar,.cheat-topic-select,.print-btn{display:none}
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
+  <div class="nav-links">
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+    <a href="/learn" class="nav-link">Learn</a>
+    <a href="/practice" class="nav-link">Practice</a>
+    <a href="/cheatsheet" class="nav-link" style="color:var(--purple)">Cheat Sheets</a>
+    <a href="/mentor" class="nav-link">AI Mentor</a>
+  </div>
+</nav>
+
+<div class="cheat-wrap">
+  <div style="margin-bottom:1rem">
+    <h2 style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:.2rem">Visual Cheat Sheets 🗂️</h2>
+    <p style="color:var(--muted);font-size:.875rem">Everything on one page. Perfect for 3-day-before revision. No boring paragraphs.</p>
+  </div>
+
+  <div class="cheat-topic-select" id="topic-select">
+    <button class="cheat-chip active" onclick="showSheet('logic_gates',this)">🔌 Logic Gates</button>
+    <button class="cheat-chip" onclick="showSheet('flipflops',this)">🔄 Flip-Flops</button>
+    <button class="cheat-chip" onclick="showSheet('kmap',this)">🗺️ K-Map</button>
+    <button class="cheat-chip" onclick="showSheet('counters',this)">🔢 Counters</button>
+    <button class="cheat-chip" onclick="showSheet('pointers',this)">👉 Pointers</button>
+    <button class="cheat-chip" onclick="showSheet('memory',this)">🧠 Dynamic Memory</button>
+  </div>
+
+  <!-- ═══════════ LOGIC GATES SHEET ═══════════ -->
+  <div class="sheet-content active" id="sheet-logic_gates">
+    <div class="sheet-header">
+      <div class="sheet-title">🔌 Logic Gates</div>
+      <div class="sheet-sub">All 7 gates · Universal gates · Truth tables — one glance</div>
+    </div>
+    <div class="sheet-grid">
+
+      <div class="card card-purple col-6">
+        <div class="card-title"><span class="card-icon">⚡</span>The 7 Gates</div>
+        <div class="gate-row"><div class="gate-shape">AND</div><div class="gate-info"><div class="gate-formula">Y = A·B</div><div class="gate-rule">1 only if ALL inputs=1</div></div></div>
+        <div class="gate-row"><div class="gate-shape">OR</div><div class="gate-info"><div class="gate-formula">Y = A+B</div><div class="gate-rule">1 if ANY input=1</div></div></div>
+        <div class="gate-row"><div class="gate-shape">NOT</div><div class="gate-info"><div class="gate-formula">Y = A'</div><div class="gate-rule">Flips the input</div></div></div>
+        <div class="gate-row" style="background:rgba(124,58,237,.15)"><div class="gate-shape" style="background:var(--ink)">NAND</div><div class="gate-info"><div class="gate-formula">Y = (AB)'</div><div class="gate-rule">⭐ Universal — 0 only if all=1</div></div></div>
+        <div class="gate-row" style="background:rgba(124,58,237,.15)"><div class="gate-shape" style="background:var(--ink)">NOR</div><div class="gate-info"><div class="gate-formula">Y = (A+B)'</div><div class="gate-rule">⭐ Universal — 1 only if all=0</div></div></div>
+        <div class="gate-row"><div class="gate-shape">XOR</div><div class="gate-info"><div class="gate-formula">Y = A⊕B</div><div class="gate-rule">1 if DIFFERENT</div></div></div>
+        <div class="gate-row"><div class="gate-shape">XNOR</div><div class="gate-info"><div class="gate-formula">Y = (A⊕B)'</div><div class="gate-rule">1 if SAME</div></div></div>
+      </div>
+
+      <div class="card card-blue col-6">
+        <div class="card-title"><span class="card-icon">📊</span>Truth Table — All Gates</div>
+        <table class="mini-tt">
+          <tr><th>A</th><th>B</th><th>AND</th><th>OR</th><th>NAND</th><th>NOR</th><th>XOR</th></tr>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+          <tr class="hl"><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+        </table>
+        <div class="gotcha">⚠️ Trap: NAND(1,1)=<b>0</b>. Most missed answer in tests!</div>
+      </div>
+
+      <div class="card card-yellow col-8">
+        <div class="card-title"><span class="card-icon">⭐</span>Universal Gates — Build Anything from NAND</div>
+        <div class="flow-row">
+          <div class="flow-box">NOT(A) = NAND(A,A)</div>
+          <span class="flow-arrow">·</span>
+          <div class="flow-box">AND(A,B) = NOT(NAND(A,B))</div>
+          <span class="flow-arrow">·</span>
+          <div class="flow-box">OR(A,B) = NAND(A',B')</div>
+        </div>
+        <div class="fact-item"><span class="fact-bullet">→</span>NAND preferred over NOR in CMOS — series NMOS is faster than series PMOS</div>
+      </div>
+
+      <div class="card card-green col-4">
+        <div class="card-title"><span class="card-icon">🎯</span>Quick Recall</div>
+        <div class="fact-list">
+          <div class="fact-item"><span class="fact-bullet">•</span>XOR: differ→1</div>
+          <div class="fact-item"><span class="fact-bullet">•</span>XNOR: same→1</div>
+          <div class="fact-item"><span class="fact-bullet">•</span>De Morgan: (A+B)'=A'B'</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ FLIP-FLOPS SHEET ═══════════ -->
+  <div class="sheet-content" id="sheet-flipflops">
+    <div class="sheet-header">
+      <div class="sheet-title">🔄 Flip-Flops</div>
+      <div class="sheet-sub">SR · D · JK · T — behavior at a glance</div>
+    </div>
+    <div class="sheet-grid">
+
+      <div class="card card-purple col-12">
+        <div class="card-title"><span class="card-icon">📊</span>All Flip-Flops — Side by Side</div>
+        <table class="compare-table">
+          <tr><th>Type</th><th>Inputs</th><th>Key Behavior</th><th>Forbidden State?</th></tr>
+          <tr><td><b>SR</b></td><td>S, R</td><td>S=1→Set, R=1→Reset, 00→Hold</td><td>⚠️ S=R=1 forbidden</td></tr>
+          <tr><td><b>D</b></td><td>D</td><td>Q follows D at clock edge</td><td>✅ None</td></tr>
+          <tr><td><b>JK</b></td><td>J, K</td><td>J=K=1 → <b>TOGGLE</b></td><td>✅ None (fixed SR's issue)</td></tr>
+          <tr><td><b>T</b></td><td>T</td><td>T=1 → Toggle every clock</td><td>✅ None</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-red col-6">
+        <div class="card-title"><span class="card-icon">⚠️</span>SR Forbidden State</div>
+        <div class="formula-box">S=1, R=1 → UNPREDICTABLE</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>Both gates try to force Q and Q' to 0 simultaneously — race condition when inputs return to 00</div>
+      </div>
+
+      <div class="card card-green col-6">
+        <div class="card-title"><span class="card-icon">✅</span>JK Fixes This</div>
+        <div class="formula-box">J=K=1 → Q(next) = Q'</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>No forbidden state. This is THE most asked FF question.</div>
+      </div>
+
+      <div class="card card-yellow col-12">
+        <div class="card-title"><span class="card-icon">⏰</span>Timing Parameters</div>
+        <div class="flow-row">
+          <div class="flow-box">Setup time: D stable BEFORE clock</div>
+          <span class="flow-arrow">+</span>
+          <div class="flow-box">Hold time: D stable AFTER clock</div>
+          <span class="flow-arrow">=</span>
+          <div class="flow-box" style="background:var(--red);color:white;border-color:var(--red)">Violate → Metastability</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ K-MAP SHEET ═══════════ -->
+  <div class="sheet-content" id="sheet-kmap">
+    <div class="sheet-header">
+      <div class="sheet-title">🗺️ K-Map Minimization</div>
+      <div class="sheet-sub">Grouping rules · Group sizes · Don't cares</div>
+    </div>
+    <div class="sheet-grid">
+
+      <div class="card card-purple col-6">
+        <div class="card-title"><span class="card-icon">📏</span>Grouping Rules</div>
+        <div class="fact-list">
+          <div class="fact-item"><span class="fact-bullet">1.</span>Groups = powers of 2 (1,2,4,8,16)</div>
+          <div class="fact-item"><span class="fact-bullet">2.</span>Must be rectangular</div>
+          <div class="fact-item"><span class="fact-bullet">3.</span>Can overlap</div>
+          <div class="fact-item"><span class="fact-bullet">4.</span>Can WRAP around edges</div>
+          <div class="fact-item"><span class="fact-bullet">5.</span>Always make groups AS LARGE as possible</div>
+        </div>
+      </div>
+
+      <div class="card card-blue col-6">
+        <div class="card-title"><span class="card-icon">🧮</span>Group Size → Elimination</div>
+        <table class="compare-table">
+          <tr><th>Group Size</th><th>Variables Eliminated</th></tr>
+          <tr><td>1 cell</td><td>0 (full term)</td></tr>
+          <tr><td>2 cells</td><td>1 variable</td></tr>
+          <tr><td>4 cells</td><td>2 variables</td></tr>
+          <tr><td>8 cells</td><td>3 variables</td></tr>
+          <tr><td>16 cells</td><td>All (f=1)</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-yellow col-12">
+        <div class="card-title"><span class="card-icon">🃏</span>Don't Care (X) Rule</div>
+        <div class="formula-box">Treat X as 1 ONLY if it helps make a BIGGER group</div>
+        <div class="gotcha">⚠️ Never form a group using ONLY don't-cares — must include at least one real 1</div>
+      </div>
+
+      <div class="card card-green col-12">
+        <div class="card-title"><span class="card-icon">🔑</span>Key Terms</div>
+        <div class="flow-row">
+          <div class="flow-box">Prime Implicant = largest possible group</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-box">Essential PI = covers a minterm NO other group covers (must include)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ COUNTERS SHEET ═══════════ -->
+  <div class="sheet-content" id="sheet-counters">
+    <div class="sheet-header">
+      <div class="sheet-title">🔢 Counters</div>
+      <div class="sheet-sub">MOD-N formula · Ripple vs Sync</div>
+    </div>
+    <div class="sheet-grid">
+
+      <div class="card card-purple col-12">
+        <div class="card-title"><span class="card-icon">🧮</span>MOD-N → Flip-Flop Count (MEMORIZE THIS TABLE)</div>
+        <table class="compare-table">
+          <tr><th>MOD-N</th><th>Flip-Flops Needed</th><th>Formula</th></tr>
+          <tr><td>MOD-2</td><td><span class="num-badge">1</span></td><td rowspan="6" style="text-align:center;font-family:'Courier New',monospace">n = ⌈log₂N⌉</td></tr>
+          <tr><td>MOD-4</td><td><span class="num-badge">2</span></td></tr>
+          <tr><td>MOD-8</td><td><span class="num-badge">3</span></td></tr>
+          <tr><td><b>MOD-10 (decade)</b></td><td><span class="num-badge">4</span></td></tr>
+          <tr><td>MOD-16</td><td><span class="num-badge">4</span></td></tr>
+          <tr><td>MOD-32</td><td><span class="num-badge">5</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card card-red col-6">
+        <div class="card-title"><span class="card-icon">🐌</span>Ripple (Async) Counter</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>Each FF triggers next — delay ADDS UP</div>
+        <div class="formula-box">Total Delay = n × tpd</div>
+        <div class="gotcha">⚠️ Slow at high frequencies — fails at speed</div>
+      </div>
+
+      <div class="card card-green col-6">
+        <div class="card-title"><span class="card-icon">⚡</span>Synchronous Counter</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>ALL FFs clocked simultaneously</div>
+        <div class="formula-box">No cumulative delay</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>Used in ALL modern digital systems</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ POINTERS SHEET ═══════════ -->
+  <div class="sheet-content" id="sheet-pointers">
+    <div class="sheet-header">
+      <div class="sheet-title">👉 Pointers in C</div>
+      <div class="sheet-sub">The most-asked C topic — one page reference</div>
+    </div>
+    <div class="sheet-grid">
+
+      <div class="card card-purple col-6">
+        <div class="card-title"><span class="card-icon">🎯</span>Basics</div>
+        <div class="formula-box">int *p = &a;  →  *p reads value at a</div>
+        <div class="fact-list">
+          <div class="fact-item"><span class="fact-bullet">&</span> = address of</div>
+          <div class="fact-item"><span class="fact-bullet">*</span> = dereference (get value)</div>
+          <div class="fact-item"><span class="fact-bullet">→</span>Pointer size same regardless of type (4 or 8 bytes)</div>
+        </div>
+      </div>
+
+      <div class="card card-red col-6">
+        <div class="card-title"><span class="card-icon">⚠️</span>3 Dangerous Pointers</div>
+        <table class="compare-table">
+          <tr><th>Type</th><th>Problem</th></tr>
+          <tr><td>NULL</td><td>Points to nothing — deref = crash</td></tr>
+          <tr><td>Dangling</td><td>Points to freed memory</td></tr>
+          <tr><td>Wild</td><td>Uninitialized — random address</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-yellow col-12">
+        <div class="card-title"><span class="card-icon">🔴</span>Function Pointer — Syntax Trap</div>
+        <div class="flow-row">
+          <div class="flow-box" style="background:var(--green);color:white;border-color:var(--green)">int (*fp)(int,int) → pointer TO function ✓</div>
+          <span class="flow-arrow">vs</span>
+          <div class="flow-box" style="background:var(--red);color:white;border-color:var(--red)">int *fp(int,int) → function returning int*</div>
+        </div>
+        <div class="gotcha">⚠️ Parentheses around *fp change EVERYTHING. HCL asks this directly.</div>
+      </div>
+
+      <div class="card card-blue col-12">
+        <div class="card-title"><span class="card-icon">📦</span>Arrays vs Pointers vs Strings</div>
+        <table class="compare-table">
+          <tr><th>Expression</th><th>Result</th></tr>
+          <tr><td>arr[i]</td><td>equals *(arr+i)</td></tr>
+          <tr><td>char *p="Hi"; p[0]='h';</td><td>❌ Segfault (read-only literal)</td></tr>
+          <tr><td>char str[]="Hi"; str[0]='h';</td><td>✅ Works (modifiable copy)</td></tr>
+          <tr><td>sizeof(arr) vs sizeof(pointer)</td><td>Total size vs pointer size only</td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ DYNAMIC MEMORY SHEET ═══════════ -->
+  <div class="sheet-content" id="sheet-memory">
+    <div class="sheet-header">
+      <div class="sheet-title">🧠 Dynamic Memory</div>
+      <div class="sheet-sub">malloc · calloc · realloc · free — one page</div>
+    </div>
+    <div class="sheet-grid">
+
+      <div class="card card-purple col-12">
+        <div class="card-title"><span class="card-icon">🔨</span>The 4 Functions</div>
+        <table class="compare-table">
+          <tr><th>Function</th><th>What it does</th><th>Initialized?</th></tr>
+          <tr><td><b>malloc(size)</b></td><td>Allocates size bytes</td><td>❌ Garbage values</td></tr>
+          <tr><td><b>calloc(n,size)</b></td><td>Allocates n×size bytes</td><td>✅ Zero-initialized</td></tr>
+          <tr><td><b>realloc(ptr,new)</b></td><td>Resizes existing block</td><td>New part uninitialized</td></tr>
+          <tr><td><b>free(ptr)</b></td><td>Releases memory</td><td>—</td></tr>
+        </table>
+      </div>
+
+      <div class="card card-red col-6">
+        <div class="card-title"><span class="card-icon">🐛</span>Memory Leak</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>Allocated but never freed</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>Memory usage grows forever</div>
+        <div class="gotcha">⚠️ Fatal in long-running embedded systems (routers, IoT)</div>
+      </div>
+
+      <div class="card card-red col-6">
+        <div class="card-title"><span class="card-icon">💥</span>Double Free / Dangling</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>free(p) twice = undefined behavior</div>
+        <div class="formula-box">free(p); p = NULL;</div>
+        <div class="fact-item"><span class="fact-bullet">→</span>Always NULL after freeing!</div>
+      </div>
+
+      <div class="card card-green col-12">
+        <div class="card-title"><span class="card-icon">✅</span>Safe realloc Pattern</div>
+        <div class="formula-box">int *temp = realloc(p, newSize);<br>if(temp != NULL) p = temp;</div>
+        <div class="gotcha">⚠️ Never write p = realloc(p, ...) directly — if it fails, you lose the original pointer (memory leak)!</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+
+<script>
+function showSheet(id, el) {
+  document.querySelectorAll('.cheat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.sheet-content').forEach(s => s.classList.remove('active'));
+  document.getElementById('sheet-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

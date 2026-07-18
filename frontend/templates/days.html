@@ -61,6 +61,9 @@
 }
 .bottom-bar-inner{max-width:620px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 
+.saving-text{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.5rem;display:none}
+.saving-text.show{display:block}
+
 @media(max-width:400px){.hours-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -125,10 +128,11 @@
 <div class="bottom-bar">
   <div class="bottom-bar-inner">
     <a href="/subjects" class="btn btn-ghost">← Back</a>
-    <button class="btn btn-primary btn-lg" onclick="goNext()">
+    <button class="btn btn-primary btn-lg" id="next-btn" onclick="goNext()">
       Generate my roadmap 🚀
     </button>
   </div>
+  <div class="saving-text" id="saving-text">Saving your profile...</div>
 </div>
 
 <script>
@@ -172,7 +176,6 @@ function renderPreview() {
   const subjects = JSON.parse(localStorage.getItem('cc_subjects') || '[]');
   const ratings = JSON.parse(localStorage.getItem('cc_ratings') || '{}');
 
-  // Simple preview — show first 4 days + last day
   const studyDays = Math.max(1, days - 2);
   const topics = [];
   subjects.forEach(sub => {
@@ -182,7 +185,6 @@ function renderPreview() {
     else topics.push(`${sub} — Advanced + Mock`);
   });
 
-  // Distribute topics across days
   const perDay = Math.ceil(topics.length / studyDays);
   const preview = document.getElementById('preview-days');
   preview.innerHTML = '';
@@ -206,9 +208,49 @@ function renderPreview() {
   }
 }
 
-function goNext() {
+// ── ONE CLEAN goNext() — saves to DB then goes to dashboard ────────
+async function goNext() {
+  const btn = document.getElementById('next-btn');
+  const savingText = document.getElementById('saving-text');
+
   localStorage.setItem('cc_days', days);
   localStorage.setItem('cc_hours', hours);
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  savingText.classList.add('show');
+
+  const name     = localStorage.getItem('cc_name');
+  const year     = localStorage.getItem('cc_year');
+  const company  = localStorage.getItem('cc_company');
+  const subjects = JSON.parse(localStorage.getItem('cc_subjects') || '[]');
+  const ratings  = JSON.parse(localStorage.getItem('cc_ratings') || '{}');
+
+  const subjectsPayload = subjects.map(s => ({
+    name: s,
+    level: ratings[s] || 'Beginner'
+  }));
+
+  try {
+    const res = await fetch('/api/setup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, year, company, days, hours,
+        subjects: subjectsPayload
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      localStorage.setItem('cc_user_id', data.user_id);
+    } else {
+      console.error('Setup save failed:', data);
+    }
+  } catch (err) {
+    console.error('Failed to save user to database:', err);
+  }
+
   window.location.href = '/dashboard';
 }
 

@@ -6,29 +6,14 @@
 <link rel="stylesheet" href="/static/css/main.css"/>
 <style>
 .dash-wrap{max-width:1060px;margin:0 auto;padding:2rem}
-
-/* Top greeting */
 .greeting-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
 .greeting-h1{font-family:'Nunito',sans-serif;font-size:1.75rem;font-weight:900;color:var(--ink)}
 .greeting-sub{font-size:.9rem;color:var(--muted);margin-top:.25rem}
-.streak-pill{
-  display:flex;align-items:center;gap:.5rem;
-  background:var(--white);border:2px solid var(--border);
-  border-radius:12px;padding:.5rem 1rem;box-shadow:var(--shadow-sm);
-  font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;
-}
+.streak-pill{display:flex;align-items:center;gap:.5rem;background:var(--white);border:2px solid var(--border);border-radius:12px;padding:.5rem 1rem;box-shadow:var(--shadow-sm);font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem}
 .streak-fire{font-size:1.25rem}
 .streak-val{color:var(--red)}
-
-/* Top 3-col layout */
 .dash-top{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
-
-/* Readiness card */
-.readiness-card{
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-}
+.readiness-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;text-align:center}
 .ring-wrap{position:relative;width:140px;height:140px;margin:0 auto .75rem}
 .ring-wrap svg{transform:rotate(-90deg)}
 .ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
@@ -37,13 +22,7 @@
 .readiness-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:.25rem}
 .readiness-company{font-size:.8rem;color:var(--muted)}
 .readiness-bar-wrap{width:100%;margin-top:.75rem}
-
-/* Today's task card */
-.today-card{
-  background:var(--purple);border-radius:var(--radius);
-  padding:1.5rem;box-shadow:0 5px 0 #5B21B6;
-  display:flex;flex-direction:column;justify-content:space-between;
-}
+.today-card{background:var(--purple);border-radius:var(--radius);padding:1.5rem;box-shadow:0 5px 0 #5B21B6;display:flex;flex-direction:column;justify-content:space-between}
 .today-eyebrow{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem}
 .today-subject{font-family:'Nunito',sans-serif;font-size:1.5rem;font-weight:900;color:var(--white);margin-bottom:.3rem;line-height:1.2}
 .today-topic{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.25rem}
@@ -51,21 +30,9 @@
 .today-stat{background:rgba(255,255,255,.12);border-radius:10px;padding:.5rem .75rem;text-align:center}
 .today-stat-val{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:var(--white)}
 .today-stat-label{font-size:.65rem;font-weight:700;color:rgba(255,255,255,.65);display:block}
-.btn-white-outline{
-  background:rgba(255,255,255,.15);color:var(--white);
-  border:1.5px solid rgba(255,255,255,.3);
-  border-radius:10px;padding:.6rem 1.25rem;
-  font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;
-  cursor:pointer;transition:all .15s;
-  display:inline-flex;align-items:center;gap:.4rem;
-}
+.btn-white-outline{background:rgba(255,255,255,.15);color:var(--white);border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:.6rem 1.25rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:.4rem}
 .btn-white-outline:hover{background:rgba(255,255,255,.25)}
-
-/* XP card */
-.xp-card{
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);
-}
+.xp-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow)}
 .xp-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;margin-bottom:1rem}
 .xp-big{font-family:'Nunito',sans-serif;font-size:2.5rem;font-weight:900;color:var(--yellow);line-height:1}
 .xp-label{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:.75rem}
@@ -74,62 +41,38 @@
 .level-badge-row{display:flex;align-items:center;gap:.5rem}
 .level-badge-icon{font-size:.9rem}
 .level-badge-text{font-size:.78rem;font-weight:600;color:var(--ink2)}
-
-/* Subject progress section */
 .section-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .section-h2{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:var(--ink)}
 .subjects-progress{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.5rem}
-.subj-progress-card{
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:12px;padding:1rem;box-shadow:var(--shadow-sm);
-}
+.subj-progress-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:1rem;box-shadow:var(--shadow-sm)}
 .spj-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
 .spj-emoji{font-size:1.2rem}
 .spj-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;color:var(--ink);flex:1}
 .spj-level{font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:6px}
 .spj-bar-label{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.3rem}
-
-/* Calendar section */
-.calendar-card{
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);
-  margin-bottom:1.5rem;
-}
-.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-top:.75rem}
-.cal-day{
-  aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  font-size:.7rem;font-weight:700;
-  border:1.5px solid var(--border);background:var(--bg);color:var(--muted);
-  cursor:pointer;transition:all .15s;
-}
-.cal-day:hover{border-color:var(--purple)}
+.calendar-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);margin-bottom:1.5rem}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-bottom:.3rem}
+.cal-weekday{font-size:.65rem;font-weight:700;color:var(--muted);text-align:center;padding:.2rem 0}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-top:.25rem}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;border:1.5px solid var(--border);background:var(--bg);color:var(--muted);cursor:default;transition:all .15s}
 .cal-day.done{background:var(--green-lt);border-color:var(--green);color:var(--green)}
-.cal-day.today{background:var(--purple);border-color:var(--purple);color:var(--white);box-shadow:0 3px 0 #5B21B6}
-.cal-day.upcoming{background:var(--white);color:var(--ink)}
-.cal-day.locked{opacity:.4;cursor:not-allowed}
+.cal-day.today{background:var(--purple);border-color:var(--purple);color:var(--white);box-shadow:0 3px 0 #5B21B6;cursor:default}
+.cal-day.future{background:var(--white);color:var(--ink);opacity:.5}
+.cal-day.missed{background:#FEF2F2;border-color:#FCA5A5;color:#DC2626;opacity:.6}
+.cal-day.empty{background:transparent;border-color:transparent}
 .cal-day-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:.8rem}
 .cal-day-dot{width:5px;height:5px;border-radius:50%;margin-top:2px}
-
-/* Quick actions */
+.cal-legend{display:flex;gap:1rem;margin-top:.75rem;flex-wrap:wrap}
+.cal-legend-item{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted);font-weight:600}
+.cal-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.5rem}
-.qa-card{
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:12px;padding:1rem;text-align:center;cursor:pointer;
-  text-decoration:none;color:var(--ink);box-shadow:var(--shadow-sm);
-  transition:all .2s;
-}
+.qa-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:1rem;text-align:center;cursor:pointer;text-decoration:none;color:var(--ink);box-shadow:var(--shadow-sm);transition:all .2s}
 .qa-card:hover{border-color:var(--purple);transform:translateY(-3px);box-shadow:0 6px 0 #D1D5DB}
 .qa-icon{font-size:1.5rem;margin-bottom:.4rem}
 .qa-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem}
 .qa-sub{font-size:.72rem;color:var(--muted);margin-top:.1rem}
-
-@media(max-width:768px){
-  .dash-top{grid-template-columns:1fr}
-  .subjects-progress{grid-template-columns:1fr}
-  .quick-actions{grid-template-columns:repeat(2,1fr)}
-  .cal-days{grid-template-columns:repeat(7,1fr);gap:.25rem}
-}
+@media(max-width:768px){.dash-top{grid-template-columns:1fr}.subjects-progress{grid-template-columns:1fr}.quick-actions{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -141,6 +84,7 @@
     <a href="/learn" class="nav-link">Learn</a>
     <a href="/practice" class="nav-link">Practice</a>
     <a href="/mock" class="nav-link">Mock Test</a>
+    <a href="/mentor" class="nav-link">AI Mentor</a>
   </div>
   <div class="nav-right">
     <div class="streak-pill">
@@ -153,7 +97,6 @@
 
 <div class="dash-wrap">
 
-  <!-- Greeting -->
   <div class="greeting-row">
     <div>
       <h1 class="greeting-h1" id="greeting-h1">Good morning! 👋</h1>
@@ -162,10 +105,8 @@
     <div class="badge badge-purple" id="company-badge" style="font-size:.875rem;padding:.4rem 1rem">HCLTech prep</div>
   </div>
 
-  <!-- Top 3 col -->
   <div class="dash-top">
 
-    <!-- Readiness ring -->
     <div class="readiness-card">
       <div class="ring-wrap">
         <svg width="140" height="140" viewBox="0 0 140 140">
@@ -188,7 +129,6 @@
       </div>
     </div>
 
-    <!-- Today's task -->
     <div class="today-card">
       <div>
         <div class="today-eyebrow">📌 Study today</div>
@@ -214,46 +154,56 @@
       </button>
     </div>
 
-    <!-- XP / Level card -->
     <div class="xp-card">
       <div class="xp-title">⚡ Your progress</div>
       <div class="xp-big" id="xp-val">0</div>
       <div class="xp-label">total XP earned</div>
       <div class="xp-bar-label">
         <span id="xp-level-label">Level 1</span>
-        <span id="xp-next-label">100 XP to next</span>
+        <span id="xp-next-label">200 XP to next</span>
       </div>
       <div class="progress-wrap" style="height:10px;background:#FEF3C7">
         <div class="progress-fill" id="xp-bar" style="width:0%;background:var(--yellow)"></div>
       </div>
       <div class="level-badges" id="level-badges">
-        <div class="level-badge-row"><span class="level-badge-icon">🌱</span><span class="level-badge-text">Just started — keep going!</span></div>
+        <div class="level-badge-row">
+          <span class="level-badge-icon">🌱</span>
+          <span class="level-badge-text">Just started — keep going!</span>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Subject progress -->
   <div class="section-title-row">
     <div class="section-h2">Subject Readiness</div>
     <span class="badge badge-purple" id="subjects-count">0 subjects</span>
   </div>
-  <div class="subjects-progress" id="subjects-progress">
-    <!-- filled by JS -->
-  </div>
+  <div class="subjects-progress" id="subjects-progress"></div>
 
-  <!-- Study calendar -->
   <div class="calendar-card">
-    <div class="section-title-row" style="margin-bottom:0">
+    <div class="cal-header">
       <div class="section-h2">📅 Your Study Calendar</div>
       <span class="badge badge-yellow" id="days-remaining">— days left</span>
     </div>
-    <div class="cal-days" id="cal-days">
-      <!-- filled by JS -->
+    <div class="cal-weekdays">
+      <div class="cal-weekday">Sun</div>
+      <div class="cal-weekday">Mon</div>
+      <div class="cal-weekday">Tue</div>
+      <div class="cal-weekday">Wed</div>
+      <div class="cal-weekday">Thu</div>
+      <div class="cal-weekday">Fri</div>
+      <div class="cal-weekday">Sat</div>
+    </div>
+    <div class="cal-days" id="cal-days"></div>
+    <div class="cal-legend">
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--purple)"></div>Today</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--green-lt);border:1px solid var(--green)"></div>Studied ✅</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#FEF2F2;border:1px solid #FCA5A5"></div>Missed</div>
+      <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--white);border:1px solid var(--border)"></div>Upcoming</div>
     </div>
   </div>
 
-  <!-- Quick actions -->
   <div class="section-title-row">
     <div class="section-h2">Quick actions</div>
   </div>
@@ -273,103 +223,229 @@
       <div class="qa-title">Mock Test</div>
       <div class="qa-sub">Full simulation</div>
     </a>
-    <a href="#" class="qa-card">
+    <a href="/mentor" class="qa-card">
       <div class="qa-icon">💬</div>
       <div class="qa-title">AI Mentor</div>
       <div class="qa-sub">Ask a doubt</div>
+    </a>
+    <a href="/manager" class="qa-card">
+      <div class="qa-icon">📱</div>
+      <div class="qa-title">Manager's Call</div>
+      <div class="qa-sub">1 missed call 🔴</div>
     </a>
   </div>
 
 </div>
 
 <script>
-const name    = localStorage.getItem('cc_name')    || 'Student';
-const company = localStorage.getItem('cc_company') || 'HCLTech';
+// ── RESET DAILY XP AT MIDNIGHT ────────────────────────────────────
+const todayStr   = new Date().toISOString().split('T')[0];
+const lastXPDate = localStorage.getItem('cc_xp_today_date');
+if (lastXPDate !== todayStr) {
+  localStorage.setItem('cc_xp_today',      '0');
+  localStorage.setItem('cc_xp_today_date', todayStr);
+}
+
+// ── READ FROM LOCALSTORAGE ────────────────────────────────────────
+const name     = localStorage.getItem('cc_name')     || 'Student';
+const company  = localStorage.getItem('cc_company')  || 'HCLTech';
 const subjects = JSON.parse(localStorage.getItem('cc_subjects') || '["Digital Electronics","C Programming"]');
 const ratings  = JSON.parse(localStorage.getItem('cc_ratings')  || '{}');
-const days     = parseInt(localStorage.getItem('cc_days')  || '14');
-const hours    = parseInt(localStorage.getItem('cc_hours') || '2');
+const days     = parseInt(localStorage.getItem('cc_days')        || '14');
+const hours    = parseInt(localStorage.getItem('cc_hours')       || '2');
 
-// Greeting
-const h = new Date().getHours();
-const greet = h<12?'Good morning':h<17?'Good afternoon':'Good evening';
-document.getElementById('greeting-h1').textContent = `${greet}, ${name}! 👋`;
-document.getElementById('greeting-sub').textContent = `Here's your ${company} placement prep summary`;
-document.getElementById('company-badge').textContent = `${company} prep`;
+// ── GREETING ──────────────────────────────────────────────────────
+const h     = new Date().getHours();
+const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+document.getElementById('greeting-h1').textContent       = `${greet}, ${name}! 👋`;
+document.getElementById('greeting-sub').textContent      = `Here's your ${company} placement prep summary`;
+document.getElementById('company-badge').textContent     = `${company} prep`;
 document.getElementById('readiness-company').textContent = `for ${company}`;
 
-// Calculate readiness score from ratings
-const levelScore = { Beginner:20, Intermediate:50, Expert:75 };
-const scores = subjects.map(s => levelScore[ratings[s]] || 20);
-const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+// ── XP & LEVEL ────────────────────────────────────────────────────
+const totalXP   = parseInt(localStorage.getItem('cc_xp_total') || '0');
+const XP_PER_LV = 200;
+const lvl       = Math.floor(totalXP / XP_PER_LV) + 1;
+const xpInLv    = totalXP % XP_PER_LV;
+const xpToNext  = XP_PER_LV - xpInLv;
 
-// Animate ring
+document.getElementById('xp-val').textContent         = totalXP;
+document.getElementById('xp-level-label').textContent = `Level ${lvl}`;
+document.getElementById('xp-next-label').textContent  = `${xpToNext} XP to next`;
+document.getElementById('xp-bar').style.width         = Math.round((xpInLv / XP_PER_LV) * 100) + '%';
+
+const lvlMsgs = [
+  [1,'🌱','Just started — keep going!'],
+  [3,'📘','Making progress!'],
+  [5,'⭐','Looking good!'],
+  [8,'🏆','Almost placement ready!'],
+  [999,'🎯','Placement ready!']
+];
+const lm = lvlMsgs.find(m => lvl <= m[0]) || lvlMsgs[lvlMsgs.length - 1];
+document.getElementById('level-badges').innerHTML =
+  `<div class="level-badge-row"><span class="level-badge-icon">${lm[1]}</span><span class="level-badge-text">${lm[2]}</span></div>`;
+
+// ── STREAK ────────────────────────────────────────────────────────
+(function updateStreak() {
+  const lastDate = localStorage.getItem('cc_last_study_date');
+  let streak     = parseInt(localStorage.getItem('cc_streak') || '0');
+
+  if (lastDate && lastDate !== todayStr) {
+    const diffMs   = new Date(todayStr) - new Date(lastDate);
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays > 1) {
+      // Missed a day — reset streak
+      streak = 0;
+      localStorage.setItem('cc_streak', '0');
+    }
+  }
+  document.getElementById('streak-val').textContent = streak;
+
+  // Sync with backend
+  const userId = localStorage.getItem('cc_user_id');
+  if (userId && lastDate === todayStr) {
+    fetch('/api/streak', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ user_id: parseInt(userId), date: todayStr })
+    }).then(r => r.json()).then(d => {
+      if (d.streak !== undefined) {
+        document.getElementById('streak-val').textContent = d.streak;
+        localStorage.setItem('cc_streak', d.streak);
+      }
+    }).catch(() => {});
+  }
+})();
+
+// ── READINESS RING ────────────────────────────────────────────────
+const levelScore = { Beginner: 20, Intermediate: 50, Expert: 75 };
+const scores     = subjects.map(s => levelScore[ratings[s]] || 20);
+const avg        = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+
 setTimeout(() => {
-  const circumference = 364.4;
-  const offset = circumference - (avg/100)*circumference;
-  document.getElementById('ring-circle').style.strokeDashoffset = offset;
-  document.getElementById('progress-fill').style.width = avg+'%';
+  document.getElementById('ring-circle').style.strokeDashoffset =
+    364.4 - (avg / 100) * 364.4;
+  document.getElementById('progress-fill').style.width = avg + '%';
 
-  let n=0;
-  const t=setInterval(()=>{
-    n=Math.min(n+2,avg);
-    document.getElementById('ring-pct').textContent = n+'%';
-    if(n>=avg)clearInterval(t);
-  },20);
+  let n = 0;
+  const t = setInterval(() => {
+    n = Math.min(n + 2, avg);
+    document.getElementById('ring-pct').textContent = n + '%';
+    if (n >= avg) clearInterval(t);
+  }, 20);
 
-  const titles = { 20:'Getting started!', 40:'Making progress!', 60:'Looking good!', 80:'Almost ready!', 100:'Fully ready!' };
-  const tk = Object.keys(titles).map(Number).sort((a,b)=>a-b);
-  let title='Getting started!';
-  for(const k of tk){ if(avg<=k){title=titles[k];break;} }
-  document.getElementById('readiness-title').textContent = title;
+  const titles = [[20,'Getting started!'],[40,'Making progress!'],[60,'Looking good!'],[80,'Almost ready!'],[100,'Fully ready!']];
+  document.getElementById('readiness-title').textContent =
+    (titles.find(t => avg <= t[0]) || titles[titles.length - 1])[1];
 }, 400);
 
-// Streak (from localStorage or 0)
-document.getElementById('streak-val').textContent = localStorage.getItem('cc_streak')||'0';
-
-// Subject progress cards
-const SUBJ_EMOJIS = {'Digital Electronics':'🔌','C Programming':'💻','Aptitude':'🧮','English':'📝','Signals & Systems':'📡','VLSI':'🔬','Embedded Systems':'⚙️','Network Theory':'⚡'};
-const LEVEL_COLORS = {Beginner:'var(--green)',Intermediate:'var(--amber)',Expert:'var(--purple)'};
-const LEVEL_BG = {Beginner:'var(--green-lt)',Intermediate:'var(--yellow-lt)',Expert:'var(--purple-lt)'};
-const subjGrid = document.getElementById('subjects-progress');
-document.getElementById('subjects-count').textContent = subjects.length+' subjects';
-
-// Today's task — weakest subject
-const weakest = subjects.reduce((a,b) => (levelScore[ratings[a]]||20) <= (levelScore[ratings[b]]||20) ? a : b);
+// ── TODAY'S TASK ──────────────────────────────────────────────────
+const weakest = subjects.reduce((a, b) =>
+  (levelScore[ratings[a]] || 20) <= (levelScore[ratings[b]] || 20) ? a : b);
 document.getElementById('today-subject').textContent = weakest;
-document.getElementById('today-topic').textContent = `Starting from ${ratings[weakest]||'Beginner'} level`;
+document.getElementById('today-topic').textContent   =
+  `Starting from ${ratings[weakest] || 'Beginner'} level`;
 
+// ── SUBJECT CARDS ─────────────────────────────────────────────────
+const SUBJ_EMOJIS  = {
+  'Digital Electronics':'🔌','C Programming':'💻','Aptitude':'🧮',
+  'English':'📝','Signals & Systems':'📡','VLSI':'🔬',
+  'Embedded Systems':'⚙️','Network Theory':'⚡','Networking':'🌐'
+};
+const LEVEL_COLORS = { Beginner:'var(--green)', Intermediate:'#D97706', Expert:'var(--purple)' };
+const LEVEL_BG     = { Beginner:'var(--green-lt)', Intermediate:'var(--yellow-lt)', Expert:'var(--purple-lt)' };
+
+document.getElementById('subjects-count').textContent = subjects.length + ' subjects';
+const subjGrid = document.getElementById('subjects-progress');
 subjects.forEach(sub => {
-  const level = ratings[sub] || 'Beginner';
-  const score = levelScore[level];
+  const lv    = ratings[sub] || 'Beginner';
+  const score = levelScore[lv];
   const emoji = SUBJ_EMOJIS[sub] || '📚';
   subjGrid.innerHTML += `
     <div class="subj-progress-card">
       <div class="spj-top">
         <span class="spj-emoji">${emoji}</span>
         <span class="spj-name">${sub}</span>
-        <span class="spj-level" style="background:${LEVEL_BG[level]};color:${LEVEL_COLORS[level]}">${level}</span>
+        <span class="spj-level" style="background:${LEVEL_BG[lv]};color:${LEVEL_COLORS[lv]}">${lv}</span>
       </div>
-      <div class="spj-bar-label"><span>${sub}</span><span style="color:${LEVEL_COLORS[level]}">${score}%</span></div>
+      <div class="spj-bar-label">
+        <span>${sub}</span>
+        <span style="color:${LEVEL_COLORS[lv]}">${score}%</span>
+      </div>
       <div class="progress-wrap" style="height:8px">
-        <div class="progress-fill" style="width:${score}%;background:${LEVEL_COLORS[level]}"></div>
+        <div class="progress-fill" style="width:${score}%;background:${LEVEL_COLORS[lv]}"></div>
       </div>
     </div>`;
 });
 
-// Calendar
-document.getElementById('days-remaining').textContent = days+' days left';
+// ── CALENDAR ──────────────────────────────────────────────────────
+document.getElementById('days-remaining').textContent = days + ' days left';
+
+// Mark today as studied if XP was earned today
+const xpToday    = parseInt(localStorage.getItem('cc_xp_today') || '0');
+const studiedArr = JSON.parse(localStorage.getItem('cc_studied_days') || '[]');
+if (xpToday > 0 && !studiedArr.includes(todayStr)) {
+  studiedArr.push(todayStr);
+  localStorage.setItem('cc_studied_days', JSON.stringify(studiedArr));
+}
+
 const cal = document.getElementById('cal-days');
-const todayIdx = 0;
-for(let i=0;i<Math.min(days,28);i++){
-  let cls='upcoming', inner='';
-  if(i<todayIdx) cls='done';
-  if(i===todayIdx) cls='today';
-  if(i>=14) cls='locked';
-  cal.innerHTML+=`<div class="cal-day ${cls}">
-    <div class="cal-day-num">${i+1}</div>
-    <div class="cal-day-dot" style="background:${i===todayIdx?'rgba(255,255,255,.6)':i<todayIdx?'var(--green)':'var(--border)'}"></div>
-  </div>`;
+
+// Figure out the start date of the plan
+// Use cc_start_date if saved, else set it as today - (streak-1) days
+let startDateStr = localStorage.getItem('cc_start_date');
+if (!startDateStr) {
+  const streak    = parseInt(localStorage.getItem('cc_streak') || '0');
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - Math.max(streak - 1, 0));
+  startDateStr = startDate.toISOString().split('T')[0];
+  localStorage.setItem('cc_start_date', startDateStr);
+}
+
+const startDate   = new Date(startDateStr);
+const totalCells  = Math.min(days, 28);
+
+// Find what day of week the start date is (0=Sun, 6=Sat)
+// Add empty cells before first day to align with weekday headers
+const startDayOfWeek = startDate.getDay();
+for (let e = 0; e < startDayOfWeek; e++) {
+  cal.innerHTML += `<div class="cal-day empty"></div>`;
+}
+
+// Build calendar cells
+for (let i = 0; i < totalCells; i++) {
+  const cellDate = new Date(startDate);
+  cellDate.setDate(startDate.getDate() + i);
+  const cellStr  = cellDate.toISOString().split('T')[0];
+  const dayNum   = cellDate.getDate();
+
+  const isToday  = cellStr === todayStr;
+  const isPast   = cellStr < todayStr;
+  const isFuture = cellStr > todayStr;
+  const isDone   = studiedArr.includes(cellStr);
+
+  let cls      = 'future';
+  let dotColor = 'var(--border)';
+
+  if (isToday) {
+    cls      = 'today';
+    dotColor = 'rgba(255,255,255,.6)';
+  } else if (isPast && isDone) {
+    cls      = 'done';
+    dotColor = 'var(--green)';
+  } else if (isPast && !isDone) {
+    cls      = 'missed';
+    dotColor = '#FCA5A5';
+  } else if (isFuture) {
+    cls      = 'future';
+    dotColor = 'var(--border)';
+  }
+
+  cal.innerHTML += `
+    <div class="cal-day ${cls}" title="${cellStr}">
+      <div class="cal-day-num">${dayNum}</div>
+      <div class="cal-day-dot" style="background:${dotColor}"></div>
+    </div>`;
 }
 </script>
 </body>

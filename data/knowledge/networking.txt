@@ -1,0 +1,43 @@
+NETWORKING — HCL ECE PLACEMENT GUIDE
+
+OSI MODEL
+OSI model has 7 layers.
+Layer 1 Physical: cables, signals, bits. Hubs work here.
+Layer 2 Data Link: MAC addresses, frames, error detection. Switches work here.
+Layer 3 Network: IP addresses, routing. Routers work here.
+Layer 4 Transport: TCP UDP, ports, segmentation. End to end delivery.
+Layer 5 Session: establishes manages terminates sessions.
+Layer 6 Presentation: encryption, compression, format conversion.
+Layer 7 Application: HTTP FTP SMTP DNS. What users see.
+Mnemonic: Please Do Not Throw Sausage Pizza Away (Physical Data Network Transport Session Presentation Application).
+Router works at Network layer (Layer 3).
+Switch works at Data Link layer (Layer 2).
+Hub works at Physical layer (Layer 1).
+
+TCP VS UDP
+TCP: Transmission Control Protocol. Connection oriented. Reliable. Ordered. Error checked. Slower.
+UDP: User Datagram Protocol. Connectionless. Unreliable. No ordering. Faster.
+TCP used for: web browsing HTTP, email SMTP, file transfer FTP.
+UDP used for: video streaming, gaming, DNS, VoIP.
+TCP does handshake (SYN SYN-ACK ACK) before data transfer.
+
+PORT NUMBERS
+HTTP port 80. HTTPS port 443. FTP port 21. SSH port 22.
+SMTP port 25. DNS port 53. DHCP port 67. Telnet port 23.
+These port numbers are frequently asked in HCL placement test.
+
+IP ADDRESSING
+IPv4: 32-bit address. Written as 4 octets separated by dots. Example: 192.168.1.1.
+IPv6: 128-bit address. Written in hexadecimal.
+Class A: 1.0.0.0 to 126.255.255.255. Large networks.
+Class B: 128.0.0.0 to 191.255.255.255. Medium networks.
+Class C: 192.0.0.0 to 223.255.255.255. Small networks. 254 hosts.
+192.168.x.x is private Class C address used in home networks.
+Subnet mask: determines network and host portions of IP address.
+Default gateway: router IP address in local network.
+
+MAC ADDRESS
+MAC address is 48-bit hardware address burned into network interface card.
+Format: XX:XX:XX:XX:XX:XX in hexadecimal.
+MAC address works at Data Link layer (Layer 2).
+ARP protocol resolves IP address to MAC address.

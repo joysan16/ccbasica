@@ -5,87 +5,64 @@
 <title>Practice · CareerCompass</title>
 <link rel="stylesheet" href="/static/css/main.css"/>
 <style>
-.practice-wrap{max-width:820px;margin:0 auto;padding:2rem}
-
-/* Topic selector */
-.topic-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
-.topic-chip{
-  padding:.4rem 1rem;border-radius:20px;border:1.5px solid var(--border);
-  background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);
-  cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;
-}
+.practice-wrap{max-width:860px;margin:0 auto;padding:2rem}
+.topic-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.topic-chip{padding:.4rem 1rem;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif}
 .topic-chip:hover{border-color:var(--purple);color:var(--purple)}
 .topic-chip.active{background:var(--purple);border-color:var(--purple);color:var(--white)}
-
-/* Level tabs */
-.level-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem}
-.level-tab{
-  padding:.45rem 1.1rem;border-radius:10px;border:1.5px solid var(--border);
-  background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);
-  cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif;
-}
+.topic-chip.done-chip{border-color:var(--green);color:var(--green)}
+.topic-chip.done-chip.active{background:var(--green);color:var(--white)}
+.level-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;align-items:center;flex-wrap:wrap}
+.level-tab{padding:.45rem 1.1rem;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:.82rem;font-weight:700;color:var(--ink2);cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif}
 .level-tab:hover{border-color:var(--purple)}
 .level-tab.active{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
-
-/* Progress bar on top of quiz */
+.ai-generate-btn{margin-left:auto;display:flex;align-items:center;gap:.5rem;padding:.45rem 1.1rem;border-radius:10px;border:1.5px solid var(--purple);background:var(--purple-lt);color:var(--purple);font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+.ai-generate-btn:hover{background:var(--purple);color:var(--white)}
+.ai-generate-btn.loading{opacity:.6;pointer-events:none}
 .quiz-progress-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
 .quiz-progress-bar{flex:1;height:10px;background:#F0F0F0;border-radius:6px;overflow:hidden}
 .quiz-progress-fill{height:100%;background:var(--purple);border-radius:6px;transition:width .4s ease}
 .quiz-q-label{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
-.quiz-hearts{display:flex;gap:.2rem;font-size:1rem}
-
-/* Question card */
-.question-card{
-  background:var(--white);border:1.5px solid var(--border);
-  border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);
-  margin-bottom:1.25rem;
-}
+.quiz-hearts{display:flex;gap:.2rem;font-size:1rem;letter-spacing:2px}
+.question-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:1.25rem}
+.q-source-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:6px;margin-bottom:.75rem}
+.q-source-ai{background:linear-gradient(135deg,#EDE9FE,#DDD6FE);color:var(--purple);border:1px solid var(--purple)}
+.q-source-static{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
 .q-eyebrow{font-size:.72rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-.q-text{font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:1.75rem}
-
-/* Options */
+.q-text{font-family:'Nunito',sans-serif;font-size:1.15rem;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:1.75rem}
 .options-grid{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem}
-.option-btn{
-  display:flex;align-items:center;gap:1rem;
-  padding:.9rem 1.1rem;border-radius:12px;
-  border:2.5px solid var(--border);background:var(--white);
-  cursor:pointer;transition:all .15s;text-align:left;
-  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink);
-}
+.option-btn{display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem;border-radius:12px;border:2.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .15s;text-align:left;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink)}
 .option-btn:hover:not(:disabled){border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
 .option-btn.selected{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
 .option-btn.correct{border-color:#16A34A;background:#DCFCE7;color:#166534}
 .option-btn.wrong{border-color:var(--red);background:#FEE2E2;color:var(--red)}
 .option-btn:disabled{cursor:default}
-.opt-letter{
-  width:32px;height:32px;border-radius:8px;background:#F0F0F0;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:.85rem;flex-shrink:0;transition:all .15s;
-}
+.opt-letter{width:32px;height:32px;border-radius:8px;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;transition:all .15s}
 .option-btn.selected .opt-letter{background:var(--purple);color:var(--white)}
 .option-btn.correct .opt-letter{background:#16A34A;color:var(--white)}
 .option-btn.wrong .opt-letter{background:var(--red);color:var(--white)}
-
-/* Explanation box */
-.explanation-box{
-  border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;
-  display:none;animation:slideIn .3s ease;
-}
+.explanation-box{border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:none;animation:slideIn .3s ease}
 .explanation-box.show{display:block}
 .explanation-box.correct-box{background:#DCFCE7;border:1.5px solid #16A34A}
 .explanation-box.wrong-box{background:#FEE2E2;border:1.5px solid var(--red)}
 @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .exp-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;margin-bottom:.4rem}
 .exp-title.correct-text{color:#166534}
 .exp-title.wrong-text{color:var(--red)}
 .exp-body{font-size:.875rem;color:var(--ink2);line-height:1.65}
-
-/* Action row */
 .action-row{display:flex;gap:.75rem;align-items:center;justify-content:space-between}
 .skip-btn{font-size:.85rem;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif}
 .skip-btn:hover{color:var(--ink)}
-
-/* Result screen */
+.practice-layout{display:grid;grid-template-columns:1fr 260px;gap:1.5rem;align-items:start}
+.sidebar-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow-sm);margin-bottom:1rem}
+.sidebar-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:.75rem}
+.q-tracker{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.qt-dot{aspect-ratio:1;border-radius:7px;background:#F0F0F0;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s}
+.qt-dot.current{background:var(--purple);border-color:var(--purple);color:var(--white)}
+.qt-dot.done-correct{background:#DCFCE7;border-color:#16A34A;color:#166534}
+.qt-dot.done-wrong{background:#FEE2E2;border-color:var(--red);color:var(--red)}
+.xp-earned-pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--yellow-lt);border:1.5px solid var(--yellow);border-radius:20px;padding:.3rem .9rem;font-size:.82rem;font-weight:700;color:#92400E;font-family:'Nunito',sans-serif}
 .result-screen{display:none;text-align:center;padding:3rem 1rem}
 .result-screen.show{display:block}
 .result-emoji{font-size:5rem;margin-bottom:1rem}
@@ -96,35 +73,14 @@
 .rs-val{font-family:'Nunito',sans-serif;font-size:2.5rem;font-weight:900}
 .rs-label{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .result-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-
-/* Right sidebar */
-.practice-layout{display:grid;grid-template-columns:1fr 280px;gap:1.5rem;align-items:start}
-.sidebar-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow-sm);margin-bottom:1rem}
-.sidebar-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:.75rem}
-.q-tracker{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
-.qt-dot{
-  aspect-ratio:1;border-radius:7px;background:#F0F0F0;border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--muted);
-  cursor:pointer;transition:all .15s;
-}
-.qt-dot.current{background:var(--purple);border-color:var(--purple);color:var(--white)}
-.qt-dot.done-correct{background:#DCFCE7;border-color:#16A34A;color:#166534}
-.qt-dot.done-wrong{background:#FEE2E2;border-color:var(--red);color:var(--red)}
-.xp-earned-pill{
-  display:inline-flex;align-items:center;gap:.4rem;
-  background:var(--yellow-lt);border:1.5px solid var(--yellow);
-  border-radius:20px;padding:.3rem .9rem;font-size:.82rem;font-weight:700;color:#92400E;
-  font-family:'Nunito',sans-serif;
-}
-
-@media(max-width:700px){
-  .practice-layout{grid-template-columns:1fr}
-  .sidebar{display:none}
-}
+.loading-screen{text-align:center;padding:3rem 1rem}
+.loading-spinner{width:40px;height:40px;border:4px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.done-topics-banner{background:var(--green-lt);border:1.5px solid var(--green);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;font-weight:600;color:#166534;display:flex;align-items:center;gap:.5rem}
+@media(max-width:700px){.practice-layout{grid-template-columns:1fr}.sidebar{display:none}}
 </style>
 </head>
 <body>
-
 <nav class="navbar">
   <a href="/" class="logo">🧭 Career<span class="logo-dot">Compass</span></a>
   <div class="nav-links">
@@ -132,6 +88,7 @@
     <a href="/learn" class="nav-link">Learn</a>
     <a href="/practice" class="nav-link" style="color:var(--purple)">Practice</a>
     <a href="/mock" class="nav-link">Mock Test</a>
+    <a href="/mentor" class="nav-link">AI Mentor</a>
   </div>
   <div class="nav-right">
     <div class="xp-earned-pill" id="xp-pill">⚡ 0 XP today</div>
@@ -139,44 +96,67 @@
 </nav>
 
 <div class="practice-wrap">
-
-  <!-- Topic + Level selectors -->
   <div style="margin-bottom:1rem">
     <h2 style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);margin-bottom:.25rem">Practice MCQs ✏️</h2>
-    <p style="color:var(--muted);font-size:.875rem">Pick a topic and level. Answer 10 questions. Earn XP.</p>
+    <p style="color:var(--muted);font-size:.875rem">Topics you've studied get 🤖 AI-generated questions. Other topics use curated questions.</p>
   </div>
 
+  <!-- Done topics banner -->
+  <div class="done-topics-banner" id="done-banner" style="display:none">
+    🎉 You've completed topics today! <strong id="done-topics-list"></strong> — AI is generating fresh questions for you.
+  </div>
+
+  <!-- Topic selector -->
   <div class="topic-bar" id="topic-bar">
-    <button class="topic-chip active" onclick="switchTopic(this,'digital_electronics')">🔌 Digital Electronics</button>
-    <button class="topic-chip" onclick="switchTopic(this,'c_programming')">💻 C Programming</button>
-    <button class="topic-chip" onclick="switchTopic(this,'aptitude')">🧮 Aptitude</button>
-    <button class="topic-chip" onclick="switchTopic(this,'networking')">🌐 Networking</button>
+    <button class="topic-chip active" onclick="switchTopic(this,'logic_gates','Logic Gates')">🔌 Logic Gates</button>
+    <button class="topic-chip" onclick="switchTopic(this,'number_systems','Number Systems')">🔢 Number Systems</button>
+    <button class="topic-chip" onclick="switchTopic(this,'complements','Complements')">➕ Complements</button>
+    <button class="topic-chip" onclick="switchTopic(this,'boolean_algebra','Boolean Algebra')">📐 Boolean Algebra</button>
+    <button class="topic-chip" onclick="switchTopic(this,'kmap','K-Map')">🗺️ K-Map</button>
+    <button class="topic-chip" onclick="switchTopic(this,'flipflops','Flip-Flops')">🔄 Flip-Flops</button>
+    <button class="topic-chip" onclick="switchTopic(this,'counters','Counters')">🔢 Counters</button>
+    <button class="topic-chip" onclick="switchTopic(this,'adders','Adders')">➕ Adders</button>
+    <button class="topic-chip" onclick="switchTopic(this,'mux_demux','MUX & DEMUX')">🔀 MUX & DEMUX</button>
+    <button class="topic-chip" onclick="switchTopic(this,'state_machines','State Machines')">🧩 State Machines</button>
+    <button class="topic-chip" onclick="switchTopic(this,'aptitude','Aptitude')">🧮 Aptitude</button>
+    <button class="topic-chip" onclick="switchTopic(this,'c_programming','C Programming')">💻 C Programming</button>
   </div>
 
-  <div class="level-tabs" id="level-tabs">
-    <button class="level-tab active" onclick="switchLevel(this,'basic')">🌱 Basics</button>
+  <!-- Level + AI generate -->
+  <div class="level-tabs">
+    <button class="level-tab active" onclick="switchLevel(this,'basic')">🌱 Basic</button>
     <button class="level-tab" onclick="switchLevel(this,'intermediate')">📘 Intermediate</button>
     <button class="level-tab" onclick="switchLevel(this,'expert')">🏆 Expert</button>
+    <button class="ai-generate-btn" id="ai-gen-btn" onclick="generateAIQuestions()">
+      🤖 Generate AI Questions
+    </button>
+  </div>
+
+  <!-- Loading screen -->
+  <div class="loading-screen" id="loading-screen" style="display:none">
+    <div class="loading-spinner"></div>
+    <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:.5rem">
+      🤖 AI is generating questions for you...
+    </div>
+    <div style="color:var(--muted);font-size:.85rem" id="loading-msg">
+      Searching knowledge base · Creating fresh MCQs
+    </div>
   </div>
 
   <!-- Quiz layout -->
   <div class="practice-layout" id="quiz-area">
-
-    <!-- Main quiz -->
     <div>
-      <!-- Progress -->
       <div class="quiz-progress-row">
         <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="q-progress" style="width:0%"></div></div>
         <div class="quiz-q-label" id="q-label">Question 1 of 10</div>
         <div class="quiz-hearts" id="q-hearts">❤️❤️❤️❤️❤️</div>
       </div>
-
-      <!-- Question card -->
       <div class="question-card" id="question-card">
+        <div id="q-source-badge" class="q-source-badge q-source-static">📚 Curated</div>
         <div class="q-eyebrow">
-          <span id="q-subject-tag">Digital Electronics</span>
+          <span id="q-subject-tag">Logic Gates</span>
           <span>·</span>
-          <span id="q-level-tag">Basics</span>
+          <span id="q-level-tag">Basic</span>
         </div>
         <div class="q-text" id="q-text">Loading question...</div>
         <div class="options-grid" id="options-grid"></div>
@@ -218,23 +198,26 @@
             <span style="font-size:.82rem;color:var(--muted);font-weight:600">Accuracy</span>
             <span style="font-family:'Nunito',sans-serif;font-weight:900;color:var(--purple);font-size:1.1rem" id="stat-acc">—</span>
           </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:.82rem;color:var(--muted);font-weight:600">Source</span>
+            <span style="font-size:.75rem;font-weight:700;color:var(--muted)" id="stat-source">Static</span>
+          </div>
         </div>
       </div>
       <div class="sidebar-card" style="background:var(--purple-lt);border-color:var(--purple)">
-        <div class="sidebar-title" style="color:var(--purple)">💡 HCL Tip</div>
+        <div class="sidebar-title" style="color:var(--purple)">💡 Tip</div>
         <div style="font-size:.8rem;color:var(--ink2);line-height:1.6" id="sidebar-tip">
-          HCL Technical round is 10-30 minutes. Interviewers ask 5-8 questions from your resume topics. Be confident and honest!
+          Topics you complete in Learn get AI-generated questions — fresh every session!
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- Result screen -->
   <div class="result-screen" id="result-screen">
     <div class="result-emoji" id="result-emoji">🏆</div>
     <h2 class="result-h1" id="result-h1">Excellent!</h2>
-    <p class="result-sub" id="result-sub">You completed the practice session</p>
+    <p class="result-sub" id="result-sub">Practice session complete</p>
     <div class="result-stats">
       <div class="rs-stat">
         <div class="rs-val" id="res-correct" style="color:#16A34A">0</div>
@@ -253,305 +236,614 @@
         <div class="rs-label">Accuracy</div>
       </div>
     </div>
+    <div id="ai-feedback-box" style="background:var(--purple-lt);border:1.5px solid var(--purple);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;text-align:left;display:none">
+      <div style="font-family:'Nunito',sans-serif;font-weight:800;color:var(--purple);margin-bottom:.4rem">🤖 AI Feedback</div>
+      <div id="ai-feedback-text" style="font-size:.875rem;color:var(--ink2);line-height:1.65"></div>
+    </div>
     <div class="result-btns">
       <button class="btn btn-primary btn-lg" onclick="restartQuiz()">Practice again 🔄</button>
-      <a href="/learn" class="btn btn-outline btn-lg">Study more concepts 📖</a>
-      <a href="/mock" class="btn btn-ghost btn-lg">Try mock test 🏢</a>
+      <button class="btn btn-outline btn-lg" onclick="generateAIQuestions()">🤖 Try AI Questions</button>
+      <a href="/learn" class="btn btn-ghost btn-lg">Learn more 📖</a>
     </div>
   </div>
-
 </div>
 
 <script>
-// ── QUESTION BANK ────────────────────────────────────────────────
-const QUESTIONS = {
-  digital_electronics: {
+// ── STATIC QUESTION BANK ──────────────────────────────────────────
+const STATIC_QUESTIONS = {
+  logic_gates: {
     basic: [
-      { q:"Which gate gives output 1 only when ALL inputs are 1?", opts:["OR Gate","AND Gate","XOR Gate","NAND Gate"], ans:1, exp:"AND gate: output = 1 only when ALL inputs are 1. Truth table: 0·0=0, 0·1=0, 1·0=0, 1·1=1. Think series switch circuit." },
-      { q:"NAND gate is called a Universal Gate because:", opts:["It is the fastest gate","Any logic function can be built using only NAND gates","It consumes least power","It has maximum fan-out"], ans:1, exp:"NAND is universal — you can implement AND, OR, NOT and XOR using only NAND gates. This simplifies chip manufacturing." },
-      { q:"XOR gate output is 1 when:", opts:["Both inputs are 1","Both inputs are 0","Inputs are DIFFERENT","At least one input is 1"], ans:2, exp:"XOR (Exclusive OR): output = 1 only when inputs DIFFER. 0⊕1=1, 1⊕0=1, 0⊕0=0, 1⊕1=0. Used in adders and error detection." },
-      { q:"What is the output of NOR gate when both inputs are 0?", opts:["0","1","Undefined","High impedance"], ans:1, exp:"NOR = NOT(OR). OR(0,0)=0, then NOT(0)=1. NOR gate only outputs 1 when ALL inputs are 0." },
-      { q:"Which flip-flop has an invalid state when both inputs are 1?", opts:["D Flip-Flop","JK Flip-Flop","SR Flip-Flop","T Flip-Flop"], ans:2, exp:"SR flip-flop: S=R=1 is forbidden/invalid state — tries to set AND reset simultaneously causing unpredictable output. JK improved this by making J=K=1 mean TOGGLE." },
-      { q:"How many flip-flops are needed to build a MOD-16 counter?", opts:["2","3","4","5"], ans:2, exp:"MOD-16 counts 0-15 = 16 states. Need 2⁴=16 → 4 flip-flops. Formula: n flip-flops give 2ⁿ states. log₂(16)=4." },
-      { q:"D flip-flop at positive clock edge with D=0, output Q becomes:", opts:["1","0","Toggles","Unchanged"], ans:1, exp:"D flip-flop: Q captures D at clock edge. D=0 → Q=0. Simple and predictable — most used FF in digital design." },
-      { q:"JK flip-flop with J=1 K=1 will:", opts:["Set Q to 1","Reset Q to 0","Toggle Q","Hold previous state"], ans:2, exp:"J=K=1 causes TOGGLE in JK flip-flop. This is why JK improved over SR — J=K=1 is no longer invalid, it means toggle!" },
-      { q:"What is 13 in binary?", opts:["1011","1101","1110","1001"], ans:1, exp:"13 = 8+4+1 = 2³+2²+2⁰ = 1101. Method: 13÷2=6R1, 6÷2=3R0, 3÷2=1R1, 1÷2=0R1. Read remainders bottom-up: 1101." },
-      { q:"Gray code differs from binary in that it:", opts:["Uses base 8","Only one bit changes between consecutive values","Is same as BCD","Uses negative numbers"], ans:1, exp:"Gray code: only ONE bit changes between adjacent values. Eliminates glitches in mechanical encoders. Used in rotary encoders, karnaugh maps." },
+      {q:"Which gate gives output 1 only when ALL inputs are 1?",opts:["OR Gate","AND Gate","XOR Gate","NAND Gate"],ans:1,exp:"AND gate: output = 1 only when ALL inputs are 1. Think: bike starts only when key AND fuel AND kickstand all good."},
+      {q:"NAND gate is called a Universal Gate because:",opts:["It is the fastest gate","Any logic function can be built using only NAND gates","It consumes least power","It has maximum fan-out"],ans:1,exp:"NAND is universal — implement AND, OR, NOT, XOR using only NAND. This simplifies chip manufacturing enormously."},
+      {q:"XOR gate output is 1 when:",opts:["Both inputs are 1","Both inputs are 0","Inputs are DIFFERENT","At least one input is 1"],ans:2,exp:"XOR: output=1 when inputs DIFFER. 0⊕1=1, 1⊕0=1. Like a staircase light — either switch toggles it."},
+      {q:"What is the output of NOR gate when both inputs are 0?",opts:["0","1","Undefined","High impedance"],ans:1,exp:"NOR=NOT(OR). OR(0,0)=0, NOT(0)=1. NOR outputs 1 ONLY when ALL inputs are 0."},
+      {q:"NAND gate with both inputs HIGH gives output:",opts:["HIGH (1)","LOW (0)","Undefined","Same as input"],ans:1,exp:"NAND(1,1)=NOT(AND(1,1))=NOT(1)=0. NAND output is LOW only when ALL inputs are HIGH."},
+      {q:"Which two gates are called Universal Gates?",opts:["AND and OR","NAND and NOR","XOR and XNOR","NOT and BUFFER"],ans:1,exp:"NAND and NOR are both universal. Any logic function can be built using ONLY NAND or ONLY NOR gates."},
+      {q:"XNOR gate output is 1 when inputs are:",opts:["Different","Same","Both 0 only","Both 1 only"],ans:1,exp:"XNOR=NOT(XOR). XOR gives 1 for different inputs, so XNOR gives 1 when inputs are SAME. Equality detector."},
+      {q:"How many NAND gates are needed to implement a NOT gate?",opts:["1","2","3","4"],ans:0,exp:"One NAND gate with both inputs tied together: NAND(A,A)=(A·A)'=A'. Just 1 NAND gate!"},
+      {q:"De Morgan's theorem states (A+B)' equals:",opts:["A'+B'","A'·B'","A·B","(A·B)'"],ans:1,exp:"De Morgan's: (A+B)'=A'·B'. NOR gate = AND of complements. This is why NOR is universal."},
+      {q:"In CMOS technology, which gate is preferred for speed?",opts:["NOR","NAND","XOR","XNOR"],ans:1,exp:"NAND preferred — series NMOS (faster) in pull-down. NOR uses series PMOS (slower). NMOS electron mobility ≈ 2× PMOS hole mobility."},
     ],
     intermediate: [
-      { q:"In a ripple counter, main disadvantage compared to synchronous counter is:", opts:["More flip-flops needed","Cumulative propagation delay","Cannot count down","Higher power"], ans:1, exp:"Ripple counter: each FF triggers next — delays ADD UP. 4-bit ripple = 4 × gate delay. Synchronous counters have fixed delay regardless of size." },
-      { q:"Boolean expression A·(A+B) simplifies to:", opts:["A+B","A·B","A","B"], ans:2, exp:"A·(A+B) = A·A + A·B = A + A·B = A(1+B) = A·1 = A. Used absorption law: A+AB=A." },
-      { q:"How many minterms does a 3-variable Boolean function have?", opts:["4","6","8","16"], ans:2, exp:"n variables → 2ⁿ minterms. 3 variables (A,B,C) → 2³=8 minterms (m0 to m7). Each minterm is one row in the truth table." },
-      { q:"2's complement of 01101 (5-bit) is:", opts:["10010","10011","11010","10001"], ans:1, exp:"01101 → flip bits: 10010 → add 1: 10011. So 2's complement of 13 (01101) is 10011 = -13 in signed representation." },
-      { q:"A full adder has how many inputs?", opts:["2","3","4","5"], ans:1, exp:"Full adder has 3 inputs: A, B (bits to add), Cin (carry in). Outputs: Sum and Cout. Half adder has only 2 inputs (no carry in)." },
+      {q:"Implement OR gate using only NAND gates. Minimum gates needed:",opts:["2","3","4","5"],ans:1,exp:"OR from NAND (3 gates): G1=NAND(A,A)=A', G2=NAND(B,B)=B', G3=NAND(A',B')=(A'·B')'=A+B by De Morgan."},
+      {q:"A+AB simplifies to:",opts:["AB","A+B","A","B"],ans:2,exp:"Absorption law: A+AB=A. Factor: A(1+B)=A·1=A. This is the most useful Boolean identity for simplification."},
+      {q:"Which expression represents XOR using basic gates?",opts:["A·B","A'B+AB'","A+B","(A·B)'"],ans:1,exp:"XOR = A'B+AB'. Output 1 when A=0,B=1 OR A=1,B=0. Requires 4 gates (2 NOT + 2 AND + 1 OR)."},
+      {q:"Canonical SOP form of f(A,B)=A+B:",opts:["A'B+AB'","A'B+AB'+AB","A·B","A'B'"],ans:1,exp:"Expand A+B to minterms: missing minterm is A'B'. So canonical SOP = A'B + AB' + AB (all minterms except 00)."},
+      {q:"Fan-out of a gate means:",opts:["Number of inputs","Maximum gates it can drive","Clock frequency","Power consumption"],ans:1,exp:"Fan-out = maximum number of gate inputs a single output can drive reliably. Exceeding fan-out degrades logic levels."},
     ],
     expert: [
-      { q:"A multiplexer with 4 select lines can have how many inputs?", opts:["4","8","16","32"], ans:2, exp:"MUX with n select lines → 2ⁿ inputs. 4 select lines → 2⁴=16 inputs. It selects 1 of 16 inputs based on 4-bit select code." },
-      { q:"PLA differs from PAL in that PLA has:", opts:["Fixed OR array","Fixed AND array","Both AND and OR arrays programmable","Only NAND gates"], ans:2, exp:"PLA = Programmable Logic Array: BOTH AND and OR arrays programmable. PAL = Programmable Array Logic: AND programmable, OR fixed. PLA is more flexible." },
-      { q:"In CMOS, static power dissipation is:", opts:["High","Medium","Very low (near zero)","Same as TTL"], ans:2, exp:"CMOS static power ≈ 0 because complementary p-type and n-type MOSFETs — one is always OFF. Power only dissipated during switching. This is why CMOS dominates digital design." },
-    ]
+      {q:"Implement XNOR using minimum NAND gates:",opts:["4 NAND gates","5 NAND gates","3 NAND gates","6 NAND gates"],ans:1,exp:"XNOR from NAND requires 5 NAND gates: build XOR (4 gates) then add one more NAND with both inputs tied (NOT the XOR output)."},
+      {q:"Propagation delay tpHL means:",opts:["Low to High transition time","High to Low output transition delay","Clock period","Setup time"],ans:1,exp:"tpHL = propagation delay High-to-Low transition. tpLH = Low-to-High. Average tpd=(tpHL+tpLH)/2. Critical path delay determines max frequency."},
+      {q:"Static-1 hazard in combinational circuit means:",opts:["Output stuck at 1","Output briefly glitches to 0 when it should stay 1","Output has no glitch","Clock hazard"],ans:1,exp:"Static-1 hazard: output should stay HIGH but briefly glitches LOW due to different propagation delays. Fixed by adding redundant prime implicant in K-map."},
+    ],
   },
-  c_programming: {
+  flipflops: {
     basic: [
-      { q:"Who developed the C programming language?", opts:["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Guido van Rossum"], ans:1, exp:"Dennis Ritchie developed C in 1972 at Bell Labs. James Gosling→Java, Bjarne Stroustrup→C++, Guido van Rossum→Python." },
-      { q:"What is the size of int on a 32-bit system?", opts:["1 byte","2 bytes","4 bytes","8 bytes"], ans:2, exp:"int = 4 bytes = 32 bits on 32-bit system. Range: -2,147,483,648 to 2,147,483,647. HCL often asks sizeof() questions!" },
-      { q:"Which header file is needed for printf() and scanf()?", opts:["stdlib.h","string.h","stdio.h","math.h"], ans:2, exp:"stdio.h = Standard Input Output. Contains printf, scanf, getchar, putchar, fopen, fclose etc." },
-      { q:"What does the modulo operator % return?", opts:["Quotient","Percentage","Remainder","Power"], ans:2, exp:"% returns remainder after division. 10%3=1, 15%5=0, 7%2=1. Classic use: if(n%2==0) → n is even." },
-      { q:"What is the correct way to declare a pointer to int?", opts:["int &p","int p*","int *p","*int p"], ans:2, exp:"int *p declares p as pointer to integer. *p is the value at address p. &a gives address of variable a." },
-      { q:"What does static variable inside a function do?", opts:["Makes it global","Retains value between function calls","Makes it constant","Deletes after function ends"], ans:1, exp:"Static local variable retains value between calls. Initialized ONCE. Stored in data segment, not stack. Counter example: static int count=0; count++;" },
-      { q:"Output of: printf(\"%d\", 5/2);", opts:["2.5","2","3","Error"], ans:1, exp:"Integer division: 5/2=2 (not 2.5). Both operands are int → result is int (truncated). Use 5.0/2 or (float)5/2 to get 2.5." },
-      { q:"What is difference between = and == in C?", opts:["No difference","= compares, == assigns","= assigns value, == compares equality","Both assign values"], ans:2, exp:"= is assignment: a=5 puts 5 in a. == is comparison: if(a==5) checks if a equals 5. Common bug: if(a=5) is ALWAYS true!" },
-      { q:"Which of these is NOT a valid variable name in C?", opts:["_count","count1","2count","Count"], ans:2, exp:"Variable names cannot START with a digit. 2count is invalid. Must start with letter or underscore. C is case-sensitive: Count ≠ count." },
-      { q:"What does malloc() return if allocation fails?", opts:["0","-1","NULL","Garbage value"], ans:2, exp:"malloc() returns NULL on failure. Always check: if(p==NULL){ handle error }. Using NULL pointer without check causes segfault." },
+      {q:"SR Flip-Flop forbidden state is when:",opts:["S=0,R=0","S=1,R=0","S=0,R=1","S=1,R=1"],ans:3,exp:"S=R=1 is forbidden — both try to force Q=1 and Q=0 simultaneously. When both return to 0, output is unpredictable (race condition)."},
+      {q:"JK Flip-Flop with J=1, K=1 at clock edge:",opts:["Sets Q=1","Resets Q=0","Toggles Q","No change"],ans:2,exp:"J=K=1 causes TOGGLE — Q=Q'. This is the KEY improvement of JK over SR. No forbidden state!"},
+      {q:"D Flip-Flop output Q at positive clock edge with D=0:",opts:["Q=1","Q=0","Q toggles","Q unchanged"],ans:1,exp:"D FF captures D at clock edge. D=0 → Q=0. Simple, predictable. Most used FF in digital design."},
+      {q:"T Flip-Flop with T=1 at every clock edge:",opts:["Stays at 0","Stays at 1","Toggles on each clock","Resets"],ans:2,exp:"T=1 → toggle on every clock. Output frequency = Clock/2. Chain of T FFs = binary counter."},
+      {q:"Difference between latch and flip-flop:",opts:["No difference","Latch is level-sensitive; FF is edge-triggered","FF is level-sensitive; latch is edge-triggered","Only speed differs"],ans:1,exp:"Latch: transparent when enable=HIGH (level-sensitive). FF: changes ONLY at clock edge (edge-triggered). FFs give precise timing control."},
+      {q:"Setup time violation causes:",opts:["Slower operation","Metastability","Correct output with delay","No effect"],ans:1,exp:"Violating setup time → metastability. FF output stuck between 0 and 1, eventually resolves but timing unpredictable. Critical in CDC (Clock Domain Crossing)."},
+      {q:"Which FF is used in frequency dividers?",opts:["SR","D","JK","T"],ans:3,exp:"T FF with T=1 divides clock by 2. Chain of T FFs: CLK→CLK/2→CLK/4→CLK/8. Used in PLLs and clock generation circuits."},
+      {q:"Characteristic equation of JK FF is:",opts:["Q(n+1)=J","Q(n+1)=JQ'+K'Q","Q(n+1)=T⊕Q","Q(n+1)=D"],ans:1,exp:"JK characteristic: Q(n+1)=JQ'+K'Q. Verify: J=K=0→Q(n+1)=Q (no change), J=1,K=0→1, J=0,K=1→0, J=K=1→Q' (toggle)."},
+      {q:"Convert D FF to T FF. T input equals:",opts:["D","D⊕Q","D+Q","D·Q"],ans:1,exp:"D FF with D=T⊕Q implements T FF. When T=1: D=1⊕Q=Q', so Q toggles. When T=0: D=0⊕Q=Q, so Q holds."},
+      {q:"Race-around problem occurs in:",opts:["D flip-flop","T flip-flop","Level-triggered JK FF with J=K=1","SR flip-flop"],ans:2,exp:"Level-triggered JK with J=K=1: while CLK=1, output toggles continuously (multiple times per clock cycle). Solution: edge-triggered or master-slave FF."},
     ],
     intermediate: [
-      { q:"What is a dangling pointer?", opts:["Uninitialized pointer","Pointer to freed/deleted memory","NULL pointer","Void pointer"], ans:1, exp:"Dangling pointer points to memory already freed. int *p=malloc(4); free(p); now p is dangling. Fix: p=NULL after free(p)." },
-      { q:"Correct declaration of function pointer that takes 2 ints returns int:", opts:["int *p(int,int)","int (*p)(int,int)","int *(p)(int,int)","*int(p)(int,int)"], ans:1, exp:"int (*p)(int,int) — parentheses around *p are ESSENTIAL. Without them int *p(int,int) declares function returning int*. HCL directly asked this!" },
-      { q:"char *p = \"Hello\"; p[0]='h'; — what happens?", opts:["Changes H to h","Segmentation fault","Compilation error","Works fine"], ans:1, exp:"String literals stored in READ-ONLY memory. Modifying via pointer causes segfault at runtime. Use char p[]=\"Hello\" for modifiable string." },
-      { q:"What is void pointer (void *)?", opts:["Pointer to void function","Generic pointer — holds address of any type","NULL pointer","Pointer that can't be dereferenced"], ans:1, exp:"void* is generic pointer — can point to any data type. malloc returns void*. Must cast before dereferencing: *(int*)p. Used in memcpy, qsort." },
-      { q:"Output: int a=2; printf(\"%d\", a<<2);", opts:["4","6","8","16"], ans:2, exp:"Left shift << by n = multiply by 2^n. a<<2 = 2×2² = 2×4 = 8. Right shift >> by n = divide by 2^n. Bitwise operations are fast!" },
+      {q:"Master-slave JK FF was invented to solve:",opts:["Forbidden state","Race-around condition","Metastability","Setup time violation"],ans:1,exp:"Master-slave JK eliminates race-around. Master captures on CLK=1, slave updates on CLK=0. Output changes only at falling edge."},
+      {q:"Maximum clock frequency of a circuit with tco=5ns, tsu=3ns, routing=2ns:",opts:["50MHz","100MHz","200MHz","10MHz"],ans:1,exp:"Min clock period = tco + tsu + routing = 5+3+2=10ns. Max freq = 1/10ns = 100MHz."},
+      {q:"In 74LS74 (D FF IC), the asynchronous inputs are:",opts:["D and Q","Clock and Enable","Preset and Clear","J and K"],ans:2,exp:"74LS74 has asynchronous Preset (PRE) and Clear (CLR) — active LOW. These override synchronous operation immediately without waiting for clock edge."},
     ],
     expert: [
-      { q:"In C, parameters are passed by default as:", opts:["Reference","Value","Pointer","Address"], ans:1, exp:"C passes by VALUE — a copy is made. Changes inside function don't affect original. Pass pointer (&var) to simulate pass-by-reference." },
-      { q:"sizeof('A') in C (not C++) returns:", opts:["1","2","4","8"], ans:2, exp:"In C, character constants like 'A' are type int → sizeof=4. In C++, 'A' is char → sizeof=1. HCL may ask C vs C++ differences!" },
-      { q:"What is the output? int a[]={1,2,3}; int *p=a; printf(\"%d\",*(p+2));", opts:["1","2","3","Error"], ans:2, exp:"p=a points to a[0]=1. p+2 moves 2 ints ahead = &a[2]. *(p+2)=a[2]=3. Pointer arithmetic moves in units of pointed-to type size." },
-    ]
+      {q:"Metastability MTBF (Mean Time Between Failures) depends on:",opts:["Only clock frequency","Only data rate","Clock frequency, data rate, and synchronizer design","Only temperature"],ans:2,exp:"MTBF depends on: clock frequency (higher=worse), data rate (higher=worse), metastability resolution time (synchronizer design), and temperature."},
+    ],
+  },
+  counters: {
+    basic: [
+      {q:"How many flip-flops for MOD-16 counter?",opts:["2","3","4","5"],ans:2,exp:"MOD-16 needs 2⁴=16 states → 4 FFs. Formula: n=⌈log₂N⌉. log₂(16)=4 exactly."},
+      {q:"Main disadvantage of ripple counter vs synchronous counter:",opts:["More flip-flops","Cumulative propagation delay","Cannot count down","Higher cost"],ans:1,exp:"Ripple counter: each FF triggers next → delay adds up. 4-bit ripple: 4×tpd. At high frequencies, this cumulative delay causes counting errors."},
+      {q:"MOD-10 (decade) counter counts from:",opts:["0 to 10","1 to 10","0 to 9","0 to 15"],ans:2,exp:"MOD-10 = 10 states: 0,1,2,3,4,5,6,7,8,9 → resets to 0. Used in digital clocks and BCD counting."},
+      {q:"T flip-flop output is a clock divided by:",opts:["1","2","4","8"],ans:1,exp:"T FF with T=1 toggles every clock → output period = 2× clock period → frequency = clock/2."},
+      {q:"Synchronous counter differs from ripple counter in that:",opts:["Uses less FFs","All FFs share same clock","Counts faster and slower","Uses D flip-flops only"],ans:1,exp:"Synchronous: ALL FFs clocked simultaneously → no cumulative delay → works at full clock frequency → used in all modern digital systems."},
+      {q:"How many FFs for MOD-32 counter?",opts:["4","5","6","8"],ans:1,exp:"2⁵=32 → exactly 5 FFs needed for MOD-32. Formula: n=⌈log₂32⌉=5."},
+      {q:"Ring counter with 4 FFs has how many valid states?",opts:["4","8","16","2"],ans:0,exp:"Ring counter: single 1 circulates → exactly n states (one per FF). 4-FF ring: 1000,0100,0010,0001 = 4 states."},
+      {q:"Johnson counter with 4 FFs has how many valid states?",opts:["4","8","16","6"],ans:1,exp:"Johnson counter (twisted ring): 2n states. 4-FF Johnson = 8 states. Has more states than ring counter using same hardware."},
+      {q:"IC 7490 is a:",opts:["4-bit binary counter","Decade counter (MOD-10)","Shift register","Synchronous counter"],ans:1,exp:"IC 7490 is the classic decade counter (MOD-10). Also called a BCD counter. Used for counting 0-9 in digital displays."},
+      {q:"To build a counter that counts 0-59 (for seconds/minutes), you need:",opts:["One MOD-60 counter","One MOD-10 and one MOD-6 counter","Six decade counters","Two 4-bit binary counters"],ans:1,exp:"Cascaded BCD approach: units digit (MOD-10) + tens digit (MOD-6) = 0-59. Units FF output clocks tens counter."},
+    ],
+    intermediate: [
+      {q:"MOD-6 counter using 3 FFs — which state triggers reset?",opts:["0110 (6)","0111 (7)","1000 (8)","0101 (5)"],ans:0,exp:"Detect state 6 (0110): Q2=1 AND Q1=1. NAND(Q2,Q1) → CLR. Counter resets when 6 is reached. Note: 6 appears very briefly (glitch)."},
+      {q:"Lock-out in counters means:",opts:["Counter is too slow","Unused states that never reach normal sequence","Counter output is locked","Clock is locked"],ans:1,exp:"Lock-out: some unused states loop among themselves, never entering normal counting sequence. Solved by self-correcting design or synchronous reset on power-up."},
+    ],
+    expert: [
+      {q:"Carry lookahead adder uses Generate (G) and Propagate (P) signals where:",opts:["G=A+B, P=A⊕B","G=A·B, P=A⊕B","G=A⊕B, P=A·B","G=A'B', P=A⊕B"],ans:1,exp:"G=AB (carry Generated even if Cin=0), P=A⊕B (carry Propagated if Cin=1). Cᵢ₊₁=Gᵢ+PᵢCᵢ. All carries computed simultaneously."},
+    ],
+  },
+  number_systems: {
+    basic: [
+      {q:"Convert decimal 13 to binary:",opts:["1011","1101","1110","1001"],ans:1,exp:"13=8+4+1=2³+2²+2⁰=1101. Method: 13÷2=6R1, 6÷2=3R0, 3÷2=1R1, 1÷2=0R1. Read bottom-up: 1101."},
+      {q:"Binary 1010 in decimal:",opts:["8","10","12","14"],ans:1,exp:"1×2³+0×2²+1×2¹+0×2⁰=8+0+2+0=10."},
+      {q:"Hexadecimal 0xFF in decimal:",opts:["225","245","255","265"],ans:2,exp:"FF hex: F=15. 15×16+15=240+15=255. Also: 0xFF=11111111 binary (8 ones)."},
+      {q:"How many bits in a nibble?",opts:["2","4","8","16"],ans:1,exp:"Nibble=4 bits. Byte=8 bits. Word=16 bits (x86). One hex digit = one nibble."},
+      {q:"Binary 11111111 in hexadecimal:",opts:["0xEF","0xFF","0xFE","0xF0"],ans:1,exp:"Group 4 bits: 1111=F, 1111=F → 0xFF = 255 decimal."},
+      {q:"Octal number 17 in decimal:",opts:["14","15","16","17"],ans:1,exp:"1×8¹+7×8⁰=8+7=15."},
+      {q:"Convert hex 2D to decimal:",opts:["43","44","45","46"],ans:2,exp:"2×16+13=32+13=45. D=13 in hex."},
+      {q:"BCD representation of 39:",opts:["0011 0101","0011 1001","1001 0011","0100 1001"],ans:1,exp:"BCD: each digit separately. 3=0011, 9=1001. 39 BCD=0011 1001."},
+    ],
+    intermediate: [
+      {q:"2's complement of 0110 (4-bit):",opts:["1001","1010","1000","0111"],ans:1,exp:"0110→flip→1001→add 1→1010. Verify: 0110+1010=10000, ignore carry=0000 (i.e., 6+(-6)=0 ✓)."},
+      {q:"Range of 8-bit signed integer (2's complement):",opts:["-127 to +127","-128 to +127","-128 to +128","-255 to +255"],ans:1,exp:"-2⁷ to 2⁷-1 = -128 to +127. Note: -128 has no positive equivalent in 8-bit! abs(-128) bug in C."},
+      {q:"Gray code for decimal 5:",opts:["0101","0111","0100","0110"],ans:1,exp:"5=101 binary. Gray: MSB=1, 1⊕0=1, 0⊕1=1 → 111. Decimal 5 → Gray 111."},
+    ],
+    expert: [
+      {q:"Detect overflow in 4-bit signed addition 0110+0100:",opts:["No overflow","Overflow — two positives gave negative","Underflow","Carry error"],ans:1,exp:"0110(6)+0100(4)=1010(-6 in 2's complement). Two positives summed to negative → OVERFLOW. Hardware: overflow=Cin_MSB XOR Cout_MSB."},
+    ],
+  },
+  boolean_algebra: {
+    basic: [
+      {q:"Simplify: AB + AB'",opts:["A","B","AB","A+B"],ans:0,exp:"AB+AB'=A(B+B')=A·1=A. Factor A, use complement law B+B'=1."},
+      {q:"De Morgan's theorem: (AB)' equals:",opts:["A'B'","A'+B'","AB","(A+B)"],ans:1,exp:"(AB)'=A'+B'. De Morgan: complement of AND = OR of complements. Fundamental for implementing any gate from NAND/NOR."},
+      {q:"Boolean expression A·1 equals:",opts:["0","A","1","A'"],ans:1,exp:"Identity law: A·1=A. Multiplying by 1 doesn't change a Boolean variable."},
+      {q:"Simplify: A + A'B",opts:["A+B","AB","A'","B"],ans:0,exp:"A+A'B = A+B. Proof: A+A'B=(A+A')(A+B)=1·(A+B)=A+B. Or use consensus: A+A'B=A+B by absorption variant."},
+      {q:"Which law states A+AB=A?",opts:["Idempotent","Absorption","Distributive","De Morgan's"],ans:1,exp:"Absorption law: A+AB=A. Also A·(A+B)=A. Very useful for simplification — eliminate redundant terms."},
+    ],
+    intermediate: [
+      {q:"Simplify: (A+B)(A+B')",opts:["A","B","A+B","AB"],ans:0,exp:"(A+B)(A+B')=A+BB'=A+0=A. Distributive in reverse: factor A from both terms, BB'=0."},
+      {q:"Convert NAND-NAND to equivalent SOP expression for f=NAND(NAND(A,B),NAND(C,D)):",opts:["A'B'C'D'","AB+CD","(AB)'+(CD)'","ABCD"],ans:1,exp:"NAND(NAND(A,B),NAND(C,D))=((AB)'·(CD)')'=AB+CD by De Morgan. Two-level NAND = SOP!"},
+    ],
+    expert: [
+      {q:"Consensus theorem states AB+A'C+BC equals:",opts:["AB+A'C","AB+A'C+BC","A'C+BC","AB+BC"],ans:0,exp:"Consensus theorem: AB+A'C+BC=AB+A'C. The term BC is redundant (consensus term). It can always be dropped! Dual: (A+B)(A'+C)(B+C)=(A+B)(A'+C)."},
+    ],
+  },
+  kmap: {
+    basic: [
+      {q:"Group of 4 cells in K-map eliminates how many variables?",opts:["1","2","3","4"],ans:1,exp:"Group of 2^n cells eliminates n variables. Group of 4=2² → eliminates 2 variables → 2-variable term in expression."},
+      {q:"In K-map, cells must be grouped in:",opts:["Any number","Powers of 2 (1,2,4,8,16)","Multiples of 3","Prime numbers"],ans:1,exp:"Groups must be powers of 2: 1, 2, 4, 8, 16. This is what allows variable elimination. Non-power-of-2 groups don't simplify."},
+      {q:"Don't care conditions in K-map should be:",opts:["Always treated as 0","Always treated as 1","Used as 1 when they help make larger groups","Ignored completely"],ans:2,exp:"Don't cares (X): treat as 1 when it helps enlarge a group → simpler expression. But never cover groups containing ONLY don't cares."},
+      {q:"K-map uses Gray code ordering because:",opts:["It's faster","Adjacent cells differ in exactly ONE variable","It's easier to draw","Alphabetical order"],ans:1,exp:"Gray code: only one bit changes between adjacent cells. This ensures adjacent cells in K-map differ in exactly one variable, enabling proper grouping."},
+    ],
+    intermediate: [
+      {q:"f(A,B,C,D)=Σm(0,1,2,3) simplifies to:",opts:["A'B'","A'","AB'","B'"],ans:1,exp:"Minterms 0-3 all have A=0 (A'). Group of 4 along A=0 row → f=A'. Verify: 0000,0001,0010,0011 all start with 0 (A=0)."},
+      {q:"Essential prime implicant is one that:",opts:["Is the largest group","Covers a minterm not covered by any other PI","Has minimum variables","Contains don't cares"],ans:1,exp:"Essential PI: covers at least one minterm that NO other prime implicant covers. Must be included in final expression regardless of other choices."},
+    ],
+    expert: [
+      {q:"Quine-McCluskey method is preferred over K-map when:",opts:["Using 4 variables","Using more than 6 variables","Using don't cares","Implementing NAND logic"],ans:1,exp:"K-map becomes impractical for >6 variables (too many cells to visualize). Q-M tabular method works for any number of variables and is computer-friendly."},
+    ],
+  },
+  adders: {
+    basic: [
+      {q:"Half adder cannot cascade for multi-bit addition because:",opts:["It's too slow","It has no carry-in input","It uses too many gates","It only handles signed numbers"],ans:1,exp:"Half adder has no Carry-in input → can't account for carry from previous bit position. Full adder adds this Cin input enabling cascading."},
+      {q:"Full adder Sum output equation:",opts:["A+B+Cin","A·B·Cin","A⊕B⊕Cin","AB+BCin+ACin"],ans:2,exp:"Sum=A⊕B⊕Cin (XOR of all three inputs). Cout=AB+BCin+ACin. Two XOR gates for sum, additional gates for carry."},
+      {q:"Ripple carry adder has delay proportional to:",opts:["log(n)","n (linear)","n²","constant"],ans:1,exp:"Ripple carry: delay=n×tFA where n=bit width. 32-bit=32×tFA. Compare: CLA has O(log n) delay — much faster for wide adders."},
+    ],
+    intermediate: [
+      {q:"In 4-bit adder-subtractor, the control line M=1 causes:",opts:["Addition","Subtraction using 2's complement","Multiplication","Signed addition"],ans:1,exp:"M=1: XOR each B bit with 1 (inverts B), add M=1 as Cin → A+B̄+1 = A+(2's complement of B) = A-B. Elegant single-circuit design."},
+    ],
+    expert: [
+      {q:"BCD adder adds 6 (0110) to the result when:",opts:["Sum < 9","Sum > 9 OR carry generated","Always","Sum = 9"],ans:1,exp:"BCD correction: add 0110 when binary sum >1001 (9) OR when carry out=1. Adding 6 skips the 6 invalid BCD states (1010-1111)."},
+    ],
+  },
+  mux_demux: {
+    basic: [
+      {q:"4-to-1 MUX has how many select lines?",opts:["1","2","3","4"],ans:1,exp:"2^n inputs → n select lines. 4-to-1 MUX: 4=2² → 2 select lines. 8-to-1 needs 3, 16-to-1 needs 4."},
+      {q:"MUX can implement any Boolean function because:",opts:["It's fast","It can select any input (including constants 0,1,variables)","It's cheap","It uses NAND gates"],ans:1,exp:"MUX: connect variables, their complements, 0, or 1 to data inputs. Select lines choose which input appears at output. Acts as truth table lookup."},
+      {q:"DEMUX routes one input to:",opts:["Multiple outputs simultaneously","Selected one output based on address","All outputs","No output"],ans:1,exp:"DEMUX: one input → one of 2^n outputs selected by n address lines. Like postal routing — one package, one destination."},
+    ],
+    intermediate: [
+      {q:"Implement f(A,B)=AB+A'B' using 4-to-1 MUX with A,B as select:",opts:["I0=1,I1=0,I2=0,I3=1","I0=0,I1=1,I2=1,I3=0","I0=1,I1=1,I2=0,I3=0","I0=0,I1=0,I2=1,I3=1"],ans:0,exp:"Truth table: AB=00→f=1, AB=01→f=0, AB=10→f=0, AB=11→f=1. So I0=1,I1=0,I2=0,I3=1 (XNOR function)."},
+    ],
+    expert: [
+      {q:"FPGA LUT (Look-Up Table) is essentially a:",opts:["Register","Large MUX","Decoder","Shift register"],ans:1,exp:"LUT = 2^n × 1 memory (ROM) addressed by n inputs. 4-input LUT = 16×1 ROM = 16-to-1 MUX. Can implement ANY 4-input Boolean function. Core of FPGA fabric."},
+    ],
+  },
+  state_machines: {
+    basic: [
+      {q:"Moore machine output depends on:",opts:["Current inputs only","Current state only","Current state AND inputs","Previous state only"],ans:1,exp:"Moore: output depends ONLY on current state. Output changes only at clock edge → predictable, glitch-free. Output labeled inside state circles."},
+      {q:"Mealy machine has fewer states than Moore because:",opts:["It's older","Output encoded in transitions, not states","It uses less hardware","It's faster"],ans:1,exp:"Mealy: output on transitions (condition/output). Same behavior needs fewer states since output is associated with transition, not state itself."},
+      {q:"Sequence detector FSM detects '1011'. How many states minimum?",opts:["3","4","5","6"],ans:2,exp:"States: S0(start), S1(got 1), S2(got 10), S3(got 101), S4(detected 1011, output=1). 5 states minimum for this Moore machine."},
+    ],
+    intermediate: [
+      {q:"One-hot encoding for 4 states requires how many FFs?",opts:["2","4","3","8"],ans:1,exp:"One-hot: one FF per state (only one is 1 at a time). 4 states → 4 FFs. Compare: binary encoding needs 2 FFs. One-hot uses more FFs but simpler next-state logic — preferred in FPGAs."},
+    ],
+    expert: [
+      {q:"Two states are equivalent in state minimization when:",opts:["Same output for all inputs","Same output AND same next state for all inputs","Same number of transitions","Both are initial states"],ans:1,exp:"State equivalence: same output for all inputs AND same next state for all inputs → identical behavior → merge into one state. Reduces hardware."},
+    ],
   },
   aptitude: {
     basic: [
-      { q:"A train 125m long passes a pole in 5 seconds. Speed in km/h?", opts:["72","90","108","54"], ans:1, exp:"Speed=125/5=25 m/s. Convert: 25×(18/5)=90 km/h. Formula: m/s × 18/5 = km/h. Always used in HCL aptitude!" },
-      { q:"If 20% of a number is 80, find 35% of the same number.", opts:["120","140","160","180"], ans:1, exp:"20%=80 → number=400. 35% of 400 = 140. Quick method: 35% = 20%×1.75 = 80×1.75 = 140." },
-      { q:"What is 15% of 240?", opts:["32","34","36","38"], ans:2, exp:"15% of 240 = (15/100)×240 = 36. Quick: 10%=24, 5%=12, 15%=24+12=36." },
-      { q:"Simple interest on ₹2000 at 5% per annum for 3 years:", opts:["₹250","₹300","₹350","₹400"], ans:1, exp:"SI = P×R×T/100 = 2000×5×3/100 = 300. Formula must be memorized! Compound interest = P(1+r/100)^t." },
-      { q:"A can do a work in 10 days, B in 15 days. Together they complete in:", opts:["5 days","6 days","7 days","8 days"], ans:1, exp:"A's rate=1/10, B's rate=1/15. Together: 1/10+1/15=3/30+2/30=5/30=1/6. Time=6 days." },
-      { q:"If price increases by 25%, by what % should consumption decrease to keep expenditure same?", opts:["20%","25%","15%","10%"], ans:0, exp:"Formula: reduction% = (increase%/(100+increase%))×100 = (25/125)×100 = 20%." },
-      { q:"Average of 5 numbers is 20. If one number 30 is removed, new average is:", opts:["17.5","18","16.5","17"], ans:0, exp:"Sum = 5×20=100. Remove 30: new sum=70. New average=70/4=17.5." },
-      { q:"Two pipes fill a tank in 12 and 15 hours. Both open, time to fill:", opts:["6 hours","6.67 hours","7 hours","8 hours"], ans:1, exp:"1/12+1/15=5/60+4/60=9/60=3/20. Time=20/3=6.67 hours." },
-      { q:"Speed of boat in still water 15 km/h, stream 3 km/h. Upstream speed:", opts:["18","12","9","6"], ans:1, exp:"Upstream = Still water − Stream = 15−3=12 km/h. Downstream = Still water + Stream = 15+3=18 km/h." },
-      { q:"In how many ways can letters of 'CAT' be arranged?", opts:["3","6","9","12"], ans:1, exp:"3 distinct letters: 3!=3×2×1=6 arrangements. CAT,CTA,ACT,ATC,TCA,TAC. Formula: n! for n distinct items." },
+      {q:"A train 125m long passes a pole in 5 seconds. Speed in km/h?",opts:["72","90","108","54"],ans:1,exp:"Speed=125/5=25 m/s. ×18/5=90 km/h."},
+      {q:"If 20% of a number is 80, find 35% of same number.",opts:["120","140","160","180"],ans:1,exp:"20%=80→number=400. 35% of 400=140."},
+      {q:"A can do work in 10 days, B in 15 days. Together:",opts:["5 days","6 days","7 days","8 days"],ans:1,exp:"1/10+1/15=5/30=1/6. Time=6 days."},
+      {q:"Simple interest on ₹2000 at 5% for 3 years:",opts:["₹250","₹300","₹350","₹400"],ans:1,exp:"SI=P×R×T/100=2000×5×3/100=300."},
+      {q:"Average of 5 numbers is 20. Remove 30. New average?",opts:["17.5","18","16.5","17"],ans:0,exp:"Sum=100. Remove 30: 70. New avg=70/4=17.5."},
     ],
     intermediate: [
-      { q:"A sum triples in 5 years at SI. Rate of interest per annum:", opts:["30%","40%","50%","60%"], ans:1, exp:"Sum triples means SI = 2P (P becomes 3P). SI=P×R×T/100 → 2P=P×R×5/100 → R=40%." },
-      { q:"Ratio of ages of A:B = 3:4. After 5 years ratio = 4:5. A's present age:", opts:["10","15","20","25"], ans:1, exp:"3x+5/4x+5=4/5 → 15x+25=16x+20 → x=5. A's age=3×5=15." },
-      { q:"X is 40% more than Y. Y is what % less than X?", opts:["28.57%","30%","25%","33.33%"], ans:0, exp:"If Y=100, X=140. Y is less than X by 40. %less = 40/140×100 = 28.57%. Formula: more%/(100+more%)×100." },
+      {q:"A sum triples in 5 years at SI. Rate?",opts:["30%","40%","50%","60%"],ans:1,exp:"Sum triples→SI=2P. 2P=P×R×5/100→R=40%."},
+      {q:"X is 40% more than Y. Y is what % less than X?",opts:["28.57%","30%","25%","33.33%"],ans:0,exp:"Y=100,X=140. %less=40/140×100=28.57%."},
     ],
     expert: [
-      { q:"Probability of getting 2 heads in 3 fair coin tosses:", opts:["1/4","3/8","1/2","5/8"], ans:1, exp:"P(exactly 2 heads) = C(3,2)×(1/2)²×(1/2)¹ = 3×1/4×1/2 = 3/8. Binomial probability formula." },
-      { q:"In how many ways can 5 people sit in a row where 2 specific people always sit together?", opts:["24","48","72","96"], ans:1, exp:"Treat 2 as 1 unit: 4 entities in a row = 4!=24. The 2 can swap within pair: ×2=48." },
-    ]
+      {q:"Probability of 2 heads in 3 tosses:",opts:["1/4","3/8","1/2","5/8"],ans:1,exp:"C(3,2)×(1/2)²×(1/2)=3/8."},
+    ],
   },
-  networking: {
+  c_programming: {
     basic: [
-      { q:"OSI model has how many layers?", opts:["4","5","6","7"], ans:3, exp:"OSI has 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application. Mnemonic: Please Do Not Throw Sausage Pizza Away." },
-      { q:"Which layer of OSI is responsible for routing?", opts:["Physical","Data Link","Network","Transport"], ans:2, exp:"Network layer (Layer 3) handles routing, logical addressing (IP). Routers work at this layer. TCP/IP equivalent: Internet layer." },
-      { q:"What does TCP stand for?", opts:["Transfer Control Protocol","Transmission Control Protocol","Transport Connection Protocol","Transfer Connection Protocol"], ans:1, exp:"TCP = Transmission Control Protocol. Provides reliable, ordered, error-checked delivery. Connection-oriented. Contrast with UDP which is connectionless." },
-      { q:"Which protocol uses port 80?", opts:["FTP","HTTPS","HTTP","SMTP"], ans:2, exp:"HTTP uses port 80, HTTPS uses port 443, FTP uses 21, SMTP uses 25, SSH uses 22. Port numbers frequently asked in HCL!" },
-      { q:"Difference between TCP and UDP:", opts:["No difference","TCP is reliable, UDP is faster but unreliable","UDP is reliable, TCP is fast","TCP is for video, UDP for web"], ans:1, exp:"TCP: reliable, ordered, connection-oriented, slower. UDP: unreliable, no ordering, connectionless, faster. Use TCP for web/email, UDP for video streaming/gaming." },
+      {q:"sizeof(int) on 32-bit system:",opts:["1","2","4","8"],ans:2,exp:"int=4 bytes=32 bits on 32-bit system. Range: -2,147,483,648 to +2,147,483,647."},
+      {q:"What does static variable inside function do?",opts:["Makes global","Retains value between calls","Makes constant","Deletes on return"],ans:1,exp:"Static local: initialized once, retains value between calls, stored in data segment not stack."},
+      {q:"Output of printf(\"%d\", 5/2):",opts:["2.5","2","3","Error"],ans:1,exp:"Integer division: 5/2=2 (truncated). Use 5.0/2 for 2.5."},
+      {q:"Dangling pointer is:",opts:["Uninitialized pointer","Pointer to freed memory","NULL pointer","void pointer"],ans:1,exp:"Dangling: points to freed memory. int *p=malloc(4); free(p); p is now dangling. Fix: p=NULL after free()."},
+      {q:"malloc() returns on failure:",opts:["0","-1","NULL","Garbage"],ans:2,exp:"malloc() returns NULL on failure. Always check: if(p==NULL){ handle error }. Using NULL pointer → segfault."},
     ],
     intermediate: [
-      { q:"IP address 192.168.1.1 belongs to which class?", opts:["Class A","Class B","Class C","Class D"], ans:2, exp:"Class C: 192.0.0.0 to 223.255.255.255. First octet 192 → Class C. Supports 254 hosts per network. Common in home routers." },
-      { q:"What is a MAC address?", opts:["Software assigned address","IP address of device","Hardware address burned into NIC","Logical network address"], ans:2, exp:"MAC = Media Access Control. 48-bit hardware address burned into NIC at manufacture. Format: XX:XX:XX:XX:XX:XX. Works at Data Link layer (Layer 2)." },
-    ]
-  }
+      {q:"Function pointer declaration int (*fp)(int,int) means:",opts:["Integer pointer with 2 int args","Pointer to function returning int, taking 2 ints","Function returning int pointer","Invalid declaration"],ans:1,exp:"int (*fp)(int,int): fp is pointer to function that takes two ints and returns int. Parentheses around *fp are ESSENTIAL."},
+      {q:"char *p=\"Hello\"; p[0]='h'; result:",opts:["Changes H to h","Segmentation fault","Compilation error","Works fine"],ans:1,exp:"String literals in read-only memory. Modification via pointer → segfault. Use char p[]=\"Hello\" for modifiable string."},
+    ],
+    expert: [
+      {q:"sizeof('A') in C (not C++) returns:",opts:["1","2","4","8"],ans:2,exp:"In C, character constants are type int → sizeof=4. In C++, 'A' is char → sizeof=1. This C vs C++ difference is often asked!"},
+    ],
+  },
 };
 
-const TIPS = {
-  digital_electronics: "Logic Gates, Flip-Flops and Counters are the TOP 3 topics HCL asks from Digital Electronics. Know truth tables by heart!",
-  c_programming: "HCL technical round asks: pointers, function pointers, static variables, malloc/free. Know difference between C and C++.",
-  aptitude: "HCL aptitude: Time & Work, Time-Speed-Distance, Percentages are most repeated. Practice 20 questions daily.",
-  networking: "Know OSI 7 layers, TCP vs UDP difference, and common port numbers. HCL asks these in technical round."
-};
-
-// ── STATE ────────────────────────────────────────────────────────
-let currentTopic = 'digital_electronics';
-let currentLevel = 'basic';
-let currentIndex = 0;
+// ── STATE ─────────────────────────────────────────────────────────
+let currentTopic      = 'logic_gates';
+let currentTopicName  = 'Logic Gates';
+let currentLevel      = 'basic';
+let currentIndex      = 0;
 let shuffledQuestions = [];
-let selectedAnswer = null;
-let answered = false;
-let correct = 0;
-let wrong = 0;
-let xpToday = parseInt(localStorage.getItem('cc_xp_today')||'0');
-let results = [];
-const TOTAL = 10;
+let selectedAnswer    = null;
+let answered          = false;
+let correct           = 0;
+let wrong             = 0;
+let hearts            = 5;
+let results           = [];
+let isAIGenerated     = false;
+let xpToday           = parseInt(localStorage.getItem('cc_xp_today') || '0');
+const TOTAL           = 10;
 
-function shuffle(arr){ return arr.sort(()=>Math.random()-.5) }
+// Check done topics
+const doneConcepts = JSON.parse(localStorage.getItem('cc_done_concepts') || '[]');
 
-function loadQuestions(){
-  const bank = QUESTIONS[currentTopic]?.[currentLevel] || [];
-  shuffledQuestions = shuffle([...bank]).slice(0, TOTAL);
+// ── INIT ──────────────────────────────────────────────────────────
+function init() {
+  document.getElementById('xp-pill').textContent = `⚡ ${xpToday} XP today`;
+
+  // Mark done topics on chips
+  document.querySelectorAll('.topic-chip').forEach(chip => {
+    const topicId = chip.getAttribute('onclick').match(/'([^']+)'/)?.[1];
+    if (topicId && doneConcepts.includes(topicId)) {
+      chip.classList.add('done-chip');
+      chip.title = '✅ Completed in Learn — AI questions available!';
+    }
+  });
+
+  // Show done topics banner
+  const doneDETopics = doneConcepts.filter(t =>
+    ['logic_gates','flipflops','counters','boolean_algebra','kmap',
+     'adders','mux_demux','encoders_decoders','latches','registers',
+     'state_machines','number_systems','complements','codes'].includes(t)
+  );
+  if (doneDETopics.length > 0) {
+    document.getElementById('done-banner').style.display = 'flex';
+    document.getElementById('done-topics-list').textContent =
+      doneDETopics.slice(0, 3).join(', ') + (doneDETopics.length > 3 ? ` +${doneDETopics.length - 3} more` : '');
+  }
+
+  loadQuestions();
+}
+
+// ── SHUFFLE ───────────────────────────────────────────────────────
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+// ── HEARTS ────────────────────────────────────────────────────────
+function renderHearts() {
+  document.getElementById('q-hearts').textContent =
+    '❤️'.repeat(hearts) + '🖤'.repeat(5 - hearts);
+}
+
+// ── STATS ─────────────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent   = wrong;
+  document.getElementById('stat-xp').textContent      = correct * 10;
+  const total = correct + wrong;
+  document.getElementById('stat-acc').textContent =
+    total > 0 ? Math.round(correct / total * 100) + '%' : '—';
+  document.getElementById('stat-source').textContent =
+    isAIGenerated ? '🤖 AI Generated' : '📚 Curated';
+  xpToday = parseInt(localStorage.getItem('cc_xp_today') || '0');
+  document.getElementById('xp-pill').textContent = `⚡ ${xpToday} XP today`;
+}
+
+// ── LOAD STATIC QUESTIONS ─────────────────────────────────────────
+function loadQuestions() {
+  hearts       = 5;
+  correct      = 0;
+  wrong        = 0;
   currentIndex = 0;
-  correct = 0;
-  wrong = 0;
-  results = [];
+  results      = [];
   selectedAnswer = null;
-  answered = false;
+  answered     = false;
+  isAIGenerated = false;
 
-  document.getElementById('quiz-area').style.display = '';
+  const bank = STATIC_QUESTIONS[currentTopic]?.[currentLevel] || [];
+  shuffledQuestions = shuffle(bank).slice(0, TOTAL);
+
+  if (shuffledQuestions.length === 0) {
+    shuffledQuestions = [{
+      q: `No ${currentLevel} questions available for ${currentTopicName} yet. Try another level or use AI Generate!`,
+      opts: ['Use AI Generate button above', 'Switch to Basic level', 'Try another topic', 'Visit Learn section'],
+      ans: 0,
+      exp: 'Click the "🤖 Generate AI Questions" button to get fresh questions from the RAG system!'
+    }];
+  }
+
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('quiz-area').style.display      = '';
   document.getElementById('result-screen').classList.remove('show');
-  document.getElementById('sidebar-tip').textContent = TIPS[currentTopic] || '';
+  document.getElementById('sidebar-tip').textContent =
+    doneConcepts.includes(currentTopic)
+      ? `✅ You've studied ${currentTopicName}! Click "🤖 Generate AI Questions" for fresh AI-generated questions every session.`
+      : `Study ${currentTopicName} in the Learn section first, then AI can generate personalized questions for you!`;
+
+  renderHearts();
+  updateStats();
   renderQuestion();
   renderTracker();
 }
 
-function renderQuestion(){
-  if(currentIndex >= shuffledQuestions.length){
-    showResult(); return;
+// ── GENERATE AI QUESTIONS ─────────────────────────────────────────
+async function generateAIQuestions() {
+  const btn = document.getElementById('ai-gen-btn');
+  btn.classList.add('loading');
+  btn.textContent = '⏳ Generating...';
+
+  document.getElementById('quiz-area').style.display     = 'none';
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('loading-screen').style.display = 'block';
+
+  const loadingMsgs = [
+    'Searching knowledge base for ' + currentTopicName + '...',
+    'Generating analytical questions...',
+    'Creating scenario-based MCQs...',
+    'Adding interview-style questions...',
+    'Almost ready...'
+  ];
+  let msgIdx = 0;
+  const msgInterval = setInterval(() => {
+    msgIdx = (msgIdx + 1) % loadingMsgs.length;
+    document.getElementById('loading-msg').textContent = loadingMsgs[msgIdx];
+  }, 1500);
+
+  try {
+    const res  = await fetch('/api/generate-mcqs', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        topic: currentTopicName + ' in Digital Electronics',
+        level: currentLevel,
+        count: 10
+      })
+    });
+    const data = await res.json();
+    clearInterval(msgInterval);
+
+    if (data.questions && data.questions.length >= 3) {
+      // Normalize AI question format
+      shuffledQuestions = data.questions.slice(0, 10).map(q => ({
+        q:   q.q,
+        opts: q.opts,
+        ans: q.ans,
+        exp: q.exp || 'Good question! Review this concept in the Learn section.'
+      }));
+
+      hearts        = 5;
+      correct       = 0;
+      wrong         = 0;
+      currentIndex  = 0;
+      results       = [];
+      selectedAnswer = null;
+      answered      = false;
+      isAIGenerated = true;
+
+      document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('quiz-area').style.display      = '';
+      document.getElementById('sidebar-tip').textContent      =
+        '🤖 These questions were generated by AI from your knowledge base. Fresh every session!';
+
+      renderHearts();
+      updateStats();
+      renderQuestion();
+      renderTracker();
+    } else {
+      throw new Error('Not enough questions generated');
+    }
+  } catch (err) {
+    clearInterval(msgInterval);
+    // Fall back to static questions
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('quiz-area').style.display      = '';
+    document.getElementById('sidebar-tip').textContent      =
+      'AI generation failed — using curated questions. Check your Groq API key and RAG setup.';
+    loadQuestions();
+    alert('AI generation failed. Using curated questions instead.\n\nMake sure:\n1. Groq API key is set in .env\n2. python rag.py was run\n3. Flask server is running');
   }
+
+  btn.classList.remove('loading');
+  btn.textContent = '🤖 Generate AI Questions';
+}
+
+// ── RENDER QUESTION ───────────────────────────────────────────────
+function renderQuestion() {
+  if (currentIndex >= shuffledQuestions.length) { showResult(); return; }
+
   const q = shuffledQuestions[currentIndex];
-  const subjectNames = {digital_electronics:'Digital Electronics',c_programming:'C Programming',aptitude:'Aptitude',networking:'Networking'};
-  const levelNames = {basic:'Basics',intermediate:'Intermediate',expert:'Expert'};
 
-  document.getElementById('q-subject-tag').textContent = subjectNames[currentTopic];
-  document.getElementById('q-level-tag').textContent = levelNames[currentLevel];
-  document.getElementById('q-text').textContent = q.q;
-  document.getElementById('q-label').textContent = `Question ${currentIndex+1} of ${Math.min(TOTAL,shuffledQuestions.length)}`;
-  document.getElementById('q-progress').style.width = `${(currentIndex/Math.min(TOTAL,shuffledQuestions.length))*100}%`;
+  // Source badge
+  const badge = document.getElementById('q-source-badge');
+  if (isAIGenerated) {
+    badge.className   = 'q-source-badge q-source-ai';
+    badge.textContent = '🤖 AI Generated';
+  } else {
+    badge.className   = 'q-source-badge q-source-static';
+    badge.textContent = '📚 Curated';
+  }
 
-  // Reset state
+  document.getElementById('q-subject-tag').textContent = currentTopicName;
+  document.getElementById('q-level-tag').textContent   =
+    {basic:'Basic',intermediate:'Intermediate',expert:'Expert'}[currentLevel];
+  document.getElementById('q-text').textContent        = q.q;
+  document.getElementById('q-label').textContent       =
+    `Question ${currentIndex + 1} of ${Math.min(TOTAL, shuffledQuestions.length)}`;
+  document.getElementById('q-progress').style.width   =
+    `${(currentIndex / Math.min(TOTAL, shuffledQuestions.length)) * 100}%`;
+
   selectedAnswer = null;
-  answered = false;
-  document.getElementById('exp-box').className = 'explanation-box';
-  document.getElementById('check-btn').disabled = true;
+  answered       = false;
+  document.getElementById('exp-box').className       = 'explanation-box';
+  document.getElementById('check-btn').disabled      = true;
   document.getElementById('check-btn').style.opacity = '.5';
-  document.getElementById('check-btn').textContent = 'Check answer';
-  document.getElementById('skip-btn').style.display = '';
+  document.getElementById('check-btn').textContent   = 'Check answer';
+  document.getElementById('check-btn').onclick       = checkAnswer;
+  document.getElementById('skip-btn').style.display  = '';
 
-  // Render options
-  const grid = document.getElementById('options-grid');
+  const grid    = document.getElementById('options-grid');
+  const letters = ['A','B','C','D'];
   grid.innerHTML = '';
-  q.opts.forEach((opt, i) => {
-    const letters = ['A','B','C','D'];
+  (q.opts || []).forEach((opt, i) => {
     grid.innerHTML += `
       <button class="option-btn" onclick="selectOption(${i})" id="opt-${i}">
-        <span class="opt-letter">${letters[i]}</span>
-        ${opt}
+        <span class="opt-letter">${letters[i]}</span>${opt}
       </button>`;
   });
 }
 
-function selectOption(i){
-  if(answered) return;
-  document.querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+// ── SELECT OPTION ─────────────────────────────────────────────────
+function selectOption(i) {
+  if (answered) return;
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById(`opt-${i}`).classList.add('selected');
   selectedAnswer = i;
-  document.getElementById('check-btn').disabled = false;
+  document.getElementById('check-btn').disabled      = false;
   document.getElementById('check-btn').style.opacity = '1';
 }
 
-function checkAnswer(){
-  if(selectedAnswer===null||answered) return;
+// ── CHECK ANSWER ──────────────────────────────────────────────────
+function checkAnswer() {
+  if (selectedAnswer === null || answered) return;
   answered = true;
-  const q = shuffledQuestions[currentIndex];
+
+  const q         = shuffledQuestions[currentIndex];
   const isCorrect = selectedAnswer === q.ans;
 
-  // Style options
-  document.querySelectorAll('.option-btn').forEach((b,i)=>{
+  document.querySelectorAll('.option-btn').forEach((b, i) => {
     b.disabled = true;
-    if(i===q.ans) b.classList.add('correct');
-    else if(i===selectedAnswer && !isCorrect) b.classList.add('wrong');
+    if (i === q.ans)                        b.classList.add('correct');
+    else if (i === selectedAnswer && !isCorrect) b.classList.add('wrong');
   });
 
-  // Show explanation
   const expBox = document.getElementById('exp-box');
-  expBox.className = `explanation-box show ${isCorrect?'correct-box':'wrong-box'}`;
-  document.getElementById('exp-title').className = `exp-title ${isCorrect?'correct-text':'wrong-text'}`;
+  expBox.className = `explanation-box show ${isCorrect ? 'correct-box' : 'wrong-box'}`;
+  document.getElementById('exp-title').className   = `exp-title ${isCorrect ? 'correct-text' : 'wrong-text'}`;
   document.getElementById('exp-title').textContent = isCorrect ? '✅ Correct!' : '❌ Wrong!';
-  document.getElementById('exp-body').textContent = q.exp;
+  document.getElementById('exp-body').textContent  = q.exp || '';
 
-  if(isCorrect){ correct++; xpToday+=10; }
-  else wrong++;
+  if (isCorrect) {
+    correct++;
+    const prevXP  = parseInt(localStorage.getItem('cc_xp_today')  || '0');
+    const totalXP = parseInt(localStorage.getItem('cc_xp_total')  || '0');
+    localStorage.setItem('cc_xp_today',  prevXP  + 10);
+    localStorage.setItem('cc_xp_total',  totalXP + 10);
+    // Streak
+    const today    = new Date().toISOString().split('T')[0];
+    const lastDate = localStorage.getItem('cc_last_study_date');
+    if (lastDate !== today) {
+      const streak = parseInt(localStorage.getItem('cc_streak') || '0');
+      localStorage.setItem('cc_streak', streak + 1);
+      localStorage.setItem('cc_last_study_date', today);
+    }
+    // Calendar
+    const studied = JSON.parse(localStorage.getItem('cc_studied_days') || '[]');
+    const today2  = new Date().toISOString().split('T')[0];
+    if (!studied.includes(today2)) { studied.push(today2); localStorage.setItem('cc_studied_days', JSON.stringify(studied)); }
+  } else {
+    wrong++;
+    hearts = Math.max(0, hearts - 1);
+    renderHearts();
+    const card = document.getElementById('question-card');
+    card.style.animation = 'none';
+    setTimeout(() => { card.style.animation = 'shake .3s ease'; }, 10);
+    if (hearts === 0) { setTimeout(showResult, 1500); return; }
+  }
 
   results[currentIndex] = isCorrect;
   updateStats();
   renderTracker();
 
-  // Change button
   document.getElementById('check-btn').textContent = 'Next question →';
-  document.getElementById('check-btn').disabled = false;
-  document.getElementById('check-btn').onclick = nextQuestion;
+  document.getElementById('check-btn').disabled    = false;
+  document.getElementById('check-btn').onclick     = nextQuestion;
   document.getElementById('skip-btn').style.display = 'none';
 }
 
-function nextQuestion(){
-  currentIndex++;
-  document.getElementById('check-btn').onclick = checkAnswer;
-  renderQuestion();
-  renderTracker();
-}
+// ── NEXT / SKIP ───────────────────────────────────────────────────
+function nextQuestion() { currentIndex++; renderQuestion(); renderTracker(); }
+function skipQuestion()  { results[currentIndex] = false; currentIndex++; renderQuestion(); renderTracker(); }
 
-function skipQuestion(){
-  results[currentIndex] = false;
-  currentIndex++;
-  renderQuestion();
-  renderTracker();
-}
-
-function updateStats(){
-  document.getElementById('stat-correct').textContent = correct;
-  document.getElementById('stat-wrong').textContent = wrong;
-  document.getElementById('stat-xp').textContent = correct*10;
-  const total = correct+wrong;
-  document.getElementById('stat-acc').textContent = total>0 ? Math.round(correct/total*100)+'%' : '—';
-  document.getElementById('xp-pill').textContent = `⚡ ${xpToday} XP today`;
-  localStorage.setItem('cc_xp_today', xpToday);
-}
-
-function renderTracker(){
+// ── TRACKER ───────────────────────────────────────────────────────
+function renderTracker() {
   const tracker = document.getElementById('q-tracker');
   tracker.innerHTML = '';
-  for(let i=0;i<Math.min(TOTAL,shuffledQuestions.length);i++){
-    let cls = i===currentIndex?'current':results[i]===true?'done-correct':results[i]===false&&i<currentIndex?'done-wrong':'';
+  for (let i = 0; i < Math.min(TOTAL, shuffledQuestions.length); i++) {
+    const cls = i === currentIndex   ? 'current'
+              : results[i] === true  ? 'done-correct'
+              : results[i] === false && i < currentIndex ? 'done-wrong' : '';
     tracker.innerHTML += `<div class="qt-dot ${cls}">${i+1}</div>`;
   }
 }
 
-function showResult(){
-  document.getElementById('quiz-area').style.display='none';
+// ── SHOW RESULT ───────────────────────────────────────────────────
+async function showResult() {
+  document.getElementById('quiz-area').style.display = 'none';
   document.getElementById('result-screen').classList.add('show');
-  const total = Math.min(TOTAL,shuffledQuestions.length);
-  const acc = total>0?Math.round(correct/total*100):0;
-  const xp = correct*10;
+
+  const total = Math.min(TOTAL, shuffledQuestions.length);
+  const acc   = total > 0 ? Math.round(correct / total * 100) : 0;
+  const xp    = correct * 10;
 
   document.getElementById('res-correct').textContent = correct;
-  document.getElementById('res-wrong').textContent = wrong;
-  document.getElementById('res-xp').textContent = xp;
-  document.getElementById('res-acc').textContent = acc+'%';
+  document.getElementById('res-wrong').textContent   = wrong;
+  document.getElementById('res-xp').textContent      = xp;
+  document.getElementById('res-acc').textContent     = acc + '%';
+  document.getElementById('result-emoji').textContent = acc >= 80 ? '🏆' : acc >= 60 ? '⭐' : '📚';
+  document.getElementById('result-h1').textContent    = acc >= 80 ? 'Excellent!' : acc >= 60 ? 'Good job!' : 'Keep practicing!';
+  document.getElementById('result-sub').textContent   =
+    isAIGenerated
+      ? `AI-generated session complete. ${xp} XP earned.`
+      : acc >= 80 ? `You're on track! ${xp} XP earned.`
+      : acc >= 60 ? `Good progress! Review wrong answers.`
+      : `Study the concepts again and retry!`;
 
-  const emoji = acc>=80?'🏆':acc>=60?'⭐':'📚';
-  const title = acc>=80?'Excellent!':acc>=60?'Good job!':'Keep practicing!';
-  const sub = acc>=80?`You're on track for HCL! ${xp} XP earned.`:acc>=60?`Good progress! Review the wrong answers.`:`Study the concepts again and retry!`;
+  // Ask AI for feedback if score < 80
+  if (acc < 80 && wrong > 0) {
+    try {
+      const res  = await fetch('/api/mentor', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          question: `Student scored ${acc}% on ${currentTopicName} at ${currentLevel} level. They got ${wrong} questions wrong. Give 2-3 specific tips to improve.`,
+          company: localStorage.getItem('cc_company') || 'HCL'
+        })
+      });
+      const data = await res.json();
+      if (data.answer) {
+        document.getElementById('ai-feedback-box').style.display = 'block';
+        document.getElementById('ai-feedback-text').textContent  = data.answer;
+      }
+    } catch (e) {}
+  }
 
-  document.getElementById('result-emoji').textContent = emoji;
-  document.getElementById('result-h1').textContent = title;
-  document.getElementById('result-sub').textContent = sub;
-
-  // Save progress to backend
+  // Save to backend
   const userId = localStorage.getItem('cc_user_id');
-  if(userId){
-    fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({user_id:parseInt(userId),topic_id:currentTopic+'_'+currentLevel,subject:currentTopic,status:'completed',score:acc,xp:xp})});
+  if (userId) {
+    fetch('/api/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id:  parseInt(userId),
+        topic_id: currentTopic + '_' + currentLevel + (isAIGenerated ? '_ai' : ''),
+        subject:  currentTopic,
+        status:  'completed',
+        score:   acc,
+        xp
+      })
+    }).catch(() => {});
   }
 }
 
-function restartQuiz(){ loadQuestions() }
-
-function switchTopic(el, topic){
-  document.querySelectorAll('.topic-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  currentTopic = topic;
+// ── RESTART ───────────────────────────────────────────────────────
+function restartQuiz() {
+  document.getElementById('ai-feedback-box').style.display = 'none';
   loadQuestions();
 }
 
-function switchLevel(el, level){
-  document.querySelectorAll('.level-tab').forEach(t=>t.classList.remove('active'));
+// ── SWITCH TOPIC / LEVEL ──────────────────────────────────────────
+function switchTopic(el, topic, topicName) {
+  document.querySelectorAll('.topic-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentTopic     = topic;
+  currentTopicName = topicName;
+  loadQuestions();
+}
+
+function switchLevel(el, level) {
+  document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   currentLevel = level;
   loadQuestions();
 }
 
-// Init
-loadQuestions();
+// ── START ─────────────────────────────────────────────────────────
+init();
 </script>
 </body>
 </html>

@@ -1,0 +1,856 @@
+C PROGRAMMING — COMPLETE GUIDE
+Based on: The C Programming Language by Kernighan & Ritchie (K&R)
+For: ECE Placement Interviews + Career Reference
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 1: FUNDAMENTALS
+═══════════════════════════════════════════════════════════════
+
+WHY THIS MATTERS IN REAL LIFE:
+C is the language embedded systems run on. Your Arduino code,
+your car's ECU firmware, Linux kernel, device drivers — all C.
+Understanding C deeply means understanding how computers actually
+work at the memory level. This is why every core ECE company
+(Bosch, Qualcomm, Texas Instruments) tests C fundamentals hard.
+
+--- HISTORY AND BASICS ---
+
+C was created by Dennis Ritchie in 1972 at Bell Labs.
+Designed to write the UNIX operating system.
+Structured, procedural, middle-level language (close to hardware
+but with high-level constructs).
+
+BASIC PROGRAM STRUCTURE:
+#include <stdio.h>      // preprocessor directive — header file
+int main() {             // entry point — OS calls this function
+    printf("Hello");     // function call
+    return 0;            // return status to OS (0 = success)
+}
+
+COMPILATION PROCESS (Very commonly asked):
+1. Preprocessing: Handles #include, #define, #ifdef. Output: .i file
+2. Compilation: Converts C code to assembly. Output: .s file
+3. Assembly: Converts assembly to machine code (object file). Output: .o file
+4. Linking: Combines object files + libraries into executable.
+gcc -E file.c    → preprocessing only
+gcc -S file.c    → compilation only (assembly)
+gcc -c file.c    → assembly only (object file)
+gcc file.c -o out → full compilation + linking
+
+--- DATA TYPES ---
+
+Basic types and sizes (on 32-bit / typical system):
+char:          1 byte  (-128 to 127, or 0 to 255 unsigned)
+int:           4 bytes (-2,147,483,648 to 2,147,483,647)
+short:         2 bytes (-32,768 to 32,767)
+long:          4 or 8 bytes (compiler/platform dependent)
+long long:     8 bytes
+float:         4 bytes (6-7 significant decimal digits)
+double:        8 bytes (15-16 significant decimal digits)
+long double:   10, 12, or 16 bytes (platform dependent)
+void:          no value — used for functions with no return,
+               or generic pointers
+
+sizeof() operator returns size in bytes. Always use sizeof()
+rather than assuming sizes — sizes are platform dependent!
+sizeof(int) is 2 on some old 16-bit systems, 4 on modern systems.
+
+SIGNED vs UNSIGNED:
+signed int: can be negative or positive (default for int)
+unsigned int: only positive, doubles the positive range
+unsigned char: 0 to 255 (used for byte manipulation, ASCII beyond 127)
+
+TYPE QUALIFIERS:
+const: value cannot be modified after initialization
+volatile: value may change unexpectedly (hardware registers,
+          interrupt-modified variables) — compiler must not optimize
+          away reads/writes. CRITICAL in embedded systems!
+          Example: volatile int flag; // set by ISR (interrupt)
+
+Real embedded example:
+volatile uint8_t *UART_STATUS = (uint8_t*)0x4000;
+Without volatile, compiler might cache the value and never
+re-read the actual hardware register — causing bugs that only
+appear in embedded/hardware code, not in simulators!
+
+--- OPERATORS ---
+
+ARITHMETIC: + - * / %
+% (modulo) only works with integers, gives remainder.
+10 % 3 = 1,  -7 % 3 = -1 (sign follows dividend in C)
+Integer division truncates: 5/2 = 2 (not 2.5)
+
+RELATIONAL: == != > < >= <=
+Returns 1 (true) or 0 (false) in C (no separate bool type in C89).
+
+LOGICAL: && || !
+Short-circuit evaluation: if(a() && b()) — if a() is false,
+b() is NEVER called. Important for avoiding null pointer crashes:
+if(p != NULL && p->value == 5)  // safe — short circuit prevents crash
+
+BITWISE: & | ^ ~ << >>
+& AND, | OR, ^ XOR, ~ NOT (complement), << left shift, >> right shift
+Left shift: a<<n = a × 2ⁿ (fast multiplication)
+Right shift: a>>n = a / 2ⁿ (fast division, careful with signed numbers!)
+Common use: SET_BIT(x,n) = x | (1<<n)
+            CLEAR_BIT(x,n) = x & ~(1<<n)
+            TOGGLE_BIT(x,n) = x ^ (1<<n)
+            CHECK_BIT(x,n) = (x >> n) & 1
+This bit manipulation is EXACTLY how embedded engineers control
+hardware registers (GPIO pins, control registers).
+
+ASSIGNMENT: = += -= *= /= %= &= |= ^= <<= >>=
+
+INCREMENT/DECREMENT: ++ --
+Pre-increment (++a): increments FIRST, then uses value.
+Post-increment (a++): uses value FIRST, then increments.
+int a=5; int b=a++;  // b=5, a=6
+int a=5; int b=++a;  // b=6, a=6
+
+TERNARY OPERATOR: condition ? value_if_true : value_if_false
+int max = (a>b) ? a : b;
+
+COMMA OPERATOR: evaluates left to right, returns rightmost value.
+for(i=0, j=10; i<5; i++, j--)  // common in for loops
+
+sizeof OPERATOR: returns size in bytes (compile-time, mostly).
+Not a function — it's an operator. sizeof(int), sizeof(a), sizeof(int*)
+
+OPERATOR PRECEDENCE (Common trap questions):
+* / % have higher precedence than + -
+Relational (< >) higher precedence than equality (== !=)
+&& has higher precedence than ||
+Assignment (=) has LOWEST precedence (except comma)
+ALWAYS use parentheses when unsure — avoid bugs and improve readability.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 2: CONTROL FLOW
+═══════════════════════════════════════════════════════════════
+
+--- CONDITIONAL STATEMENTS ---
+
+if-else: Standard branching.
+switch-case: Multiple branch selection based on integer/char value.
+switch(x) {
+  case 1: ...; break;
+  case 2: ...; break;
+  default: ...;
+}
+IMPORTANT: Without break, execution "falls through" to next case!
+This fall-through behavior is sometimes used intentionally:
+case 1:
+case 2:
+case 3: printf("1,2 or 3"); break;  // shared code for multiple cases
+
+--- LOOPS ---
+
+for loop: for(init; condition; increment) { }
+while loop: checks condition BEFORE executing body (may execute 0 times)
+do-while loop: checks condition AFTER executing body (executes AT LEAST once)
+
+do {
+  // always executes at least once
+} while(condition);
+
+Common use of do-while: menu-driven programs (show menu at least once).
+
+break: exits the loop/switch immediately
+continue: skips rest of current iteration, goes to next iteration
+
+INFINITE LOOPS (common in embedded systems):
+while(1) { }        // infinite loop — main loop of embedded firmware
+for(;;) { }          // equivalent infinite loop
+
+Embedded firmware ALWAYS has an infinite loop after setup:
+void main() {
+  init_peripherals();
+  while(1) {
+    read_sensor();
+    process_data();
+    update_output();
+  }
+}
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 3: FUNCTIONS
+═══════════════════════════════════════════════════════════════
+
+WHY FUNCTIONS MATTER:
+Modularity, reusability, easier debugging. In embedded systems,
+functions map directly to reusable driver code (init_uart(),
+read_adc(), set_pwm()).
+
+FUNCTION DECLARATION vs DEFINITION:
+Declaration (prototype): int add(int, int);   // tells compiler signature
+Definition: int add(int a, int b) { return a+b; }  // actual code
+
+PASS BY VALUE (Default in C):
+void modify(int x) { x = 100; }
+int a = 5;
+modify(a);  // a is STILL 5 — function got a COPY
+
+Real explanation: C copies the argument onto the function's stack
+frame. Changes inside the function don't affect the original variable.
+This is why to actually modify a variable, you need to pass its ADDRESS.
+
+PASS BY REFERENCE (Simulated using pointers):
+void modify(int *x) { *x = 100; }
+int a = 5;
+modify(&a);  // a is now 100 — function got the ADDRESS
+
+This is C's way of achieving "pass by reference" — C doesn't have
+true reference parameters like C++, but pointers achieve the same effect.
+
+RECURSION:
+Function calling itself. Needs a BASE CASE to stop.
+int factorial(int n) {
+  if(n <= 1) return 1;       // base case
+  return n * factorial(n-1);  // recursive case
+}
+Each recursive call uses stack memory (stack frame).
+Too much recursion → stack overflow. Deep recursion is dangerous
+in embedded systems with limited stack (few KB typically)!
+
+STATIC VARIABLES INSIDE FUNCTIONS:
+void counter() {
+  static int count = 0;  // initialized ONCE, retains value between calls
+  count++;
+  printf("%d", count);
+}
+Call counter() three times: prints 1, 2, 3 (not 1,1,1)
+Regular local variables are destroyed when function returns.
+Static local variables persist — stored in data segment, not stack.
+
+STORAGE CLASSES:
+auto: default for local variables (rarely written explicitly)
+static: retains value between calls (function scope) OR limits
+        visibility to file (global scope) — "internal linkage"
+extern: declares a variable defined in another file — "external linkage"
+register: hints compiler to store in CPU register (mostly ignored
+          by modern compilers which optimize automatically)
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 4: POINTERS — THE HEART OF C
+═══════════════════════════════════════════════════════════════
+
+WHY POINTERS MATTER SO MUCH:
+Pointers are THE defining feature of C. Arrays, strings, dynamic
+memory, function callbacks, data structures — ALL depend on pointers.
+This is why 80% of C interview questions are about pointers.
+In embedded systems: pointers directly access hardware memory addresses.
+
+--- BASICS ---
+
+A pointer is a variable that stores a MEMORY ADDRESS.
+int a = 10;
+int *p = &a;      // p stores the address of a
+printf("%d", *p); // *p dereferences — prints value at that address: 10
+printf("%p", p);  // prints the address itself, like 0x7ffee3a2c
+
+& operator: "address of" — gets memory address of a variable
+* operator: has TWO meanings depending on context:
+  1. In declaration: int *p; — declares p as pointer to int
+  2. In usage: *p — dereferences pointer, gets value at that address
+
+POINTER SIZE: Always the same regardless of what it points to!
+On 32-bit systems: pointer = 4 bytes
+On 64-bit systems: pointer = 8 bytes
+sizeof(int*) = sizeof(char*) = sizeof(double*) — all same on given system
+(This surprises many students — the pointed-to type doesn't affect
+pointer size, only affects pointer ARITHMETIC.)
+
+--- POINTER ARITHMETIC ---
+
+int arr[5] = {10,20,30,40,50};
+int *p = arr;      // p points to arr[0]
+p++;                // p now points to arr[1] — moved by sizeof(int)=4 bytes
+*(p+2) == arr[3]    // TRUE — pointer arithmetic scales by type size
+
+This is why: char *p moves 1 byte per increment,
+             int *p moves 4 bytes per increment,
+             double *p moves 8 bytes per increment.
+The compiler handles this scaling automatically.
+
+--- NULL, DANGLING, WILD POINTERS ---
+
+NULL POINTER: int *p = NULL; — points to address 0, "points to nothing"
+Dereferencing NULL → SEGMENTATION FAULT (program crashes)
+Always check before dereferencing:
+if(p != NULL) { *p = 5; }
+
+DANGLING POINTER: points to memory that has been freed.
+int *p = malloc(sizeof(int));
+free(p);
+// p is now DANGLING — points to freed memory
+*p = 5;  // UNDEFINED BEHAVIOR — dangerous, may corrupt memory
+Fix: p = NULL; immediately after free(p);
+
+WILD POINTER: uninitialized pointer — points to random garbage address.
+int *p;         // WILD — contains garbage address
+*p = 5;         // CRASH or memory corruption — extremely dangerous
+Always initialize pointers: int *p = NULL;
+
+--- VOID POINTER ---
+
+void *p; — generic pointer, can hold address of ANY type.
+Cannot be dereferenced directly — must cast first.
+int a = 5;
+void *vp = &a;
+int *ip = (int*)vp;
+printf("%d", *ip);  // must cast back to specific type first
+
+Used in: malloc() (returns void*), qsort(), memcpy(), generic
+data structures (linked lists that store any type).
+
+--- POINTER TO POINTER (Double Pointer) ---
+
+int a = 5;
+int *p = &a;
+int **pp = &p;    // pp points to p, which points to a
+**pp == a         // double dereference
+
+Used in: dynamic 2D arrays, modifying a pointer inside a function
+         (e.g., malloc a new node and update caller's head pointer
+         in a linked list — needs **head parameter)
+
+Real interview scenario: Why does a function to insert at head of
+linked list need Node** instead of Node*?
+void insert(Node **head, int data) {
+  Node *newNode = malloc(sizeof(Node));
+  newNode->data = data;
+  newNode->next = *head;
+  *head = newNode;   // modifies the CALLER's head pointer
+}
+If you passed Node* head instead, changes to head inside function
+would NOT reflect in caller — because C is pass-by-value! You'd
+be modifying a local COPY of the pointer.
+
+--- FUNCTION POINTERS ---
+
+A pointer that stores the ADDRESS of a function.
+int add(int a, int b) { return a+b; }
+int (*fp)(int, int);   // declares fp as pointer to function
+                        // taking 2 ints, returning int
+fp = add;               // assign function's address (function name
+                        // decays to address, like arrays)
+int result = fp(3, 4);  // calls add(3,4) through the pointer → 7
+
+CRITICAL SYNTAX NOTE: Parentheses around *fp are ESSENTIAL!
+int (*fp)(int,int)   →  fp is pointer to function
+int *fp(int,int)     →  fp is a FUNCTION returning int* (totally different!)
+This exact question ("what's the difference") is a VERY common
+interview trap. HCL and similar companies ask this directly.
+
+USE CASES:
+→ Callback functions (pass a function as an argument)
+→ Implementing simple state machines / jump tables
+→ qsort() in C uses a function pointer for the comparator:
+  qsort(arr, n, sizeof(int), compare_function);
+→ Interrupt Service Routine tables in embedded systems — array
+  of function pointers, indexed by interrupt number.
+
+ARRAY OF FUNCTION POINTERS (common embedded pattern):
+void (*isr_table[10])(void);  // array of 10 function pointers
+isr_table[3] = timer_interrupt_handler;
+This is literally how interrupt vector tables work in microcontrollers!
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 5: ARRAYS AND STRINGS
+═══════════════════════════════════════════════════════════════
+
+--- ARRAYS ---
+
+int arr[5] = {10,20,30,40,50};
+Contiguous memory block. Index starts at 0. Last valid index = size-1.
+arr[5] would be OUT OF BOUNDS — C does NOT check bounds automatically!
+This is a major source of bugs (buffer overflow) — unlike Java/Python.
+
+ARRAY NAME DECAYS TO POINTER:
+Array name (in most contexts) is treated as a pointer to first element.
+arr is equivalent to &arr[0]
+arr[i] is equivalent to *(arr+i)   ← This equivalence is asked A LOT
+
+BUT arrays and pointers are NOT identical:
+sizeof(arr) gives TOTAL array size (e.g., 5 ints = 20 bytes)
+sizeof(pointer_to_arr) gives just pointer size (4 or 8 bytes)
+This distinction is a classic trick question!
+
+MULTI-DIMENSIONAL ARRAYS:
+int matrix[3][4];  // 3 rows, 4 columns
+Stored in ROW-MAJOR order in C (all of row 0, then row 1, etc.)
+matrix[i][j] address = base + (i*4 + j)*sizeof(int)
+(FORTRAN uses column-major order — a common comparison question)
+
+PASSING ARRAYS TO FUNCTIONS:
+void func(int arr[], int size)  // arr decays to int* — size lost!
+void func(int *arr, int size)   // equivalent — must pass size separately
+This is why array-processing functions ALWAYS need a separate size
+parameter — the array "forgets" its size once passed to a function.
+
+--- STRINGS ---
+
+C strings are character arrays terminated by NULL character '\0'.
+char str[] = "Hello";   // actually 6 bytes: H,e,l,l,o,\0
+char *p = "Hello";      // pointer to STRING LITERAL (read-only memory!)
+
+MODIFIABLE vs READ-ONLY:
+char str[] = "Hello";   // modifiable — stored on stack, own copy
+str[0] = 'h';            // OK — works fine
+
+char *p = "Hello";       // p points to READ-ONLY string literal
+p[0] = 'h';               // UNDEFINED BEHAVIOR — segfault likely!
+This exact difference is a VERY common interview question.
+
+STRING LIBRARY FUNCTIONS (string.h):
+strlen(s)        — returns length (NOT including null terminator)
+strcpy(dest,src) — copies src into dest (dest must have enough space!)
+strncpy(dest,src,n) — safer version, copies max n characters
+strcmp(s1,s2)    — returns 0 if equal, <0 if s1<s2, >0 if s1>s2
+strcat(dest,src) — appends src to end of dest
+strncat, strncmp — safer bounded versions
+strstr(s,sub)    — finds substring, returns pointer to first occurrence
+                    or NULL if not found
+strchr(s,c)      — finds first occurrence of character c in s
+strtok(s,delim)  — tokenizes string by delimiter (splits into tokens)
+
+WHY strncpy/strncat ARE SAFER:
+strcpy has NO bounds checking — classic buffer overflow vulnerability.
+If src is longer than dest's allocated size → memory corruption.
+This is literally how many security exploits work (buffer overflow attacks)!
+strncpy(dest, src, sizeof(dest)-1) limits how much is copied.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 6: DYNAMIC MEMORY MANAGEMENT
+═══════════════════════════════════════════════════════════════
+
+WHY DYNAMIC MEMORY:
+Arrays have FIXED size at compile time. What if you don't know
+how much data you'll need until runtime? Dynamic memory (heap)
+lets you allocate exactly what you need, when you need it.
+
+--- STACK vs HEAP ---
+
+STACK:
+Automatic memory for local variables and function calls.
+Fast allocation (just moves stack pointer).
+LIMITED size (typically few MB, even smaller in embedded ~ few KB).
+Automatically freed when function returns.
+Stack overflow: too much recursion or huge local arrays.
+
+HEAP:
+Dynamic memory allocated with malloc/calloc/realloc.
+Slower allocation (memory manager finds free block).
+Much larger available size (limited by system RAM).
+Must be manually freed with free() — YOU are responsible!
+Not automatically cleaned — forgetting free() causes memory leak.
+
+--- MEMORY ALLOCATION FUNCTIONS ---
+
+malloc(size): allocates 'size' bytes, returns void* to first byte.
+Does NOT initialize memory (contains garbage values)!
+int *p = (int*)malloc(5 * sizeof(int));  // array of 5 ints
+Always check: if(p == NULL) { /* allocation failed */ }
+
+calloc(n, size): allocates n elements of 'size' bytes each.
+INITIALIZES all memory to ZERO (unlike malloc).
+int *p = (int*)calloc(5, sizeof(int));  // 5 ints, all set to 0
+
+realloc(ptr, new_size): resizes previously allocated memory.
+May move the block to a new location if needed (returns new pointer).
+int *p = malloc(5*sizeof(int));
+p = realloc(p, 10*sizeof(int));  // now holds 10 ints
+CAUTION: if realloc fails, it returns NULL but original ptr is NOT
+freed — assigning directly to p causes memory leak! Best practice:
+int *temp = realloc(p, newsize);
+if(temp != NULL) p = temp;  // safe pattern
+
+free(ptr): releases heap memory back to system.
+MUST be called for every malloc/calloc/realloc to avoid memory leaks.
+After freeing, set pointer to NULL to avoid dangling pointer bugs:
+free(p);
+p = NULL;
+
+--- MEMORY LEAKS ---
+
+Memory leak: allocated memory that is never freed.
+Program's memory usage keeps growing over time.
+In embedded systems (limited RAM), memory leaks eventually crash
+the system — very serious in long-running embedded applications
+(e.g., a router or IoT device running for months).
+
+Common causes:
+1. Forgetting to call free()
+2. Overwriting the only pointer to allocated memory (losing reference)
+3. Not freeing in error/exception paths
+
+--- BUFFER OVERFLOW ---
+
+Writing beyond the allocated boundary of a buffer.
+char buf[10];
+strcpy(buf, "This string is way too long!");  // OVERFLOW!
+Corrupts adjacent memory — can crash program or (worse) be
+exploited by attackers to execute malicious code (classic security
+vulnerability, still the #1 cause of software security bugs).
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 7: STRUCTURES, UNIONS, ENUMS
+═══════════════════════════════════════════════════════════════
+
+--- STRUCTURES ---
+
+Groups different data types under one name.
+struct Point {
+  int x;
+  int y;
+};
+struct Point p1 = {10, 20};
+p1.x = 15;               // dot operator for struct variable
+struct Point *ptr = &p1;
+ptr->x = 20;              // arrow operator for struct pointer
+(ptr->x is shorthand for (*ptr).x)
+
+STRUCTURE PADDING (Very commonly asked!):
+struct Example {
+  char a;    // 1 byte
+  int b;     // 4 bytes
+  char c;    // 1 byte
+};
+sizeof(struct Example) is usually 12, NOT 6!
+Why? Compiler adds PADDING bytes for memory alignment — int must
+start at an address divisible by 4 (on most systems) for CPU
+efficiency. So: char a (1 byte) + 3 padding bytes + int b (4 bytes)
++ char c (1 byte) + 3 padding bytes = 12 bytes total.
+
+This is asked as: "Why doesn't sizeof(struct) equal sum of member sizes?"
+Reorder members to minimize padding: put largest types first!
+struct Optimized {
+  int b;    // 4 bytes
+  char a;   // 1 byte
+  char c;   // 1 byte
+  // 2 padding bytes
+};  // total: 8 bytes — smaller than original 12!
+
+--- UNIONS ---
+
+All members SHARE the same memory location.
+union Data {
+  int i;
+  float f;
+  char c;
+};
+sizeof(union) = size of LARGEST member (unlike struct which sums them).
+Only ONE member is valid at a time — writing to one member
+overwrites the others (they share memory).
+Used for: memory-efficient storage when only one type is needed
+at a time, type punning (reinterpreting bits), protocol/packet
+parsing in embedded systems (interpret same bytes different ways).
+
+STRUCT vs UNION (classic interview question):
+Struct: each member has its OWN memory — total size = sum of members
+        (plus padding)
+Union: all members SHARE memory — total size = size of largest member
+
+--- ENUMS ---
+
+Named integer constants for readability.
+enum Color { RED, GREEN, BLUE };  // RED=0, GREEN=1, BLUE=2 (auto-assigned)
+enum Color c = GREEN;
+Can assign specific values:
+enum Status { OK=0, ERROR=-1, PENDING=1 };
+Used for: state machine states, error codes, mode selection —
+very common in embedded firmware for readability instead of
+"magic numbers".
+
+--- TYPEDEF ---
+
+Creates an alias for a type — improves readability.
+typedef unsigned int uint32_t;
+typedef struct { int x; int y; } Point;   // anonymous struct + typedef
+Point p1;  // no need to write "struct Point p1"
+Common in embedded: typedef uint8_t, uint16_t, uint32_t (from stdint.h)
+for portable, explicit-width integer types across platforms.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 8: PREPROCESSOR DIRECTIVES
+═══════════════════════════════════════════════════════════════
+
+--- #include ---
+
+#include <stdio.h>   // angle brackets — searches system directories
+#include "myfile.h"  // quotes — searches current directory first
+
+--- #define (Macros) ---
+
+Simple constant: #define PI 3.14159
+Function-like macro: #define SQUARE(x) ((x)*(x))
+CRITICAL: Always parenthesize macro parameters!
+#define SQUARE(x) x*x         // BUGGY!
+SQUARE(3+2) expands to 3+2*3+2 = 11, NOT 25 (expected 5²=25)!
+#define SQUARE(x) ((x)*(x))   // CORRECT
+SQUARE(3+2) expands to ((3+2)*(3+2)) = 25 ✓
+
+MACRO vs FUNCTION (common comparison question):
+Macros: text substitution at compile time (preprocessing stage).
+        No function call overhead — faster for simple operations.
+        No type checking — can cause subtle bugs.
+        Code bloat if used excessively (each use copies the code).
+Functions: actual function call — has call overhead (stack push/pop).
+           Type checking by compiler — safer.
+           Single copy of code — no bloat.
+inline functions (C99+) try to get benefits of both.
+
+--- CONDITIONAL COMPILATION ---
+
+#ifdef DEBUG
+  printf("Debug info\n");
+#endif
+
+#ifndef HEADER_H
+#define HEADER_H
+// header content
+#endif
+This "include guard" pattern prevents a header file from being
+included multiple times (which would cause redefinition errors).
+Every header file you write should have this pattern!
+
+#if / #elif / #else / #endif: conditional compilation based on
+constant expressions — often used for platform-specific code:
+#if defined(__ARM__)
+  // ARM-specific code
+#elif defined(__AVR__)
+  // AVR-specific code (Arduino)
+#endif
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 9: FILE HANDLING
+═══════════════════════════════════════════════════════════════
+
+FILE *fp = fopen("data.txt", "r");   // open for reading
+if(fp == NULL) { /* handle error — file doesn't exist etc */ }
+
+MODES:
+"r"  — read only (file must exist)
+"w"  — write only (creates new, OVERWRITES existing!)
+"a"  — append (creates new if doesn't exist, adds to end)
+"r+" — read and write (file must exist)
+"w+" — read and write (overwrites existing)
+"rb", "wb" — binary mode versions
+
+fscanf(fp, "%d", &num);   // formatted read
+fprintf(fp, "%d", num);   // formatted write
+fgetc(fp), fputc(c,fp)     // single character I/O
+fgets(buf, size, fp)       // read a line (safer than gets())
+fclose(fp);                 // ALWAYS close files — flushes buffers,
+                             // releases OS file handle
+
+FORGETTING fclose(): Data might not be written (buffered), and
+you'll leak file descriptors (limited resource, OS eventually
+runs out if you open many files without closing).
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 10: EMBEDDED C SPECIFIC CONCEPTS
+═══════════════════════════════════════════════════════════════
+
+WHY THIS SECTION MATTERS:
+If you're interviewing at Bosch, Continental, Harman, or any
+embedded/automotive company — THIS section gets tested hard.
+Standard C interview questions PLUS these embedded-specific ones.
+
+--- VOLATILE KEYWORD (Critical for embedded) ---
+
+Tells compiler: "this value can change unexpectedly — don't optimize
+away repeated reads, always re-read from memory."
+volatile uint8_t *STATUS_REG = (uint8_t*)0x40001000;
+while(*STATUS_REG == 0);  // wait for hardware to set the flag
+Without volatile, compiler might read STATUS_REG once, cache the
+value in a CPU register, and loop forever checking the CACHED
+value — never noticing the hardware actually changed it!
+Used for: hardware registers, ISR-modified global variables,
+memory-mapped I/O.
+
+--- BIT MANIPULATION FOR REGISTERS ---
+
+Real embedded code controls hardware via bit manipulation:
+#define LED_PIN 5
+GPIO_PORT |= (1 << LED_PIN);    // SET bit 5 (turn LED on)
+GPIO_PORT &= ~(1 << LED_PIN);   // CLEAR bit 5 (turn LED off)
+GPIO_PORT ^= (1 << LED_PIN);    // TOGGLE bit 5
+if(GPIO_PORT & (1 << LED_PIN))  // CHECK if bit 5 is set
+
+This is THE most practical, most-asked embedded C skill.
+Every microcontroller peripheral is controlled through registers
+using exactly this pattern.
+
+--- INTERRUPT SERVICE ROUTINES (ISR) ---
+
+Functions that execute automatically when a hardware event occurs
+(timer overflow, button press, UART data received).
+ISRs should be SHORT and FAST — just set a flag, do heavy
+processing in main loop:
+volatile uint8_t data_ready = 0;
+ISR(UART_RX_vect) {
+  received_byte = UDR0;
+  data_ready = 1;   // just signal, don't process here
+}
+void main() {
+  while(1) {
+    if(data_ready) {
+      process_data();  // heavy work done in main loop, not ISR
+      data_ready = 0;
+    }
+  }
+}
+ISRs typically cannot call most standard library functions
+(printf, malloc) — they must execute quickly and predictably.
+
+--- BIT FIELDS ---
+
+struct Flags {
+  unsigned int flag1 : 1;   // uses only 1 bit
+  unsigned int flag2 : 1;
+  unsigned int mode   : 3;   // uses 3 bits (values 0-7)
+};
+Saves memory by packing multiple small values into fewer bytes.
+Used in: register/protocol definitions, memory-constrained systems.
+
+--- MEMORY-MAPPED I/O ---
+
+Hardware peripherals accessed as if they were memory addresses.
+#define GPIO_BASE 0x40020000
+#define GPIO_ODR (*(volatile uint32_t*)(GPIO_BASE + 0x14))
+GPIO_ODR |= (1 << 5);  // writes directly to hardware register
+This is how you read/write hardware from C without special
+instructions — the memory address IS the hardware register.
+
+--- ENDIANNESS ---
+
+Byte order for multi-byte values in memory.
+Little-endian: least significant byte stored FIRST (x86, ARM default)
+Big-endian: most significant byte stored FIRST (network byte order,
+            some older/other architectures)
+uint32_t x = 0x12345678;
+Little-endian memory: 78 56 34 12
+Big-endian memory:    12 34 56 78
+Important when: parsing network packets (network byte order is
+big-endian — that's why htons()/ntohs() functions exist),
+communicating between different architectures.
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 11: PRACTICAL INTERVIEW QUESTIONS WITH ANSWERS
+═══════════════════════════════════════════════════════════════
+
+Q: What is the difference between malloc() and calloc()?
+A: malloc(size) allocates uninitialized memory (garbage values).
+calloc(n, size) allocates AND initializes all bytes to zero.
+calloc also takes number of elements and size separately, malloc
+takes total bytes. calloc is slightly slower due to zero-init but
+safer since you don't accidentally use garbage values.
+
+Q: What happens if you free() a pointer twice?
+A: Undefined behavior — "double free" bug. Can corrupt heap
+memory management structures, cause crashes, or (in worst case)
+be exploited as a security vulnerability. Always set pointer to
+NULL after freeing — calling free(NULL) is safe (does nothing).
+
+Q: Difference between arrays and pointers?
+A: Array: fixed size, memory allocated at compile time (or on
+stack), sizeof gives total array size, cannot be reassigned.
+Pointer: can point to different addresses, sizeof gives pointer
+size only (4 or 8 bytes), can be NULL, can do arithmetic to
+navigate but doesn't "know" the size of what it points to.
+Array name decays to pointer in most expressions, but they are
+NOT the same thing — this decay is the source of confusion.
+
+Q: What is the output? int a=5; printf("%d %d", a++, ++a);
+A: This is UNDEFINED BEHAVIOR in C — modifying and reading 'a'
+multiple times between sequence points without a defined order.
+Different compilers may give different results (6 7, or 7 7, etc).
+Real interview point: recognizing this as UB shows deep C knowledge —
+many candidates confidently give a "wrong" definitive answer.
+
+Q: Why is scanf() considered unsafe for strings?
+A: scanf("%s", buf) has NO bounds checking — if the input is
+longer than buf's size, it overflows the buffer, corrupting
+adjacent memory (classic buffer overflow vulnerability).
+Safer alternative: scanf("%9s", buf) limits to 9 chars + null
+terminator, or use fgets(buf, sizeof(buf), stdin).
+
+Q: What is a memory leak? How do you detect it?
+A: Memory allocated (malloc/calloc) but never freed — program's
+memory usage grows over time, eventually exhausting system memory.
+Detection tools: Valgrind (Linux), AddressSanitizer, or manual
+code review ensuring every malloc has a matching free.
+
+Q: Explain the const keyword with pointers. What's the difference
+between: const int *p, int *const p, and const int *const p?
+A: const int *p — pointer to CONSTANT int. Can change p (point
+elsewhere) but cannot change *p (the value pointed to).
+int *const p — CONSTANT pointer to int. Cannot change p (must
+always point to same address) but CAN change *p (the value).
+const int *const p — constant pointer to constant int. Cannot
+change either p or *p. Fully immutable.
+Trick to remember: read right to left from the *. 
+
+Q: What is the difference between #define and const?
+A: #define is a preprocessor text substitution — no type checking,
+no memory allocated, exists only during compilation.
+const is a compiler-enforced immutable variable — has a type,
+occupies memory (usually), can be debugged (has an address you
+can inspect), respects scope rules. const is generally preferred
+in modern C for type safety.
+
+Q: What is recursion? What are its disadvantages?
+A: Function calling itself with a base case to terminate.
+Disadvantages: uses stack memory for each call (stack overflow
+risk for deep recursion), generally slower than iteration due to
+function call overhead, harder to debug. In embedded systems with
+limited stack (few KB), unbounded recursion is especially dangerous.
+
+Q: What is the volatile keyword used for? Give a real example.
+A: Tells compiler a variable can change unexpectedly (outside
+normal program flow) — prevents compiler from optimizing away
+reads by caching the value in a register.
+Example: volatile int flag; // modified inside an ISR (interrupt
+service routine). Without volatile, main loop might never see
+the flag change because compiler assumes nothing external can
+modify it and optimizes the check away.
+
+Q: Explain structure padding. Why does sizeof(struct) not equal
+sum of member sizes?
+A: Compiler adds padding bytes to align members to their natural
+boundaries (e.g., 4-byte int should start at address divisible
+by 4) for CPU access efficiency. This means total struct size
+often exceeds sum of individual member sizes. Reordering members
+(largest first) can minimize padding and reduce total size.
+
+Q: What is the difference between "char *p" and "char p[]" for
+representing strings?
+A: char *p = "Hello" — p is a pointer to a STRING LITERAL stored
+in read-only memory. Attempting p[0]='h' causes undefined behavior
+(often segfault). char p[] = "Hello" — p is a CHARACTER ARRAY,
+initialized with a COPY of the string on stack, fully modifiable.
+
+Q: What is a segmentation fault? Give 3 common causes.
+A: Segfault occurs when a program accesses memory it's not
+allowed to access. Common causes: (1) dereferencing a NULL pointer,
+(2) dereferencing a dangling pointer (use-after-free), (3) buffer
+overflow writing past array bounds, (4) stack overflow from deep
+recursion, (5) dereferencing an uninitialized (wild) pointer.
+
+Q: What's the difference between pass-by-value and pass-by-reference
+in C? Does C truly support pass-by-reference?
+A: C only supports pass-by-value — function receives a COPY of the
+argument. C does NOT have true pass-by-reference like C++ (which has
+& reference parameters). However, C SIMULATES pass-by-reference by
+passing a POINTER (which is itself passed by value, but the pointer's
+VALUE is an address, so dereferencing it inside the function affects
+the original variable at that address).
+
+Q: What is the output of sizeof() for an empty struct? Struct with
+just one bit-field?
+A: sizeof(empty struct) is typically 1 byte in C (some compilers
+may give 0, it's implementation-defined but usually not allowed
+to be 0 in standard C, so minimum 1 byte). Struct with bit-fields
+depends on alignment but at minimum occupies size of underlying
+type (e.g., minimum 4 bytes if using unsigned int : 1 bit-field,
+due to alignment requirements).

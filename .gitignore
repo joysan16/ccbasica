@@ -2,3 +2,12 @@ __pycache__/
 *.pyc
 .env
 .vscode/
+
+# Databases - created fresh on server, never commit
+*.db
+data/careercompass.db
+backend/careercompass.db
+careercompass.db
+
+# Vectorstore - rebuilt on server via python rag.py
+data/vectorstore/

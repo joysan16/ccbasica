@@ -1,0 +1,62 @@
+APTITUDE — HCL PLACEMENT GUIDE
+
+TIME AND WORK
+If A does work in x days, A's rate = 1/x per day.
+If A and B work together, combined rate = 1/x + 1/y. Time = xy/(x+y).
+If A is n times faster than B, A takes 1/n the time B takes.
+
+TIME SPEED DISTANCE
+Speed = Distance divided by Time.
+Distance = Speed multiplied by Time.
+Convert km/h to m/s: multiply by 5/18.
+Convert m/s to km/h: multiply by 18/5.
+Train crossing pole: distance = length of train.
+Train crossing bridge: distance = length of train + length of bridge.
+Relative speed same direction: difference of speeds.
+Relative speed opposite direction: sum of speeds.
+Upstream speed = boat speed minus stream speed.
+Downstream speed = boat speed plus stream speed.
+
+PERCENTAGES
+x% of y = xy divided by 100.
+Percentage increase = (increase/original) x 100.
+Percentage decrease = (decrease/original) x 100.
+If price increases by x%, consumption must decrease by x/(100+x) x 100 to keep expenditure same.
+Successive discount of a% and b%: effective discount = a + b - ab/100.
+
+PROFIT AND LOSS
+Profit = Selling Price minus Cost Price.
+Loss = Cost Price minus Selling Price.
+Profit % = (Profit/Cost Price) x 100.
+If marked price is MP and discount is d%, selling price = MP x (1 - d/100).
+
+SIMPLE AND COMPOUND INTEREST
+Simple Interest SI = P x R x T divided by 100.
+Compound Interest CI = P(1 + R/100)^T minus P.
+Amount = P(1 + R/100)^T for compound interest.
+If sum doubles at SI in T years, rate = 100/T percent.
+If sum triples at SI in T years, rate = 200/T percent.
+
+RATIO AND PROPORTION
+If ratio a:b, actual values are ak and bk for some k.
+Componendo: (a+b)/(a-b).
+Proportion a:b = c:d means ad = bc (cross multiplication).
+
+AVERAGES
+Average = Sum of values divided by number of values.
+If one value removed: new sum = old sum minus removed value. New average = new sum / (n-1).
+Weighted average: sum of (value x weight) divided by sum of weights.
+
+PERMUTATION AND COMBINATION
+Permutation: arrangement matters. nPr = n!/(n-r)!
+Combination: arrangement doesn't matter. nCr = n!/r!(n-r)!
+n! = n x (n-1) x (n-2) x ... x 1.
+Arrangement of n things in a row = n!
+If 2 things must be together: treat as 1 unit. (n-1)! x 2!
+
+PROBABILITY
+Probability = favorable outcomes divided by total outcomes.
+P(A and B) = P(A) x P(B) for independent events.
+P(A or B) = P(A) + P(B) - P(A and B).
+P(not A) = 1 - P(A).
+Coin: P(head) = 1/2. Dice: P(any number) = 1/6.

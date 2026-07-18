@@ -40,6 +40,8 @@
 .error-msg{color:var(--red);font-size:.8rem;font-weight:600;margin-top:.4rem;display:none}
 .error-msg.show{display:block}
 
+.fresh-badge{display:flex;align-items:center;gap:.4rem;background:var(--green-lt);border:1.5px solid var(--green);border-radius:8px;padding:.5rem .75rem;font-size:.78rem;font-weight:700;color:#166534;margin-bottom:1rem}
+
 @media(max-width:768px){
   .page-wrap{grid-template-columns:1fr}
   .left-panel{display:none}
@@ -109,7 +111,7 @@
         Continue → Pick my company
       </button>
 
-      <div class="signin-link">Already set up? <a href="/dashboard">Go to dashboard →</a></div>
+      <div class="signin-link">Already set up? <a href="/signin">Sign in →</a></div>
     </div>
   </div>
 
@@ -117,6 +119,15 @@
 
 <script>
 let selectedYear = null;
+
+// ── IMPORTANT: Clear any previous user's leftover session data
+// the moment this page loads. This ensures if someone lands on
+// /signup directly (e.g. clicking "new profile" from signin),
+// they never see stale data bleeding in from the last person.
+// We do NOT clear on page load automatically here (only on submit)
+// to avoid wiping data if user accidentally refreshes mid-form —
+// the actual clear happens in doSignup() below, right before
+// writing the new user's data.
 
 function pickYear(el, val) {
   document.querySelectorAll('#year-grid .opt-pill').forEach(b=>b.classList.remove('selected'));
@@ -143,7 +154,16 @@ function doSignup() {
 
   if (!valid) return;
 
-  // Save to localStorage for now (backend will replace this)
+  // ══════════════════════════════════════════════════════════
+  // CRITICAL FIX: Wipe ALL previous user's data before starting
+  // a new profile. Without this, a new signup inherits the last
+  // person's company, subjects, ratings, XP, streak, progress —
+  // everything — because those keys were still sitting in
+  // localStorage from before.
+  // ══════════════════════════════════════════════════════════
+  localStorage.clear();
+
+  // Now write ONLY this new user's fresh data
   localStorage.setItem('cc_name', name);
   localStorage.setItem('cc_year', selectedYear);
 
