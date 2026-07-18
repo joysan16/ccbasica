@@ -280,13 +280,11 @@ def api_rebuild_rag():
     return jsonify({'success': True, 'message': 'Vectorstore rebuilt'})
   except Exception as e:
     return jsonify({'error': str(e)}), 500
+# Runs on import — works for BOTH local (python app.py) AND
+# gunicorn on Render (which imports app, never runs __main__)
+os.makedirs(os.path.join(BASE, '../data'), exist_ok=True)
+os.makedirs(os.path.join(BASE, '../data/knowledge'), exist_ok=True)
+init_db()
 
 if __name__ == '__main__':
-  os.makedirs(os.path.join(BASE, '../data'), exist_ok=True)
-  os.makedirs(os.path.join(BASE, '../data/knowledge'), exist_ok=True)
-  init_db()
-  print("⏳ Loading RAG into memory...")
-  from rag import get_vectordb
-  get_vectordb()
-  print("✅ RAG ready!")
   app.run(debug=True, port=5000, use_reloader=False)
