@@ -20,16 +20,34 @@ _embeddings = None
 
 
 def get_embeddings():
+    """
+    Uses HuggingFace's hosted Inference API to compute embeddings
+    instead of downloading and loading the model locally.
+
+    WHY: Loading sentence-transformers locally needs 200-400MB+ RAM,
+    which crashes on memory-limited hosts (e.g. Render free tier's
+    512MB). Calling the API instead means our server only sends text
+    and receives back small vectors — HuggingFace's servers do the
+    actual model inference. Same model, same embedding quality,
+    genuinely real semantic RAG — just computed remotely instead of
+    locally. This is a standard production pattern for exactly this
+    memory-constraint reason.
+    """
     global _embeddings
     if _embeddings is None:
-        print("⏳ Loading embeddings model...")
-        from langchain_huggingface import HuggingFaceEmbeddings
-        _embeddings = HuggingFaceEmbeddings(
-            model_name="all-MiniLM-L6-v2",
-            model_kwargs={'device': 'cpu'},
-            encode_kwargs={'normalize_embeddings': True}
+        print("⏳ Connecting to HuggingFace Inference API for embeddings...")
+        from langchain_huggingface import HuggingFaceEndpointEmbeddings
+        hf_token = os.getenv('HF_TOKEN')
+        if not hf_token:
+            raise ValueError(
+                "HF_TOKEN not set. Get a free token at "
+                "huggingface.co/settings/tokens and add it to .env"
+            )
+        _embeddings = HuggingFaceEndpointEmbeddings(
+            model="sentence-transformers/all-MiniLM-L6-v2",
+            huggingfacehub_api_token=hf_token
         )
-        print("✅ Embeddings ready!")
+        print("✅ Using HuggingFace Inference API for embeddings (low memory)")
     return _embeddings
 
 
@@ -65,6 +83,11 @@ def build_vectorstore():
     """
     Run once to create the vector database from knowledge files.
     Called automatically if vectorstore doesn't exist.
+
+    IMPORTANT: Since we switched to API-based embeddings, this MUST
+    be re-run any time you change the embedding method — the vectors
+    stored must be computed the SAME way as vectors used at query
+    time, or similarity search results will be meaningless.
     """
     from langchain_chroma import Chroma
     from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -112,14 +135,31 @@ def build_vectorstore():
         return
 
     print(f"\n  Total chunks: {len(all_chunks)}")
-    print("  Creating embeddings (first time may take ~2 mins)...")
+    print("  Creating embeddings via HuggingFace API (this calls the API")
+    print("  once per chunk batch — may take a minute for 293 chunks)...")
 
-    Chroma.from_texts(
-        texts=all_chunks,
-        metadatas=all_metadata,
-        embedding=get_embeddings(),
-        persist_directory=VECTORSTORE
-    )
+    # HuggingFaceEndpointEmbeddings can be slow with huge single batches
+    # over free-tier API rate limits, so we batch in smaller groups
+    # to avoid timeouts/rate limit errors.
+    embedding_model = get_embeddings()
+    BATCH_SIZE = 50
+    vectordb = None
+
+    for i in range(0, len(all_chunks), BATCH_SIZE):
+        batch_texts = all_chunks[i:i+BATCH_SIZE]
+        batch_meta  = all_metadata[i:i+BATCH_SIZE]
+        print(f"  → Embedding batch {i//BATCH_SIZE + 1} "
+              f"({i+1}-{min(i+BATCH_SIZE, len(all_chunks))} of {len(all_chunks)})...")
+
+        if vectordb is None:
+            vectordb = Chroma.from_texts(
+                texts=batch_texts,
+                metadatas=batch_meta,
+                embedding=embedding_model,
+                persist_directory=VECTORSTORE
+            )
+        else:
+            vectordb.add_texts(texts=batch_texts, metadatas=batch_meta)
 
     print(f"✅ Vectorstore built → {VECTORSTORE}")
 
